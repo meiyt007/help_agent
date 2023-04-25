@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.superwindow.dbaccess.dao.DbCaseSignRecordMapper">
+
+    <resultMap type="com.zfsoft.superwindow.dbaccess.data.DbCaseSignRecord" id="CaseSignRecordMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="signOid" column="SIGN_OID" jdbcType="VARCHAR"/>
+        <result property="caseOid" column="CASE_OID" jdbcType="VARCHAR"/>
+        <result property="applyCarno" column="APPLY_CARNO" jdbcType="VARCHAR"/>
+        <result property="signUrl" column="SIGN_URL" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CaseSignRecordMap">
+        select
+        ID, SIGN_OID, CASE_OID, APPLY_CARNO, SIGN_URL, CREATE_DATE
+        from t_case_sign_record
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="caseOid != null and caseOid != ''">
+                and SIGN_OID = #{signOid}
+            </if>
+            <if test="caseOid != null and caseOid != ''">
+                and CASE_OID = #{caseOid}
+            </if>
+            <if test="applyCarno != null and applyCarno != ''">
+                and APPLY_CARNO = #{applyCarno}
+            </if>
+            <if test="signUrl != null and signUrl != ''">
+                and SIGN_URL = #{signUrl}
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE = #{createDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSignRecordByCaseOid" parameterType="string" resultType="com.zfsoft.superwindow.dbaccess.data.DbCaseSignRecord">
+        select ID,
+               CASE_OID,
+               SIGN_OID,
+               APPLY_CARNO,
+               SIGN_URL,
+               CREATE_DATE
+        from t_case_sign_record
+        where CASE_OID = #{caseOid}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into t_case_sign_record(SIGN_OID,CASE_OID, APPLY_CARNO, SIGN_URL, CREATE_DATE)
+        values (#{signOid}, #{caseOid}, #{applyCarno}, #{signUrl}, #{createDate})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t_case_sign_record(SIGN_OID,CASE_OID, APPLY_CARNO, SIGN_URL, CREATE_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.signOid}, (#{entity.caseOid}, #{entity.applyCarno}, #{entity.signUrl}, #{entity.createDate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t_case_sign_record(SIGN_OID,CASE_OID, APPLY_CARNO, SIGN_URL, CREATE_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.signOid}, (#{entity.caseOid}, #{entity.applyCarno}, #{entity.signUrl}, #{entity.createDate})
+        </foreach>
+        on duplicate key update
+        SIGN_OID = values(SIGN_OID) , CASE_OID = values(CASE_OID) , APPLY_CARNO = values(APPLY_CARNO) , SIGN_URL = values(SIGN_URL) , CREATE_DATE =
+        values(CREATE_DATE)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_case_sign_record
+        <set>
+            <if test="signOid != null and signOid != ''">
+                SIGN_OID = #{signOid},
+            </if>
+            <if test="caseOid != null and caseOid != ''">
+                CASE_OID = #{caseOid},
+            </if>
+            <if test="applyCarno != null and applyCarno != ''">
+                APPLY_CARNO = #{applyCarno},
+            </if>
+            <if test="signUrl != null and signUrl != ''">
+                SIGN_URL = #{signUrl},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t_case_sign_record
+        where ID = #{id}
+    </delete>
+
+    <select id="querySignImgPath" parameterType="string" resultType="com.zfsoft.superwindow.dbaccess.data.DbCaseSignRecord">
+        select * from t_case_sign_record where CASE_OID = #{caseOid}
+    </select>
+
+
+</mapper>
+

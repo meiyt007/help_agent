@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>好差评</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style-screen-1920.css">
+  <link rel="stylesheet" href="./css/style-screen-1920-extend.css">
+  <!-- import css -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style>
+    .el-message-box.evaluation-message {
+      width: 550px;
+      padding: 15px;
+    }
+
+    .el-message-box.evaluation-message .el-message-box__headerbtn {
+      font-size: 28px;
+    }
+
+    .el-message-box.evaluation-message .el-message-box__title {
+      font-size: 40px;
+    }
+
+    .el-message-box.evaluation-message .el-message-box__message {
+      font-size: 32px;
+    }
+
+    .el-message-box.evaluation-message .el-button {
+      font-size: 30px;
+      padding: 10px 30px;
+      border-radius: 6px;
+    }
+
+    .el-message-box.evaluation-message .el-message-box__content {
+      padding: 30px 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content content-enlarge" id="vue_det">
+    <header v-if="!is1920" v-cloak>
+      <img src="./img/hall-name.png" style="object-fit: contain;">
+    </header>
+    <div class="main clearfix">
+      <div class="main-fl">
+        <img class="portrait" src="./img/portrait.png">
+        <ul class="info">
+          <li><span v-cloak>姓名：{{userName}}</span></li>
+          <!-- <li><span>部门：{{organName}}</span></li> -->
+          <li><span>工号：089757</span></li>
+        </ul>
+        <p class="teleNum">咨询电话：0553-2626578</p>
+      </div>
+      <div class="main-fr">
+        <p class="title">好差评服务评价</p>
+        <div class="cont">
+          <div class="caseInfo">
+            <img src="./img/index-bg03.png">
+            <div class="items">
+              <div class="name" v-cloak>{{projectName}}</div>
+              <div class="info" v-cloak>
+                <span>办事编号：{{caseNumber}}</span>
+                <span>申请时间：{{createDate}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="evaluate">
+            <div class="eval-top">
+              <div class="stars">
+                <i :class="[star.active ? 'active':'']" v-for="star in startList" :key="star.id"
+                  @click="handleClickStar(star)"></i>
+              </div>
+              <p class="description">感谢您的评价，我们会持续改进服务质量，提高服务水平。</p>
+            </div>
+            <div class="eval-bottom">
+              <ul class="clearfix" v-cloak>
+                <li v-for="data in contentList" @click="handleClickContent(data)">
+                  <i :class="[data.active ? 'active':'']"></i>
+                  <p>{{data.content}}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <button class="submit" type="button" @click="buttonSubmit">提交评价</button>
+        </div>
+      </div>
+    </div>
+    <footer>2 0 2 1 @ 上 海 卓 繁 信 息 技 术 股 份 有 限 公 司 沪 I C P 备 2 0 2 1 0 0 4 4 6 9 号 - 1</footer>
+    <span class="tips" style="display:none;margin-left: 90px;background-color: #1da711" id="tips"></span>
+    <div class="timeend">
+      <img src="./img/timeend-icon.png" width="24px" height="24px" alt="">
+      <span class="time" v-cloak>{{time}}</span>
+      <span>秒后将为您自动提交评价</span>
+    </div>
+  </div>
+  <script src="./js/jquery.min.js"></script>
+  <script src="../pbpj/js/vue.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.eval-bottom li').click(function () {
+        $(this).toggleClass('active')
+      })
+    });
+  </script>
+  <script>
+    var app = new Vue({
+      el: '#vue_det',
+      data: {
+        obj: {},
+        userName: "",
+        organName: "",
+        projectName: "",
+        caseNumber: "",
+        createDate: "",
+        contentList: [],
+        startList: [
+          {
+            id: 1,
+            active: true,
+          },
+          {
+            id: 2,
+            active: false,
+          },
+          {
+            id: 3,
+            active: false,
+          },
+          {
+            id: 4,
+            active: false,
+          },
+          {
+            id: 5,
+            active: false,
+          },
+
+        ],
+        maOid: "",
+        star: "",
+        contentCode: "",
+        content: "",
+        virtualBusinessRecordOid: "",
+        pushStar: "3",
+        caseOid: "",
+        caseUserName: "",
+        phone: "",
+        contentStr: "",
+        contentOids: "",
+        time: 60,
+        countTime: "",
+        smallspeech: 'N',//是否打开引导语
+        speechAddress: ''
+      },
+      computed: {
+        is1920() {
+          return screen.width === 1920;
+        }
+      },
+      created() {
+        this.getCaseInfo();//需要触发的函数
+      },
+      mounted: function () {
+        this.countDown();
+      },
+      methods: {
+        getCaseInfo() {
+          let content = this.getURLParameter("jsonObject");
+          this.obj = JSON.parse(content);
+          this.userName = this.obj.userName;
+          this.organName = this.obj.organName;
+          this.projectName = this.obj.projectName;
+          this.caseNumber = this.obj.caseNumber;
+          this.createDate = this.obj.createDate;
+          this.maOid = this.obj.maOid;
+          this.star = this.obj.star;
+          this.contentCode = this.obj.contentCode;
+          this.content = this.obj.content;
+          this.caseOid = this.obj.caseOid;
+          this.speechAddress = this.obj.speechAddress;
+          this.smallspeech = this.obj.smallspeech;
+          //add
+          this.caseUserName = this.obj.caseUserName;
+          this.phone = this.obj.phone;
+          //add
+          this.time = this.obj.pjdjTime;
+          //end
+          if (this.obj.pushStar != "" && this.obj.pushStar != null) {
+            this.pushStar = this.obj.pushStar;
+          }
+          this.virtualBusinessRecordOid = this.obj.currentVirtualBusinessRecordOid;
+          if (this.star != "" && this.star != null) {
+            this.startList.forEach(item => item.active = false);
+            this.startList.forEach(item => {
+              if (item.id <= this.star) {
+                item.active = true;
+              }
+            })
+          }
+          //判断是否启用语音引导
+          if (this.smallspeech == 'Y' && this.speechAddress) {
+            this.getAudioSpeech();
+          }
+          this.queryContentList(this.star);
+        },
+        getURLParameter(name) {
+          return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+        },
+        handleClickStar(star) {
+          this.startList.forEach(item => item.active = false);
+          this.startList.forEach(item => {
+            if (item.id < star.id) {
+              item.active = true;
+            }
+            if (item.id === star.id) {
+              item.active = true;
+            }
+          })
+          this.queryContentList(star.id);
+        },
+        handleClickContent(data) {
+          this.contentList.forEach(item => {
+            if (item.contentCode == data.contentCode) {
+              item.active = !item.active
+            }
+            console.log(item);
+          })
+        },
+        //获取好差评评价项内容
+        async queryContentList(star) {
+          let url = '/case-api/evaluateService/queryEvaluateContent';
+          await axios.get(url, {
+            params: {
+              'star': star,
+            }
+          })
+            .then((res) => {
+              if (res.data) {
+                let obj = res.data.data;
+                let contents = [];
+                for (const item of obj) {
+                  let eve = {};
+                  eve.contentCode = item.contentCode;
+                  eve.content = item.content;
+                  eve.active = false;
+                  contents.push(eve);
+                }
+                this.contentList = contents;
+              }
+            }).catch((error) => {
+              console.log(error);
+            });
+        },
+        buttonSubmit() {
+          this.contentStr = "";
+          this.contentOids = "";
+          var contentCodeList = [];
+          if (this.contentList.length > 0) {
+            this.contentList.forEach(item => {
+              if (item.active) {
+                this.contentStr += item.content + ';';
+                contentCodeList.push(item.contentCode);
+              }
+            })
+          }
+          if (!contentCodeList.length > 0) {
+            this.$alert('请选择评价项', '提示', {
+              confirmButtonText: '确定',
+              customClass: 'evaluation-message'
+            });
+          } else {
+            if (contentCodeList.length > 0) {
+              if (contentCodeList.length > 1) {
+                for (let i = 0; i < contentCodeList.length - 1; i++) {
+                  this.contentOids += contentCodeList[i] + ",";
+                }
+                this.contentOids += contentCodeList[contentCodeList.length - 1];
+              } else {
+                this.contentOids = contentCodeList[0];
+              }
+            }
+            ELEMENT.Message.success('评价成功');
+            var num = 1;
+            this.startList.forEach(item => {
+              if (item.active) {
+                num++;
+              }
+            })
+            if ((num - 1) > this.pushStar) {
+              this.saveManualEvaluation(num - 1, 0);
+              this.pbpjSaveQlCase(num - 1);
+            } else {
+              this.saveManualEvaluation(num - 1, 1);
+            }
+            // ELEMENT.Message.warning('tijiao1')
+
+            this.openWelcome();
+          }
+        },
+        //超级综窗柜台双屏登录打开用户信息
+        async openWelcome() {
+          let user = this.loginUser;
+          let url = window.location.origin;
+          let data = {};
+          data.userName = this.obj.userName;
+          data.organName = this.obj.organName;
+          data.isWorking = 1;
+          let pushUrl =
+            url +
+            "/serviceHall/suspendedService.html?jsonObject=" +
+            JSON.stringify(data);
+          window.location.href = pushUrl;
+          // window.open(pushUrl);
+          // await axios.get(pushUrl, {
+          //   // params: {}
+          // }).then((res) => {
+          //   console.log(res);
+          // }).catch((error) => {
+          //   console.log(error);
+          // });
+        },
+
+        saveManualEvaluation(starNUm, pushFlag) {
+          let data = {};
+          data.oid = this.maOid;
+          data.serviceEvaluation = starNUm;
+          data.virtualBusinessNum = this.virtualBusinessRecordOid;
+          data.evaluationItem = this.contentStr;
+          data.evaluationCode = this.contentOids;
+          data.pushFlag = pushFlag;
+          data.evaluateFlag = 1;
+          //add
+          if (this.caseOid != null && this.caseOid != '') {
+            console.log("有办件信息");
+            data.phone = this.phone;
+            data.caseUserName = this.caseUserName;
+            data.caseNumber = this.caseOid;
+          }
+          console.log("保存");
+          console.log(data);
+          //end
+          let url = '/zc-api/manualEvaluation/saveManualEvaluation';
+          axios.post(url, data).then((res) => {
+            this.caseOid = "";
+            this.caseUserName = "";
+            this.phone = "";
+            console.log(res);
+          }).catch((error) => {
+            this.caseOid = "";
+            this.caseUserName = "";
+            this.phone = "";
+            console.log(error);
+          });
+        },
+        async pbpjSaveQlCase(starNUm) {
+          let url = '/case-api/evaluateService/saveQLCaseEvaluation';
+          await axios.get(url, {
+            params: {
+              'caseNUm': this.caseNumber,
+              'starNUm': starNUm,
+              'contentOids': this.contentOids,
+              'content': this.contentStr
+            }
+          }).then(res => {
+            if (res.code == 200) {
+              console.log(res);
+            }
+          })
+        },
+        //倒计时
+        countDown() {
+          this.countTime = setInterval(() => {
+            this.time--;
+            if (this.time < 0) {
+              clearInterval(this.countTime);
+              this.countTime = null;
+              this.time = 0;
+              if (this.star > this.pushStar) {
+                this.saveManualEvaluationCountTime(this.star, 0);
+                this.pbpjSaveQlCaseCountTime(this.star);
+              } else {
+                this.saveManualEvaluationCountTime(this.star, 1)
+              }
+              this.openWelcome();
+            }
+          }, 1000);
+        },
+        saveManualEvaluationCountTime(starNUm, pushFlag) {
+          let data = {};
+          data.oid = this.maOid;
+          data.serviceEvaluation = starNUm;
+          data.virtualBusinessNum = this.virtualBusinessRecordOid;
+          data.pushFlag = pushFlag;
+          data.evaluateFlag = 1;
+          //add
+          if (this.caseOid != null && this.caseOid != '') {
+            data.phone = this.phone;
+            data.caseUserName = this.caseUserName;
+            data.caseNumber = this.caseOid;
+          }
+          //end
+          let url = '/zc-api/manualEvaluation/saveManualEvaluation';
+          axios.post(url, data).then((res) => {
+            this.caseOid = "";
+            this.caseUserName = "";
+            this.phone = "";
+            console.log(res);
+          }).catch((error) => {
+            this.caseOid = "";
+            this.caseUserName = "";
+            this.phone = "";
+            console.log(error);
+          });
+        },
+        async pbpjSaveQlCaseCountTime(starNUm) {
+          let url = '/case-api/evaluateService/saveQLCaseEvaluation';
+          await axios.get(url, {
+            params: {
+              'caseNUm': this.caseNumber,
+              'starNUm': starNUm,
+              'contentOids': this.contentCode,
+              'content': this.content
+            }
+          }).then(res => {
+            if (res.code == 200) {
+              console.log(res);
+            }
+          })
+        },
+        //查询综窗小屏播报语音
+        getAudioSpeech() {
+          axios.get('/zc-api/guidSpeech/selectByGuidSpeechCode', { params: { 'guidSpeechCode': 'case_pbpj' } }).then((res) => {
+            if (res && res.data) {
+              console.log(JSON.stringify(res + "-----------"))
+              if (res.data.data.speechUrl) {
+                this.aotuAudioSpeech(res.data.data.speechUrl);
+              }
+            }
+          }).catch((error) => {
+          });
+        },
+        aotuAudioSpeech(data) {
+          axios.get(this.speechAddress + '/audio/Play', { params: { 'PlayUrl': data } }).then((res) => {
+            if (res) {
+              console.log("返回值：" + JSON.stringify(res));
+            }
+          }).catch((error) => {
+          });
+        },
+
+      }
+    })
+  </script>
+</body>
+
+</html>

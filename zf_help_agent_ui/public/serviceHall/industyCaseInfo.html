@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>办件信息</title>
+  <!-- <link rel="stylesheet" href="./css/style.css"> -->
+  <!-- <link rel="stylesheet" href="./css/style-screen-1920.css"> -->
+  <link rel="stylesheet" href="./css/style-case-h5.css">
+</head>
+
+<body>
+  <div class="content" id="vue_det">
+    <div class="main clearfix">
+      <div class="main-fr">
+        <div class="cont flex-column">
+          <div class="confirm-table">
+            <div class='info-listbg' v-cloak>
+              <div>
+                <img src="./img/project-name.png" alt="">
+                项目名称:
+              </div>
+              <div v-cloak>{{caseInfo.projectName}}</div>
+            </div>
+            <div class='info-listbg'>
+              <div>
+                <img src="./img/bianhao.png" alt="">
+                办件编号:
+              </div>
+              <div v-cloak>{{caseInfo.caseNumber}}</div>
+            </div>
+            <div class='info-listbg'>
+              <div>
+                <img src="./img/state.png" alt="">
+                办件状态:
+              </div>
+              <div colspan="3" v-if="!caseInfo.pbCaseStatus">
+                <span v-if="caseInfo.caseStatus == 1">待预审</span>
+                <span v-if="caseInfo.caseStatus == 2">办理中</span>
+                <span v-if="caseInfo.caseStatus == 3">已办结</span>
+                <span v-if="caseInfo.caseStatus == 4">作废</span>
+                <span v-if="caseInfo.caseStatus == 5 || caseInfo.caseStatus == -1" >异常办结</span>
+                <span v-if="caseInfo.caseStatus == 9">预审不通过</span>
+                <span v-if="caseInfo.caseStatus == 7 || caseInfo.caseStatus == 47">不予受理</span>
+                <span v-if="caseInfo.caseStatus == 44">不予批准</span>
+              </div>
+              <div colspan="3" v-if="caseInfo.pbCaseStatus" v-cloak>{{caseInfo.pbCaseStatus}}</div>
+
+            </div>
+            <div class='info-listbg'>
+              <div>
+                <img src="./img/name.png" alt="">
+                申请人名称:
+              </div>
+              <div v-cloak>{{caseInfo.applyUserName}}</div>
+            </div>
+            <div class='info-listbg'>
+              <div>
+                <img src="./img/phone.png" alt="">
+                申请人手机号:
+              </div>
+              <div v-cloak>{{caseInfo.applyUserPhone}}</div>
+            </div>
+            <div class='info-listbg'>
+              <div>
+                <img src="./img/time.png" alt="">
+                承诺时限:
+              </div>
+              <div v-cloak>{{caseInfo.promiseLimit}}</div>
+            </div>
+            <div class='info-listbg' v-if="caseInfo.shouldConcludeDate">
+              <div>
+                <img src="./img/time.png" alt="">
+                应办结时间:
+              </div>
+              <div v-cloak>{{caseInfo.shouldConcludeDate}}</div>
+            </div>
+            <div class='info-listbg'>
+              <div>
+                <img src="./img/time.png" alt="">
+                登记时间:
+              </div>
+              <div colspan="3" v-cloak>{{caseInfo.createDate}}</div>
+            </div>
+            <div class='info-listbg'>
+              <div>
+                <img src="./img/time.png" alt="">
+                办结时间:
+              </div>
+              <div v-cloak>{{caseInfo.concludeDate}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="../pbpj/js/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+
+  var app = new Vue({
+    el: '#vue_det',
+    data: {
+      caseOid: "",
+      caseInfo: {}
+    },
+    mounted: function () {
+      this.getCaseInfo();//需要触发的函数
+    },
+    methods: {
+      getCaseInfo: function () {
+        var content = this.getURLParameter("caseOid");
+        this.caseOid = content;
+        this.pushCallInfo();
+
+      },
+      getURLParameter: function (name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+      },
+      pushCallInfo: function () {
+        axios.get('/industry-api/interface/queryCaseInfo', { params: { 'qlCaseOid': this.caseOid } }).then((res) => {
+          if (res) {
+            console.log(JSON.stringify(res))
+            if (res.data) {
+              this.caseInfo = res.data.data;
+            }
+          }
+        }).catch((error) => {
+
+        });
+      },
+    }
+  })
+</script>
+
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.ha.dbaccess.dao.DbHaServiceMapper">
+
+    <resultMap id="haServiceList" type="com.zfsoft.ha.dbaccess.data.vo.DbHaServiceListVo">
+        <result column="ID" property="serviceId"/>
+        <result column="SERVICE_TYPE" property="serviceType"/>
+        <result column="SERVICE_MEMO" property="serviceMemo"/>
+        <result column="SX_SERVICE_ID" property="sxServiceId"/>
+        <result column="QL_CASE_ID" property="qlCaseId"/>
+        <result column="SERVICE_STATUS" property="serviceStatus"/>
+        <result column="PUSH_MEMO" property="pushMemo"/>
+        <result column="SERVICE_NAME" property="serviceName"/>
+    </resultMap>
+
+
+    <select id="getHaServiceList" resultMap="haServiceList">
+        SELECT
+        b.ID,
+        b.SERVICE_TYPE,
+        b.SERVICE_MEMO,
+        b.SX_SERVICE_ID,
+        b.QL_CASE_ID,
+        a.SERVICE_STATUS,
+        b.PUSH_MEMO,
+        tss.SERVICE_NAME
+        FROM
+        t_ha_work_queue a,
+        t_ha_work_service b
+        left join (select ID,SERVICE_OID,SERVICE_NAME FROM t_sx_service ) tss on b.SX_SERVICE_ID = tss.SERVICE_OID
+        WHERE
+        a.ID = b.WORK_QUEUE_ID
+        <if test="cardNo !=null and cardNo != ''">
+            and a.CARD_NO = #{cardNo}
+            <if test="name !=null and name != ''">
+                and a.NAME = #{name}
+            </if>
+        </if>
+        <if test="companyCode !=null and companyCode != ''">
+            and a.COMPANY_CODE = #{companyCode}
+            <if test="companyName !=null and companyName != ''">
+                and a.COMPANY_NAME = #{companyName}
+            </if>
+        </if>
+        order by b.CREATE_DATE desc
+    </select>
+
+</mapper>

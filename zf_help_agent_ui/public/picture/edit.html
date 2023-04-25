@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<meta name="renderer" content="webkit">
+		<title>编辑</title>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/custom.css"/>
+		<link rel="stylesheet" type="text/css" href="css/jquery.imageLabel.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+      var VUE_APP_BASE_API='/dev-api';
+      var VUE_APP_ZC_ROUTE_PATH="";
+      //获取参数
+      function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+      }
+      var  materiaOid = getURLParameter("materiaOid");
+      var serviceOid=getURLParameter("serviceOid");
+      var  ahsSamplePicInfoOid = getURLParameter("ahsSamplePicInfoOid");
+      var attaOid=getURLParameter("attaOid");
+      var comboDirectoryOid=getURLParameter("comboDirectoryOid");
+      var imgUrlinfo="";
+
+      var t = $("#imgform");
+      var list = '[]';
+
+      $(function() {
+        getZcUrl();
+
+        function getZcUrl(){
+          var code=""
+          if(comboDirectoryOid && (comboDirectoryOid!='null') && (comboDirectoryOid!='undefined') ){
+            code="ONTHING_SERVICE_URL";
+          }else{
+            code="DSXBL_URL";
+          }
+          var urlImg = VUE_APP_BASE_API+'/settings/security/config/getSysConfigByCode';
+          var dataimg = {
+            "code": code,
+          }
+          $.ajax({
+            url: urlImg, //请求地址
+            type: "get", //请求方式
+            data:dataimg,
+            dataType:'json',
+            success: function(data) { //成功回调
+              VUE_APP_ZC_ROUTE_PATH=data.data.value;
+              getAttaUrl();
+            },
+            fail: function(data) {
+              console.log('fail')
+            }
+          });
+        }
+
+
+
+        $('#materiaOid').val(materiaOid);
+        $('#serviceOid').val(serviceOid);
+        $('#ahsSamplePicInfoOid').val(ahsSamplePicInfoOid);
+        $('#attaOid').val(attaOid);
+        $('#comboDirectoryOid').val(comboDirectoryOid);
+
+      /*  getAttaUrl();*/
+
+        function  getAttaUrl(){
+          var urlImg = VUE_APP_BASE_API+'/platform/security/atta/nologin/getByAttaOid';
+          var dataimg = {
+            "attaOid": attaOid,
+          }
+          $.ajax({
+            url: urlImg, //请求地址
+            type: "get", //请求方式
+            data:dataimg,
+            dataType:'json',
+            success: function(data) { //成功回调
+              imgUrlinfo=data.data.fastdfsNginxUrl;
+              getExaminePointCardingList(imgUrlinfo);//获取审查要点列表
+            },
+            fail: function(data) {
+              console.log('fail')
+            }
+          });
+        }
+
+
+
+
+        //获取审查要点列表
+        function  getExaminePointCardingList(imgUrlinfo){
+          var url="";
+          if(comboDirectoryOid && (comboDirectoryOid!='null') && (comboDirectoryOid!='undefined') ){
+            url=VUE_APP_ZC_ROUTE_PATH+"/comboExaminePointCarding/getComboExaminePointCardingList";
+          }else{
+            url=VUE_APP_ZC_ROUTE_PATH+"/examinePointCarding/getExaminePointCardingList";
+          }
+          var data = {
+            "attaOid": attaOid,
+            "ahsSamplePicInfoOid": ahsSamplePicInfoOid,
+            "serviceOid":serviceOid,
+          }
+          $.get( url, data, function(data, textStatus, jqXHR){
+
+            var epcData = data.data.examinePointCardingList;
+            if (!epcData || epcData.length === 0) {
+              initData(attaOid,epcData,imgUrlinfo);//初始化加载数据
+              /*$("body").html('<div class="noDate"></div>');*/
+            } else {
+              if (!epcData || epcData.length === 1) {
+                $('.prev,.next').hide();
+              }
+              initData(attaOid,epcData,imgUrlinfo);//初始化加载数据
+              loadRightEpcData(epcData);
+            }
+          },'json');
+        }
+
+
+        //加载右侧的审查要点数据
+        var loadRightEpcData = function(epcList) {
+          if (epcList && epcList.length > 0) {
+            for (var i = 0; i < epcList.length; i++) {
+              var idx=i+1;
+              var jsObj=epcList[i];
+       console.log(JSON.stringify(jsObj))
+              var itemsHtml = `<div class="scyd-data-item" data-idx="` + idx +
+                `">
+					<div class="scyd-data-title">
+						<div class="left-title"><font style="font-size:18px;font-weight:bold;color: red; float: left; margin: 0px 3px 0 5px;">*</font>审查要点<span style="color:red;margin-left:3px;font-weight: bold;">` +
+                jsObj.name + `</span>:</div>
+						<div class="right-del"><span onclick="delItem('` + idx +
+                `')">删除</span></div>
+					</div>
+					<div class="scyd-data-content">
+						<input type="hidden" data-type="name" name="examinePointCardingList[` +
+                (idx - 1) + `].name" value="` + idx +
+                `"/>
+						<input type="hidden" data-type="x" name="examinePointCardingList[` + (idx - 1) + `].x" value="` +
+                jsObj.x + `"/>
+						<input type="hidden" data-type="y" name="examinePointCardingList[` + (idx - 1) +
+                `].y" value="` + jsObj.y + `"/>
+						<input type="hidden" data-type="ex" name="examinePointCardingList[` +
+                (idx - 1) + `].ex" value="` + jsObj.ex +
+                `"/>
+						<input type="hidden" data-type="ey" name="examinePointCardingList[` + (idx - 1) + `].ey" value="` +
+                jsObj.ey +
+                `"/>
+						<textarea class="form-control" placeholder="请填写审查要点详细说明，不超过200个字符" data-type="examineInfo" name="examinePointCardingList[` +
+                (idx - 1) + `].examineInfo" >` +
+                jsObj.examineInfo +
+                `</textarea>
+					</div>
+				</div>`;
+              $('#scydData').append(itemsHtml);
+              listenerNoData();
+
+            }
+
+
+          }
+
+        }
+
+        function  initData(attaOid,epcList,imgUrlinfo){
+          var imgUrl=imgUrlinfo;
+          //插件 配置项
+          var config = {
+            img: imgUrl,
+            attaOid: attaOid,
+            data: epcList,
+            epcList: epcList,
+            editPop: true,
+            only: false,
+            addLable: function($d, idx) {
+              var jsObj = JSON.parse($d.attr('data-json'));
+              var itemsHtml = `<div class="scyd-data-item" data-idx="` + idx +
+                `">
+					<div class="scyd-data-title">
+						<div class="left-title"><font style="font-size:18px;font-weight:bold;color: red; float: left; margin: 0px 3px 0 5px;">*</font>审查要点<span style="color:red;margin-left:3px;font-weight: bold;">` +
+                idx + `</span>:</div>
+						<div class="right-del"><span onclick="delItem('` + idx +
+                `')">删除</span></div>
+					</div>
+					<div class="scyd-data-content">
+						<input type="hidden" data-type="name" name="examinePointCardingList[` +
+                (idx - 1) + `].name" value="` + idx +
+                `"/>
+						<input type="hidden" data-type="x" name="examinePointCardingList[` + (idx - 1) + `].x" value="` +
+                jsObj.x + `"/>
+						<input type="hidden" data-type="y" name="examinePointCardingList[` + (idx - 1) +
+                `].y" value="` + jsObj.y + `"/>
+						<input type="hidden" data-type="ex" name="examinePointCardingList[` +
+                (idx - 1) + `].ex" value="` + jsObj.ex +
+                `"/>
+						<input type="hidden" data-type="ey" name="examinePointCardingList[` + (idx - 1) + `].ey" value="` +
+                jsObj.ey +
+                `"/>
+						<textarea class="form-control" placeholder="请填写审查要点详细说明，不超过200个字符" data-type="examineInfo" name="examinePointCardingList[` +
+                (idx - 1) + `].examineInfo"></textarea>
+					</div>
+				</div>`;
+              $('#scydData').append(itemsHtml);
+              listenerNoData();
+
+            },
+            delLable: function($d) {
+              //$d 是被删除的元素
+              var jsObj = JSON.parse($d.attr('data-json'));
+              var delIndex = parseInt(jsObj.name);
+              delLableByDelIndex(delIndex);
+            },
+            data: epcList,
+            close: function(t) {
+            /*  this.$emit('father-click');*/
+              window.opener=null;
+              window.open('','_self');
+              window.close();
+
+            },
+            endArea: function($d) {
+              //拖动结束事件
+              var jsObj = JSON.parse($d.attr('data-json'));
+              var idx = parseInt(jsObj.name);
+              var item = $('#scydData .scyd-data-item[data-idx=' + idx + ']');
+              //替换这个item中的 x y ex ey
+              item.find("input[data-type='x']").val(jsObj.x);
+              item.find("input[data-type='y']").val(jsObj.y);
+              item.find("input[data-type='ex']").val(jsObj.ex);
+              item.find("input[data-type='ey']").val(jsObj.ey);
+            },
+            confirm: function(t) {
+              if (t.length == '0') {
+                Dialog.typeAlert(2, '请编辑绘制审查要素信息！');
+                return false;
+              } else {
+
+                //校验框出来的审查要点详细信息是否都填写内容了，和内容不能超过200个字
+                if (checkData()) {
+                  submitExaminePointCarding(t);
+                }
+              }
+            }
+          };
+
+          //初始化 插件
+          window.c = imageLabel(config);
+          //这个设置一定要在imageLabel 初始化后面
+          $('.imageLabel-box').css("width", "80%");
+          listenerNoData();
+        }
+
+
+
+
+
+      });
+
+
+
+
+
+
+      //禁用页面Enter按键 luzw 2018年9月14日
+			document.onkeydown = function() {
+				if (window.event && window.event.keyCode == 13) {
+					window.event.returnValue = false;
+				}
+			}
+
+			function unifyIssue() {
+				Dialog.confirm('你确定要统一发布目录清单吗？', function() {
+					Dialog.alert("发布成功！")
+				});
+			}
+			//重置表单输入框中的内容
+			function formReset() {
+				var e = window.event || arguments.callee.caller.arguments[0];
+				var obj = e.srcElement ? e.srcElement : e.target;;
+				Dialog.confirm("你确定要重置吗？", function() {
+					var fs = $(obj).parents("form");
+					if (fs.length > 0) {
+						fs[0].reset();
+					}
+				});
+			}
+
+
+			// needForceDelete 是否需要强制删除提示
+			function ableOrDisableFunction(url, oid, able, needForceDelete) {
+				var ableMessage;
+				if (able == 'Y') {
+					ableMessage = "禁用"
+				}
+				if (able == 'N') {
+					ableMessage = "启用"
+				}
+				Dialog.confirm('你确定要' + ableMessage + '吗？', function() {
+					ableOrDisable(url, oid, able, false, needForceDelete)
+				});
+			}
+			//add by wangsh 禁用启用可控制是否提示关联
+			function ableOrDisable(url, oid, able, forceDel, needForceDelete) {
+				if (able == 'Y') {
+					ableMessage = "禁用";
+				}
+				if (able == 'N') {
+					ableMessage = "启用";
+				}
+				common.ajaxPost(url + '?oid=' + oid + (forceDel ? "&forceDel=" + forceDel : "") + (able ? "&able=" + able : ""),
+					null,
+					function(data) {
+						var mes = eval(data);
+						if (mes.success) {
+							Dialog.alert(ableMessage + "成功！", function() {
+								nextPage(''); //执行成功后，刷新当前页面
+							});
+						} else {
+							if (needForceDelete && able == 'Y' && mes.data == -1) { //启用时无需提示
+								Dialog.confirm(mes.message, function() {
+									ableOrDisable(url, oid, able, true)
+								});
+							} else {
+								Dialog.typeAlert(2, mes.data);
+							}
+						}
+					});
+			}
+
+			function stopOrCancelStartFunction(url, oid, status) {
+				var pauseMessage;
+				//暂停
+				var pauseStatus = "4";
+				//取消暂停，将状态改为发布
+				var cancelPauseStatus = "3";
+				if (status == cancelPauseStatus) {
+					pauseMessage = "暂停";
+				}
+				if (status == pauseStatus) {
+					pauseMessage = "解除暂停";
+				}
+				Dialog.confirm('你确定要' + pauseMessage + '吗？', function() {
+					common.ajaxPost(url + '?serviceOid=' + oid, null, function(data) {
+						var mes = eval(data);
+						if (mes.success) {
+							Dialog.alert(pauseMessage + "成功！", function() {
+								nextPage(''); //执行成功后，刷新当前页面
+							});
+						} else {
+							Dialog.alert(mes.data);
+						}
+					});
+				});
+
+			}
+
+
+
+
+
+			//防止按钮多次点击 luzw 2018年9月23日
+			function preventMultipleClicks(btnId, onClickFun) {
+				$("#" + btnId).removeAttr("onclick");
+				//两秒后添加点击事件
+				setTimeout(function() {
+					$("#" + btnId).attr("onclick", onClickFun);
+				}, 2000);
+			}
+
+
+
+      /*
+        提交数据至后台
+        2020-4-15
+        chengcheng
+      */
+      var submitExaminePointCarding = function(t) {
+        var action="";
+        if(comboDirectoryOid && (comboDirectoryOid!='null') && (comboDirectoryOid!='undefined') ){
+          action=VUE_APP_ZC_ROUTE_PATH+"/comboExaminePointCarding/saveOrUpdateComboExaminePointCardingList";
+        }else{
+          action=VUE_APP_ZC_ROUTE_PATH+"/examinePointCarding/saveOrUpdateExaminePointCardingList";
+        }
+        //var action = $('#scydDataForm').attr("action");
+        var imgFormData = $("#scydDataForm").serialize();
+        console.log(imgFormData);
+        common.ajaxPost(action, imgFormData, function(data) {
+          var mes = data.data;
+          console.log(mes);
+          if (mes.success) {
+            Dialog.alert("保存成功！", function() {
+              window.opener=null;
+              window.open('','_self');
+              window.close();
+            });
+          } else {
+            Dialog.typeAlert(2, mes.data);
+          }
+        });
+      }
+
+      //校验填写的数据
+      function checkData() {
+        var scydItems = $('#scydData .scyd-data-item');
+        for (var i = 0; i < scydItems.length; i++) {
+          var item = scydItems[i];
+          //找到
+          var thisIdx = $(item).attr('data-idx');
+          var thisArea = $(item).find("textarea[data-type='examineInfo']")[0];
+          if (thisArea) {
+            var areaVal = $(thisArea).val();
+            if (!areaVal || areaVal.trim().length === 0) {
+              Dialog.typeAlert(2, "审查要点" + thisIdx + ",审查要点必须填写!");
+              return false;
+            }
+
+            if (areaVal.trim().length > 200) {
+              Dialog.typeAlert(2, "审查要点" + thisIdx + ",审查要点字数不能超过200个字符!");
+              return false;
+            }
+          }
+        }
+
+        return true;
+      }
+
+
+      var delLableByDelIndex = function(delIndex) {
+        if (delIndex != null && delIndex != undefined) {
+
+          //首先删除右侧的表单元素
+          var scydItems = $('#scydData .scyd-data-item');
+          scydItems.eq(delIndex - 1).remove();
+
+          //从新标注右侧的隐藏域 序列号
+          //需要从新获取一次，因为上面进行了删除的操作
+          scydItems = $('#scydData .scyd-data-item');
+          scydItems.each(function() {
+            var thisObj = $(this);
+            var thisIdx = parseInt(thisObj.attr('data-idx'));
+            if (thisIdx > delIndex) {
+              //如果大于的话，需要把自身的所有序列号 -1
+              thisObj.attr('data-idx', thisIdx - 1);
+              thisObj.find('.scyd-data-title').html(
+                `
+							<div class="left-title"><font style="font-size:18px;font-weight:bold;color: red; float: left; margin: 0px 3px 0 5px;">*</font>审查要点<span style="color:red;margin-left:3px;font-weight: bold;">` +
+                (thisIdx - 1) + `</span>:</div>
+							<div class="right-del"><span onclick="delItem('` + (thisIdx - 1) +
+                `')">删除</span></div>
+					`);
+              thisObj.find("input[data-type='name']").attr('name', 'examinePointCardingList[' + (thisIdx - 2) + '].name').val(
+                thisIdx - 1);
+              thisObj.find("input[data-type='x']").attr('name', 'examinePointCardingList[' + (thisIdx - 2) + '].x');
+              thisObj.find("input[data-type='y']").attr('name', 'examinePointCardingList[' + (thisIdx - 2) + '].y');
+              thisObj.find("input[data-type='ex']").attr('name', 'examinePointCardingList[' + (thisIdx - 2) + '].ex');
+              thisObj.find("input[data-type='ey']").attr('name', 'examinePointCardingList[' + (thisIdx - 2) + '].ey');
+              thisObj.find("textarea[data-type='examineInfo']").attr('name', 'examinePointCardingList[' + (thisIdx - 2) +
+                '].examineInfo');
+            }
+          });
+
+          listenerNoData();
+
+        }
+      }
+
+      //点击右侧的删除按钮
+      var delItem = function(delIndex) {
+        if (delIndex != null && delIndex != undefined) {
+
+          var di = parseInt(delIndex);
+          delLableByDelIndex(di);
+
+
+
+          var delDropNode = $(".imageLabel-imgdrop[title='" + di + "']");
+          console.log(di+"*****"+JSON.stringify(delDropNode));
+          if (delDropNode) {
+            delDropNode.remove();
+          }
+
+          $('.imageLabel-imgdrop').each(function() {
+
+            var jo = JSON.parse($(this).attr('data-json'));
+            var curName = parseInt(jo.name);
+            if (curName > di) {
+              //把这个name减去1
+              jo.name = curName - 1;
+              $(this).attr('data-json', JSON.stringify(jo)).attr('title', jo.name);
+              $($(this).find('.imageLabel-imgdrop-font')[0]).text(jo.name);
+            }
+          });
+        }
+      }
+
+      //控制暂无数据隐藏和显示
+      function listenerNoData() {
+        var items = $("#scydData .scyd-data-item");
+        if (items && items.length > 0) {
+          $("#scydNoData").hide();
+        } else {
+          $("#scydNoData").show();
+        }
+      }
+    </script>
+		<link rel="stylesheet" href="css/jquery.imageLabel.min.css">
+		<link rel="stylesheet" href="css/custom.css">
+
+	</head>
+	<body>
+		<div class="scyd">
+			<div class="scyd-info">审查要点说明</div>
+			<form id="scydDataForm" action="##">
+				<input type="hidden" id="materiaOid" name="materiaOid" value=""  />
+				<input type="hidden" id="serviceOid" name="serviceOid"  value=""/>
+        <input type="hidden" id="ahsSamplePicInfoOid" name="ahsSamplePicInfoOid" value="" />
+        <input type="hidden" id="comboDirectoryOid" name="comboDirectoryOid" value="" />
+        <input type="hidden" id="attaOid" name="attaOid" value="12345667" />
+				<div class="scyd-data" id="scydData"></div>
+			</form>
+
+			<div class="scyd-no-data" id="scydNoData">
+				<div><img src="img/no-message.png" ></div>
+				<div>暂无数据</div>
+			</div>
+		</div>
+		<script src="js/jquery-3.5.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.imageLabel.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/zDialog.js" type="text/javascript" charset="utf-8"></script>
+
+
+	</body>
+</html>

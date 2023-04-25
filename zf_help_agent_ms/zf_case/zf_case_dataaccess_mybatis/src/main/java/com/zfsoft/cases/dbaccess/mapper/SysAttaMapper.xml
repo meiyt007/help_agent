@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.cases.dbaccess.dao.SysAttaMapper">
+    <resultMap type="com.zfsoft.cases.dbaccess.data.DbQlSysAtta" id="SysAttaMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="attaOid" column="ATTA_OID" jdbcType="VARCHAR"/>
+        <result property="zzqAttaOid" column="ZZQ_ATTA_OID" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="originName" column="ORIGIN_NAME" jdbcType="VARCHAR"/>
+        <result property="filePath" column="FILE_PATH" jdbcType="VARCHAR"/>
+        <result property="extensionName" column="EXTENSION_NAME" jdbcType="VARCHAR"/>
+        <result property="uploadDate" column="UPLOAD_DATE" jdbcType="TIMESTAMP"/>
+        <result property="userOid" column="USER_OID" jdbcType="VARCHAR"/>
+        <result property="delFlag" column="DEL_FLAG" jdbcType="INTEGER"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="modifyDate" column="MODIFY_DATE" jdbcType="TIMESTAMP"  />
+        <result property="fastdfsUploadUrl" column="FASTDFS_UPLOAD_URL" jdbcType="VARCHAR"/>
+        <result property="fastdfsNginxUrl" column="FASTDFS_NGINX_URL" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SysAttaMap">
+        select
+          ID, ATTA_OID, ZZQ_ATTA_OID, NAME, ORIGIN_NAME, FILE_PATH, EXTENSION_NAME, UPLOAD_DATE, USER_OID, DEL_FLAG, CREATE_DATE, FASTDFS_UPLOAD_URL, FASTDFS_NGINX_URL, MODIFY_DATE
+        from t_sys_atta
+        where ID = #{id} and DEL_FLAG=0
+    </select>
+
+    <!--根据业务主键查询附件信息-->
+    <select id="querySysAttaByOid" resultMap="SysAttaMap">
+        select
+          ID, ATTA_OID, ZZQ_ATTA_OID, NAME, ORIGIN_NAME, FILE_PATH, EXTENSION_NAME, UPLOAD_DATE, USER_OID, DEL_FLAG, CREATE_DATE, FASTDFS_UPLOAD_URL, FASTDFS_NGINX_URL, MODIFY_DATE
+        from t_sys_atta
+        where ATTA_OID = #{attaOid} and DEL_FLAG=0
+    </select>
+
+    <!--根据业务主键查询附件信息-->
+    <select id="querySysAttaByZzqOid" resultMap="SysAttaMap">
+        select
+            ID, ATTA_OID, ZZQ_ATTA_OID, NAME, ORIGIN_NAME, FILE_PATH, EXTENSION_NAME, UPLOAD_DATE, USER_OID, DEL_FLAG, CREATE_DATE, FASTDFS_UPLOAD_URL, FASTDFS_NGINX_URL, MODIFY_DATE
+        from t_sys_atta
+        where ZZQ_ATTA_OID = #{zzqAttaOid} and DEL_FLAG=0
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SysAttaMap">
+        select
+          ID, ATTA_OID, ZZQ_ATTA_OID, NAME, ORIGIN_NAME, FILE_PATH, EXTENSION_NAME, UPLOAD_DATE, USER_OID, DEL_FLAG, CREATE_DATE, FASTDFS_UPLOAD_URL, FASTDFS_NGINX_URL, MODIFY_DATE
+        from t_sys_atta
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SysAttaMap">
+        select
+        ID, ATTA_OID, ZZQ_ATTA_OID, NAME, ORIGIN_NAME, FILE_PATH, EXTENSION_NAME, UPLOAD_DATE, USER_OID, DEL_FLAG, CREATE_DATE, FASTDFS_UPLOAD_URL, FASTDFS_NGINX_URL, MODIFY_DATE
+        from t_sys_atta
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="attaOid != null">
+                and ATTA_OID = #{attaOid}
+            </if>
+            <if test="zzqAttaOid != null">
+                and ZZQ_ATTA_OID = #{zzqAttaOid}
+            </if>
+            <if test="name != null and name != ''">
+                and NAME = #{name}
+            </if>
+            <if test="originName != null and originName != ''">
+                and ORIGIN_NAME = #{originName}
+            </if>
+            <if test="filePath != null and filePath != ''">
+                and FILE_PATH = #{filePath}
+            </if>
+            <if test="extensionName != null and extensionName != ''">
+                and EXTENSION_NAME = #{extensionName}
+            </if>
+            <if test="uploadDate != null">
+                and UPLOAD_DATE = #{uploadDate}
+            </if>
+            <if test="userOid != null and userOid != ''">
+                and USER_OID = #{userOid}
+            </if>
+            <if test="delFlag != null">
+                and DEL_FLAG = #{delFlag}
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="fastdfsUploadUrl != null">
+                and FASTDFS_UPLOAD_URL = #{fastdfsUploadUrl}
+            </if>
+            <if test="fastdfsNginxUrl != null">
+                and FASTDFS_NGINX_URL = #{fastdfsNginxUrl}
+            </if>
+                and DEL_FLAG=0
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlSysAtta" >
+        insert into t_sys_atta(ATTA_OID, ZZQ_ATTA_OID, NAME, ORIGIN_NAME, FILE_PATH, EXTENSION_NAME, UPLOAD_DATE, USER_OID, DEL_FLAG, CREATE_DATE, FASTDFS_UPLOAD_URL, FASTDFS_NGINX_URL, MODIFY_DATE)
+        values (#{attaOid}, #{zzqAttaOid}, #{name}, #{originName}, #{filePath}, #{extensionName}, #{uploadDate}, #{userOid}, #{delFlag}, #{createDate}, #{fastdfsUploadUrl}, #{fastdfsNginxUrl}, #{modifyDate})
+    </insert>
+
+   <!-- <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.dbaccess.data.DbSysAtta">
+        insert into t_sys_atta(ATTA_OID, NAME, ORIGIN_NAME, FILE_PATH, EXTENSION_NAME, UPLOAD_DATE,
+        USER_OID, DEL_FLAG, CREATE_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.attaOid}, #{entity.name}, #{entity.originName}, #{entity.filePath}, #{entity.extensionName},
+            #{entity.uploadDate}, #{entity.userOid}, #{entity.delFlag}, #{entity.createDate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.dbaccess.data.DbSysAtta">
+        insert into t_sys_atta(ATTA_OID, NAME, ORIGIN_NAME, FILE_PATH, EXTENSION_NAME, UPLOAD_DATE,
+        USER_OID, DEL_FLAG, CREATE_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.attaOid}, #{entity.name}, #{entity.originName}, #{entity.filePath}, #{entity.extensionName},
+            #{entity.uploadDate}, #{entity.userOid}, #{entity.delFlag}, #{entity.createDate})
+        </foreach>
+        on duplicate key update
+        ATTA_OID = values(ATTA_OID) , NAME = values(NAME) , ORIGIN_NAME = values(ORIGIN_NAME) , FILE_PATH =
+        values(FILE_PATH) , EXTENSION_NAME = values(EXTENSION_NAME) , UPLOAD_DATE = values(UPLOAD_DATE) , USER_OID =
+        values(USER_OID) , DEL_FLAG = values(DEL_FLAG) , CREATE_DATE = values(CREATE_DATE)
+    </insert>-->
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.zfsoft.cases.dbaccess.data.DbQlSysAtta">
+        update t_sys_atta
+        <set>
+            <if test="attaOid != null">
+                ATTA_OID = #{attaOid},
+            </if>
+            <if test="zzqAttaOid != null">
+                ZZQ_ATTA_OID = #{zzqAttaOid},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name},
+            </if>
+            <if test="originName != null and originName != ''">
+                ORIGIN_NAME = #{originName},
+            </if>
+            <if test="filePath != null and filePath != ''">
+                FILE_PATH = #{filePath},
+            </if>
+            <if test="extensionName != null and extensionName != ''">
+                EXTENSION_NAME = #{extensionName},
+            </if>
+            <if test="uploadDate != null">
+                UPLOAD_DATE = #{uploadDate},
+            </if>
+            <if test="userOid != null and userOid != ''">
+                USER_OID = #{userOid},
+            </if>
+            <if test="delFlag != null">
+                DEL_FLAG = #{delFlag},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="fastdfsUploadUrl != null">
+                FASTDFS_UPLOAD_URL = #{fastdfsUploadUrl},
+            </if>
+            <if test="fastdfsNginxUrl != null">
+                FASTDFS_NGINX_URL = #{fastdfsNginxUrl},
+            </if>
+            <if test="modifyDate != null">
+                MODIFY_DATE = #{modifyDate},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t_sys_atta where ID = #{id} and DEL_FLAG=0
+    </delete>
+
+</mapper>

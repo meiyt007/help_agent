@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.superwindow.dbaccess.dao.TDataSetMaterialImgRecMapper">
+
+    <resultMap id="BaseResultMap" type="com.zfsoft.superwindow.dbaccess.data.TDataSetMaterialImgRec">
+        <!--@Table t_data_set_material_img_rec-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="serviceId" column="service_id" jdbcType="VARCHAR"/>
+        <result property="refinedMaterialId" column="refined_material_id" jdbcType="VARCHAR"/>
+        <result property="licenceOid" column="licence_oid" jdbcType="VARCHAR"/>
+        <result property="licenceName" column="licence_name" jdbcType="VARCHAR"/>
+        <result property="attachmentAddress" column="attachment_address" jdbcType="VARCHAR"/>
+        <result property="isEmpty" column="is_empty" jdbcType="INTEGER"/>
+        <result property="loadTime" column="load_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="materialId" column="material_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, service_id, refined_material_id, licence_oid, licence_name, attachment_address, is_empty, load_time, create_by, material_id
+        from t_data_set_material_img_rec
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, service_id, refined_material_id, licence_oid, licence_name, attachment_address, is_empty, load_time, create_by, material_id
+        from t_data_set_material_img_rec
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        id, service_id, refined_material_id, licence_oid, licence_name, attachment_address, is_empty, load_time, create_by, material_id
+        from t_data_set_material_img_rec
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="serviceId != null and serviceId != ''">
+                and service_id = #{serviceId}
+            </if>
+            <if test="refinedMaterialId != null and refinedMaterialId != ''">
+                and refined_material_id = #{refinedMaterialId}
+            </if>
+            <if test="licenceOid != null and licenceOid != ''">
+                and licence_oid = #{licenceOid}
+            </if>
+            <if test="licenceName != null and licenceName != ''">
+                and licence_name = #{licenceName}
+            </if>
+            <if test="attachmentAddress != null and attachmentAddress != ''">
+                and attachment_address = #{attachmentAddress}
+            </if>
+            <if test="isEmpty != null">
+                and is_empty = #{isEmpty}
+            </if>
+            <if test="loadTime != null">
+                and load_time = #{loadTime}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{createBy}
+            </if>
+            <if test="materialId != null and materialId != ''">
+                and material_id = #{materialId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true"  parameterType="com.zfsoft.superwindow.dbaccess.data.TDataSetMaterialImgRec">
+        insert into t_data_set_material_img_rec(service_id, refined_material_id, licence_oid, licence_name, attachment_address, is_empty, load_time, create_by, material_id)
+        values (#{serviceId}, #{refinedMaterialId}, #{licenceOid}, #{licenceName}, #{attachmentAddress}, #{isEmpty}, #{loadTime}, #{createBy}, #{materialId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_data_set_material_img_rec
+        <set>
+            <if test="serviceId != null and serviceId != ''">
+                service_id = #{serviceId},
+            </if>
+            <if test="refinedMaterialId != null and refinedMaterialId != ''">
+                refined_material_id = #{refinedMaterialId},
+            </if>
+            <if test="licenceOid != null and licenceOid != ''">
+                licence_oid = #{licenceOid},
+            </if>
+            <if test="licenceName != null and licenceName != ''">
+                licence_name = #{licenceName},
+            </if>
+            <if test="attachmentAddress != null and attachmentAddress != ''">
+                attachment_address = #{attachmentAddress},
+            </if>
+            <if test="isEmpty != null">
+                is_empty = #{isEmpty},
+            </if>
+            <if test="loadTime != null">
+                load_time = #{loadTime},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy},
+            </if>
+            <if test="materialId != null and materialId != ''">
+                material_id = #{materialId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t_data_set_material_img_rec where id = #{id}
+    </delete>
+
+</mapper>

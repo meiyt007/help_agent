@@ -1,0 +1,162 @@
+* {
+    -webkit-box-sizing : border-box;
+    -moz-box-sizing    : border-box;
+    box-sizing         : border-box;
+}
+
+.list-none {
+    margin     : 0 auto;
+    padding    : 0;
+    list-style : none;
+}
+
+.text-left {
+    text-align : left;
+}
+
+.text-center {
+    text-align : center;
+}
+
+.text-right {
+    text-align : right;
+}
+
+.text-ellipsis {
+    white-space   : nowrap;
+    text-overflow : ellipsis;
+    overflow      : hidden;
+}
+
+.text-ellipsis-two {
+    display            : -webkit-box;
+    overflow           : hidden;
+    /*! autoprefixer: ignore next */
+    -webkit-box-orient : vertical;
+    -webkit-line-clamp : 2;
+}
+
+.pull-left {
+    float : left;
+}
+
+.pull-right {
+    float : right;
+}
+
+.dis-table {
+    display : table;
+    &.ver-mid {
+        .dis-tab-cell {
+            vertical-align : middle;
+        }
+    }
+    &.ver-top {
+        .dis-tab-cell {
+            vertical-align : top;
+        }
+    }
+    &.ver-bot {
+        .dis-tab-cell {
+            vertical-align : bottom;
+        }
+    }
+}
+
+// 垂直居中辅助
+.middle-helper {
+    > *, &:before {
+        display        : inline-block;
+        vertical-align : middle;
+    }
+    &:before {
+        width   : 0;
+        height  : 100%;
+        content : '';
+    }
+}
+
+.ver-mid {
+    vertical-align : middle;
+}
+
+.ver-top {
+    vertical-align : top;
+}
+
+.dis-tab-header-group {
+    display : table-header-group;
+}
+
+.dis-tab-group {
+    display : table-row-group;
+}
+
+.dis-tab-row {
+    display : table-row;
+}
+
+.dis-tab-cell {
+    display : table-cell;
+}
+
+// 点击元素，添加点击透明效果
+.click-element {
+    cursor : pointer;
+    &:active {
+        opacity : .6;
+    }
+}
+
+/* 禁止鼠标选中文本 */
+.noselect {
+    -webkit-touch-callout : none; /* iOS Safari */
+    -webkit-user-select   : none; /* Chrome/Safari/Opera */
+    -khtml-user-select    : none; /* Konqueror */
+    -moz-user-select      : none; /* Firefox */
+    -ms-user-select       : none; /* Internet Explorer/Edge */
+    user-select           : none;
+}
+
+/* 点击穿透 */
+.pointer-none {
+    pointer-events : none;
+}
+
+.clearfix {
+    &:before, &:after {
+        display : table;
+        content : " ";
+    }
+    &:after {
+        clear : both;
+    }
+}
+
+.pos-relative {
+    position : relative;
+}
+
+.layout-line {
+    background-color : #ccc;
+    border           : none;
+    height           : 1px;
+}
+
+.el-popup-parent--hidden {
+    padding-right : 0 !important;
+}
+
+// 微软雅黑字体的粗体字 - Start
+//@font-face {
+//    font-family : 'Microsoft YaHei Bold';
+//    src         : url("fonts/Standard Script Italic.ttf") format("opentype");
+//    font-weight : normal;
+//    font-style  : normal;
+//}
+//
+//.yahei-bold {
+//    font-family : "Microsoft YaHei Bold";
+//}
+
+// 微软雅黑字体的粗体字 - End

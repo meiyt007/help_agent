@@ -1,0 +1,361 @@
+api:
+  param:
+    validate: true
+server:
+  port: 8084
+spring:
+  resources:
+    static-locations: classpath:/templates
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  jta:
+    log-dir: "logs/"
+  redis:
+    host: 172.21.176.204
+    port: 13302
+    timeout: 60000
+    database: 3
+    password: ZhuoFan888!@#
+    lettuce:
+      shutdown-timeout: 100
+    cache:
+      timeout: 360
+  shardingsphere:
+    datasource:
+      names: ds0
+      ds0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://172.21.176.204:13301/hp_bussiness_v1.0?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: Zfsoft888
+        initialSize: 1
+        minIdle: 1
+        maxActive: 10
+        maxWait: 10000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        testWhileIdle: true
+        testOnBorrow: true
+        testOnReturn: true
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        defaultAutoCommit: true
+        validationQuery: "select 1"
+        filters: "stat"
+        # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+        #合并多个DruidDataSource的监控数据
+        useGlobalDataSourceStat: true
+    props:
+      sql.show: false
+mybatis:
+  mapper-locations:
+    - classpath:com/zfsoft/superwindow/dbaccess/mapper/**/*Mapper.xml
+    - classpath:com/zfsoft/single/dbaccess/mapper/**/*Mapper.xml
+    - classpath:com/zfsoft/cases/dbaccess/mapper/**/*Mapper.xml
+    - classpath:com/zfsoft/service/dbaccess/mapper/**/*Mapper.xml
+    - classpath:com/zfsoft/ha/dbaccess/mapper/**/*Mapper.xml
+mapper:
+  identity: MYSQL
+  not-empty: false
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql;pageNum=pageNum;pageSize=pageSize;
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+debug: true
+
+#jasypt加密时的salt值
+jasypt:
+  encryptor:
+    password: zfsoft888
+
+logging:
+  config: classpath:logback-logstash.xml
+  level:
+    com.zfsoft.platform.dbaccess.dao: debug
+log:
+  level: info
+  path: logs/
+  extend:
+    fields: true
+logstash:
+  server-addr: 122.112.225.220:9601
+
+fdfs:
+  #fastDFS,nginx预览的前缀url
+  fastDFSNginxUrl: http://172.21.178.38
+  so-timeout: 1501
+  connect-timeout: 601
+  thumb-image:
+    width: 150
+    height: 150
+  tracker-list:
+    - 172.21.178.38:22122 #根据实际情况填写，可以配置多个tracker服务器地址
+  # - 100.100.100.101:22122
+zfsoft:
+  baiduOcr:
+    appId: 17289110
+    clientId: y5wIhYVmovGtFoFljvZqRf8l
+    clientSecret: ly0GjqcOPkOujEzPRYxbI1WBFTeUY8VE
+  textOcr:
+    appId: 2c8b8df4cdc023139a0ecb7c785ac99b
+    secretCode: 428f09d3f5c99855f3c83f14c24998af
+  zzq:
+    # 是否启用自治区的统一文件管理系统
+    fastDFS:
+      isAble: false
+    # 是否启用自治区的获取办件编号接口
+    obtainCaseNum:
+      isAble: false
+  # 表单填充配置
+  fieldFill:
+    # 超时时间（ms）
+    timeout: 10000
+  #多线程 异步资源全局配置
+  threadPool:
+    ## 核心线程数
+    corePoolSize: 20
+    ## 队列大小
+    queueCapacity: 100
+    ## 线程池最大的线程数
+    maxPoolSize: 100
+    ## 线程最大空闲时间
+    keepAliveSeconds: 100
+  feign:
+    #内部调用服务
+    settings: settings-service-provider
+    platform: platform-service-provider
+    ocr: zf-ocr-provider
+    middle: middle-web
+    middleManager: middle-manager-eerduosi
+    form: form-service-provider
+  #短信配置
+  sms:
+    name: www_ysw
+    pwd: 41E443A5BA475C91FEF280BDCF02
+    sign: 上海卓繁
+    status: true
+  dzzz:
+    ###电子证照对接
+    #授权码
+    token: 2c287bb2699ef34c01699f17e7c900ef
+    url: http://172.168.250.91:8380/elms
+  #好差评系统
+  pbpj:
+    key: 205DCD9398819A8D5E97F5579D829AB8
+    secret: 04e357f49436116647633745060f279346b8b2c40f74c14999710414d85b999720d31ef90a527ea05a0d1ef3360065a35d1a73d6510c1d801b978eb7d1a7d471476170cf42c8454014cefc8a3b00f2600a374df9cff441062d39fb5bfb2ebc87f61e91a214b1fd1fff0aa6030d7e6c2995a74a4f36ab183185fafe3b9f357df1f6
+    privateKey: 6840955d2c399b6ea677831c4b494e8e2ad851d37e67c991ff92ed3b33eff649
+    publicKey: 045c99eb3ff4da31a9eafc04059e4728df4474f8b86b0b7c0c2408df7400892f628834e2ee3c5a22941f49207a3390ed0514acec0a47cef564f192d21a1c73c59a
+    #好差评系统地址
+    url: http://172.168.251.72:8181/zfhcp/
+    #好差评系统评价页面
+    pbpjPage: /pjInterface/initZwfwCaseEvaluateInterApp.do
+    #好差评系统办件保存
+    saveEvaluateCase: /pjInterface/saveEvaluateCaseOnLine.do
+    #好差评系统评价信息保存
+    saveEvaluateInfo: /pjInterface/saveCaseEvaluate.do
+    #获取评价信息
+    getEvaluateUrl: /pjInterface/viewZwfwCaseEvaluate.do
+    #获取评价内容
+    getEvaluateContentUrl: /pjInterface/listEvaluationContent.do
+    #是否已评价
+    isEvaluateUrl: /pjInterface/isEvaluate.do
+    #平板评价调用好差评回调地址
+    pbpjCallBackUrl: /pbpjService/qlCasePbpjCallBack
+  zip:
+    rootPath: E:/compress/
+    targetPath: E:/testcompress/
+  #智能评价系统
+  smartEvaSystem:
+    #智能评价系统地址
+    url: http://www.zhuofansoft.com:6342
+    #事项内容展示地址
+    serviceBaseUrl: /thirdbuniess/baseInformation
+    #确认办件地址
+    confirmCaseUrl: /thirdbuniess/bjdjConfirmation
+    #办件评价地址
+    pjCaseUrl: /thirdbuniess/savePjMark
+  #超级综窗柜台双屏互动
+  screenInteraction:
+    # 情绪识别接口地址
+    emotionRecognitionUrl: http://101.230.251.254:10501/pred_multi
+  #研究院智审接入地址
+  yjyzsScan:
+    #人证比对
+    rzbdUrl: http://101.230.251.254:10502/
+    ##
+    url: http://101.230.251.254:10503/
+    # 获取分类
+    flUrl: http://101.230.251.254:10509/
+    # 获取印章
+    yzUrl: http://101.230.251.254:10504/
+    # 获取签字
+    qzUrl: http://101.230.251.254:10505/
+    # 修改图片去黑边
+    xztpUrl: http://101.230.251.254:10508/
+    # 排序
+    pxUrl: http://101.230.251.254:10503/
+    # 获取签字和印章接口
+    qzAndYzUrl: http://101.230.251.254:10510/
+  #智能问答
+  smartAsk:
+    #askUrl: http://zhuofansoft.com:1039/one_thing
+    askUrl: https://101.230.251.254:8890/intelligentConsultation/consultation
+    authUrl: https://101.230.251.254:8890/auth/getAccessToken
+    secretKey: 7C908EAC326EBDCA5C2EC89587654123
+  #电子表单地址
+  electronicForm:
+    url: http://127.0.0.1:9095
+    formAllUrl: /manager/getFormMainByAuthorizeKey
+    formPageUrl: /manager/security/main/page
+    getFormApiDataUrl: /manager/getFormApiData
+    authorizeKey: 9f90704b1d3b464ab0896cba67745095
+    exportFormData: /manager/exportFormDataToDocxSaveinFileServer
+  # ems快递服务
+  ems:
+    baseURL: http://60.205.8.187:8001/api/gateway/
+    version: V3.01
+    appSecret: 233d78ca963f24fee95a94b66e4f7f52
+    appkey: 11a057719f0aed0f2c9e234f3121321d
+    orderMethod: ems.inland.order.create.normal
+    traceMethod: ems.inland.trace.query
+    authorizations: 安庆,8a5107085fbaea01015fbaecc01b0005,b620355a7b3cfc995e08fd982af37cb1;望江,8a5107085fbaea01015fbaf1dc9e000e,01979b16c4b7e2d3ca29a1452ff61ff4;宿松,8a5107085fbaea01015fbaf175f3000d,9cff9a1f5ad43142bdcee26045c62499;桐城,8a5107085fbaea01015fbaf2d13a0010,8c75d2eea8d0fda9e111c8d25a62f03c;怀宁,8a5107085fbaea01015fbaf0280e000a,8b4b1bca5d03562f7d59f4309457c2c8;岳西,8a5107085fbaea01015fbaf240b1000f,e7a5a1d6d2b81815bebe88e6903ad10c;太湖,8a5107085fbaea01015fbaf109f5000c,79a786af35029442d98f60b3dd12956e;潜山,8a5107085fbaea01015fbaf08993000b,a2e4f24dca53d20b8e5e81657883a207
+  filesystem:
+    apiKey: 90A18191398BDD5BE4E5F51702422FEA
+    privateKey: 00e8728f8144e448b5b171ca6e523844f800d9bcd15dd04b3faa028678bd2c4c5e
+    publicKey: 04764ca28751c451a5852c93eee9d43c34b794d8356d677e1c77d8de53578345b0807a45e90326a0a131770cb0582bb73f764417dcff9c789eb8ea8cf32a9fcab8
+    updownURL: http://172.168.252.221:11003/fileInterfaceUpDown
+    otherUrl: http://172.168.252.221:11003/fileInterfaceOther
+  #硬件扫描设备接入地址
+  hardwareScan:
+    url: http://172.168.253.56:9094/
+    imgIcardUrl: http://172.168.251.71:8000
+  #排队叫号系统
+  queueSystem:
+    url: http://hf.zhuofansoft.com:12116/qhj
+  upImage:
+    windows: /emotions/
+    linux: /soft/usr/image/
+  #第三方接口
+  inter:
+    #inter服务发布地址
+    url: http://172.21.178.38:8005
+    #获取企业信息
+    getCompanyInfo: /outer/inter/getCompanyInfo
+    #获取核酸检测信息
+    nucleicInfo: /outer/inter/nucleicInfo
+    #取号
+    callNumber: /outer/inter/callNumber
+    #一键推送
+    onekeyPush: /outer/inter/onekeyPush
+    #号票推送
+    winNumbPush: /outer/inter/winNumbPush
+
+    #获取办件编码 -万达
+    applicantConfirm: /outer/inter/applicantConfirm
+    #增加材料 -万达
+    addApplyStuff: /outer/inter/addApplyStuff
+    #提交办件 -万达
+    submitApply: /outer/inter/submitApply
+    #材料添加附件并关联派生-万达
+    addStuffAttachment: /outer/inter/addStuffAttachment
+
+    #窗口取号相关接口  获取取号目录 -万达
+    getMachineCategoryTreeById: /outer/take/getMachineCategoryTreeById
+
+    #窗口取号相关接口  取号 -万达
+    takeNumber: /outer/take/takeNumber
+
+    #窗口取号相关接口  取号 -万达
+    takePriorityNumber: /outer/take/takePriorityNumber
+
+    #取号机取号
+    scanCertQrCode: /zzk/inter/scanCertQrCode
+    #18.4获取工作流列表
+    searchWorkflowCataLog: /outer/inter/searchWorkflowCataLog
+    #18.5获取工作流明细
+    searchWorkflowNodeInfo: /outer/inter/searchWorkflowNodeInfo
+    #触发流程操作
+    handlePostNode: /outer/inter/handlePostNode
+
+    #6.6办件领取方式
+    saveDateUrl: /outer/inter/saveDate
+
+    #获取天气
+    getWeather: /outer/weather/getWeather
+
+    #附件推送
+    attaPush: /outer/inter/attaPush
+
+    #政策推送
+    policyPush: /outer/inter/policyPush
+
+    #评价推送
+    evalPush: /outer/inter/evalPush
+
+    #短信接口
+    sendSms: /outer/sms/sendMessage
+
+    #短信接口标识 0不发短信  1 发短信
+    smsStatus: "1"
+  #第三方外部接口
+  interWeb:
+    #interweb服务发布地址
+    url: http://127.0.0.1:8086
+    # 百家云接口
+    baijiayun:
+      # 是否开启云端录制
+      recordStream: false
+      # 获取混流录制录制资源
+      streamMix: /web/baijiayun/streamMix
+      # 开始混流录制
+      streamMixStart: /web/baijiayun/streamMixStart
+      # 结束混流录制
+      streamMixStop: /web/baijiayun/streamMixStop
+      # 获取录制文件
+      streamQuery: /web/baijiayun/streamQuery
+#材料智审
+feign:
+  url: http://172.168.250.61:7016/api/
+  username: admin
+  password: zfsoft
+  client:
+    config:
+      default:
+        connectTimeout: 10000 #单位毫秒
+        readTimeout: 10000 #单位毫秒
+# jwt配置 start
+jwt:
+  secret: iWN0YYJh9qmYZz3c
+  ###登录过期时间
+  expire: 120
+# jwt配置 end
+
+# es配置
+elasticsearch:
+  scheme: http
+  host: 172.21.176.204
+  port: 13304
+  analyzer: ik_smart
+  search_analyzer: ik_max_word
+
+# 百家云账号信息(上面高利华账号，下面胡涛账号)
+baijiayun:
+  # 应用ID
+  appId: TfVBOgkSCDKNNLCGulCcjCnKUr6pBak0
+  #  appId: 5CfxAqCETHG1lhPqFbDBarH1chuqT83O
+  # 应用密钥
+  appSecret: 94GTkOZZhWxxL1idGdVtM00gIFHTcKef
+#  appSecret: KW1cCHC23ftNLcdZS4eo7EL95bqn9vaG
+

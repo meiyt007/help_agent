@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.superwindow.dbaccess.dao.DbEvaluationOptionMapper">
+
+    <resultMap type="com.zfsoft.superwindow.dbaccess.data.DbEvaluationOption" id="DbEvaluationOptionMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="optionOid" column="OPTION_OID" jdbcType="VARCHAR"/>
+        <result property="standardOid" column="STANDARD_OID" jdbcType="VARCHAR"/>
+        <result property="optionContent" column="OPTION_CONTENT" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="DEL_FLAG" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DbEvaluationOptionMap">
+        select ID,
+               OPTION_OID,
+               STANDARD_OID,
+               OPTION_CONTENT,
+               CREATE_BY,
+               CREATE_DATE,
+               DEL_FLAG
+        from t_evaluation_option
+        where ID = #{id} and  DEL_FLAG = 1
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DbEvaluationOptionMap">
+        select ID,
+               OPTION_OID,
+               STANDARD_OID,
+               OPTION_CONTENT,
+               CREATE_BY,
+               CREATE_DATE,
+               DEL_FLAG
+        from t_evaluation_option where  DEL_FLAG = 1
+        limit #{offset}
+           , #{limit}
+    </select>
+
+    <select id="queryEvaluationOptionListByStandardOid" resultMap="DbEvaluationOptionMap">
+        select ID,
+               OPTION_OID,
+               STANDARD_OID,
+               OPTION_CONTENT,
+               CREATE_BY,
+               CREATE_DATE,
+               DEL_FLAG
+        from t_evaluation_option
+        where STANDARD_OID = #{standardOid} and  DEL_FLAG = 1 order by CREATE_DATE
+    </select>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DbEvaluationOptionMap">
+        select
+        ID, OPTION_OID, STANDARD_OID, OPTION_CONTENT, CREATE_BY, CREATE_DATE, DEL_FLAG
+        from t_evaluation_option
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="optionOid != null and optionOid != ''">
+                and OPTION_OID = #{optionOid}
+            </if>
+            <if test="standardOid != null and standardOid != ''">
+                and STANDARD_OID = #{standardOid}
+            </if>
+            <if test="optionContent != null and optionContent != ''">
+                and OPTION_CONTENT = #{optionContent}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and CREATE_BY = #{createBy}
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE = #{createDate}
+            </if>
+                and DEL_FLAG =1
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into t_evaluation_option(OPTION_OID, STANDARD_OID, OPTION_CONTENT, CREATE_BY,
+                                                                  CREATE_DATE, DEL_FLAG)
+        values (#{optionOid}, #{standardOid}, #{optionContent}, #{createBy}, #{createDate}, #{delFlag})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t_evaluation_option(OPTION_OID, STANDARD_OID, OPTION_CONTENT, CREATE_BY,
+        CREATE_DATE, DEL_FLAG)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.optionOid}, #{entity.standardOid}, #{entity.optionContent}, #{entity.createBy},
+            #{entity.createDate}, #{entity.delFlag})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t_evaluation_option(OPTION_OID, STANDARD_OID, OPTION_CONTENT, CREATE_BY,
+        CREATE_DATE, DEL_FLAG)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.optionOid}, #{entity.standardOid}, #{entity.optionContent}, #{entity.createBy},
+            #{entity.createDate}, #{entity.delFlag})
+        </foreach>
+        on duplicate key update
+        OPTION_OID = values(OPTION_OID) , STANDARD_OID = values(STANDARD_OID) , OPTION_CONTENT = values(OPTION_CONTENT)
+        , CREATE_BY = values(CREATE_BY) , CREATE_DATE = values(CREATE_DATE) , DEL_FLAG = values(DEL_FLAG)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_evaluation_option
+        <set>
+            <if test="optionOid != null and optionOid != ''">
+                OPTION_OID = #{optionOid},
+            </if>
+            <if test="standardOid != null and standardOid != ''">
+                STANDARD_OID = #{standardOid},
+            </if>
+            <if test="optionContent != null and optionContent != ''">
+                OPTION_CONTENT = #{optionContent},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                CREATE_BY = #{createBy},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="delFlag != null">
+                DEL_FLAG = #{delFlag},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t_evaluation_option
+        where ID = #{id}
+    </delete>
+
+</mapper>

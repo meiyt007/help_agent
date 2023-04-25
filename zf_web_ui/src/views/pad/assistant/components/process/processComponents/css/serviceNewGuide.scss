@@ -1,0 +1,317 @@
+.guide {
+    text-align: left;
+    padding: 0 0 2.3529rem 1.1765rem;
+    // height: 100%;
+    // overflow-y: auto;
+
+    .guide-title {
+        width: 100%;
+        height: 4.2353rem;
+        line-height: 4.2353rem;
+        position: relative;
+        font-size: 1.5294rem;
+        color: #2a344c;
+        padding-left: 3.5294rem;
+        background: url("@/assets/images/pad/guide.png") no-repeat;
+        background-size: cover;
+        &>span{
+            color: #999999;
+            font-size: 0.7059rem;
+            margin-left: 0.5882rem;
+        }
+        &::after {
+            content: '';
+            position: absolute;
+            top: -0.4706rem;
+            left: -1.4706rem;
+            width: 4.5294rem;
+            height: 4.3529rem;
+            background: url('@/assets/images/pad/matter.png') no-repeat;
+            background-size: cover;
+        }
+
+        &.guide-material {
+            position: relative;
+
+            &::after {
+                background: url('@/assets/images/pad/material.png')  no-repeat;
+                background-size: cover;
+            }
+
+            .num {
+                color: #9fa9c2;
+                margin-left: 1.7647rem;
+            }
+
+            .type {
+                position: absolute;
+                top: 0;
+                right: 0;
+                color: #9fa9c2;
+
+                &>div {
+                    margin-right: 3.6471rem;
+                }
+
+                .tosubmit {
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        left: -1.5882rem;
+                        top: 1.6471rem;
+                        width: 0.8824rem;
+                        height: 1.0588rem;
+                        background-color: #f5ae31;
+                        border-radius: 0.1176rem;
+                    }
+                }
+
+                .nosubmit {
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        left: -1.5882rem;
+                        top: 1.6471rem;
+                        width: 0.8824rem;
+                        height: 1.0588rem;
+                        background-color: #45b743;
+                        border-radius: 0.1176rem;
+                    }
+                }
+
+                .todo {
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        left: -1.5882rem;
+                        top: 1.6471rem;
+                        width: 0.8824rem;
+                        height: 1.0588rem;
+                        background-color: #0f96f8;
+                        border-radius: 0.1176rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .guide-table {
+        color: #2a344c;
+        margin-top: 1.4706rem;
+        margin-bottom: 3.5294rem;
+        position: relative;
+        .switch{
+            position: absolute;
+            width: 52px;
+            height: 80px;
+            left: 50%;
+            margin-left: -26px;
+            bottom: 0px;
+            transition:  all 0.5s;
+        }
+        table {
+            width: 100%;
+            border-radius: 0.5882rem;
+            border: 0.0588rem solid #fff;
+            border-radius: 0.5882rem;
+            /* 消除单元格之间的空隙 */
+            border-collapse: separate !important;
+            /* 消除掉外边框 */
+            border-style: hidden;
+            /* hack一下加个假边框 */
+            box-shadow: 0 0 0 0.0588rem #fff;
+
+            tr,
+            td {
+                border: 0.1176rem solid #fff;
+            }
+
+            td {
+
+                min-height: 4.4118rem;
+                text-align: left;
+                font-size: 1.2941rem;
+                height: 4.4118rem;
+            }
+
+            tr {
+                &>td:nth-child(2n-1) {
+                    padding-left: 3.5294rem;
+                    color: #121b2f;
+                }
+
+                &>td:nth-child(2n) {
+                    padding-left: 1.1765rem;
+                }
+            }
+        }
+
+    }
+
+    .material-list {
+        margin-top: 1.4706rem;
+
+        &::after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+
+        .item {
+            height: 11.1765rem;
+            padding: 1.7647rem 1.1765rem;
+            width: calc((100% - 1.4706rem)/2);
+            background: #fff;
+            float: left;
+            margin-bottom: 1.1765rem;
+            border-radius: 0.5882rem;
+            &>img {
+                margin-right: 2.0588rem;
+                width: 4.7059rem;
+            }
+
+            &>div {}
+
+            .name {
+                font-size: 1.5294rem;
+                line-height: 1.6rem;
+                color: #121b2f;
+                margin-bottom: 1.1765rem;
+                margin-top: 0.5882rem;
+                
+                span{
+                    display: inline-block;
+                    width: calc(100% - 6rem);
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    max-height: 6rem;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 3;
+                    // white-space: nowrap;
+                }
+                img{
+                    width: 1.7647rem;
+                    margin-left: 5px;
+                }
+            }
+
+            .btns {
+                span {
+                    display: inline-block;
+                    height: 2.6471rem;
+                    line-height: 2.6471rem;
+                    padding: 0 0.8824rem;
+                    border-radius: 0.5882rem;
+                    margin-right: 0.5882rem;
+                }
+
+                .paper {
+                    background: #eef6ff;
+                    color: #1f88e9;
+                }
+
+                .origin {
+                    background: #fdf5e6;
+                    color: #daa532;
+                }
+
+                .num {
+                    background: rgba(159, 169, 194, 0.21);
+                    color: #9fa9c2;
+                }
+            }
+        }
+
+        &>div:nth-child(2n-1) {
+            margin-right: 1.4706rem;
+        }
+    }
+
+}
+
+.guide-footer {
+    font-size: 1.5294rem;
+    font-weight: bold;
+    margin-top: 4.4706rem;
+    .prev {
+        padding: 0 2.9412rem;
+        height: 3.7647rem;
+        text-align: center;
+        line-height: 3.7647rem;
+        background-color: #edf0f4;
+        box-shadow: 0.0588rem 0.4118rem 0rem 0rem rgba(213, 238, 251, 0.31);
+        border-radius: 1.8235rem;
+        border: solid 0.0588rem #6f97eb;
+        color: #709aee;
+    }
+
+    .next {
+        padding: 0 2.9412rem;
+        height: 3.7647rem;
+        background-image: linear-gradient(90deg,
+                #6d93e8 0%,
+                #76b0fe 100%);
+        box-shadow: 0.0588rem 0.4118rem 0rem 0rem rgba(106, 159, 231, 0.31);
+        border-radius: 1.8235rem;
+        text-align: center;
+        line-height: 3.7647rem;
+        color: #ffffff;
+        margin-left: 2.0588rem;
+    }
+
+}
+.transmit-coupon{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: rgba(0,0,0,0.2);
+    img{
+        width: 100%;
+        height: 100%;
+    }
+}
+.guide-in{
+    animation:guideIn 0.2s;
+    -webkit-animation:guideIn 0.2s;
+    overflow: hidden;
+    max-height: 101px;
+}
+.guide-out{
+    animation:guideOut 0.2s;
+    -webkit-animation:guideOut 0.2s;
+    height: auto;
+    .switch{
+        transform: rotate(180deg);
+    }
+}
+@keyframes guideIn
+{
+  0% { height: auto;}
+  100% { height:101px;}
+}
+@-webkit-keyframes guideIn
+{
+    0% { height: auto;}
+    100% { height:101px;}
+}
+@keyframes guideOut
+{
+  0% { height: 101px;}
+  100% { height:auto;}
+}
+
+@-webkit-keyframes guideOut
+{
+    0% { height: 101px;}
+    100% { height:auto;}
+}

@@ -1,0 +1,140 @@
+api:
+  param:
+    validate: true
+server:
+  port: 9096
+spring:
+  activiti:
+    #自动检查、部署流程定义文件
+    check-process-definitions: false
+    # 表示启动时检查数据库表，不存在则创建
+    database-schema-update: true
+    # 表示哪种情况下使用历史表，这里配置为full表示全部记录历史，方便绘制流程图
+    history-level: full
+    # true 表示使用历史表，如果不配置，则工程启动后可以检查数据库，只建立了17张表
+    db-history-used: true
+  #时间格式的统一处理
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  jta:
+    log-dir: "d:/logs/"
+  redis:
+    host: 172.168.249.2
+    port: 6379
+    timeout: 60000
+    database: 10
+  shardingsphere:
+    datasource:
+      names: ds0
+      ds0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://172.168.250.1:3306/new_platform_workflow?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        # 加密方式 ENC(加密后字符串)  ENC(3+7AqkXiCyG9phMtr7vykg==)
+        username: cpez
+        password: cpez
+        initialSize: 1
+        minIdle: 1
+        maxActive: 10
+        maxWait: 10000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        testWhileIdle: true
+        testOnBorrow: true
+        testOnReturn: true
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        defaultAutoCommit: true
+        validationQuery: "select 1"
+        filters: "stat"
+    props:
+      sql.show: false
+    sharding:
+      tables:
+        # 指定表分片策略 约定 id 值偶数添加到 tab_user_1 表，如果 id 是奇数添加到tab_user_2 表
+        # t_demo
+        # actual-data-nodes:
+        #   ds0.tab_user$->{0..1}
+        #table-strategy:
+        #  inline:
+        #    sharding-column: id
+        #    algorithm-expression: tab_user$->{id % 2}
+        # 指定数据库分片策略 约定 id 是偶数添加 m1，是奇数添加 m2
+        # t_demo
+        # actual-data-nodes: db$->{0..1}.t_demo$->{0..1}
+        #table-strategy:
+        #  inline:
+        #    sharding-column: id
+        #    algorithm-expression: ds$->{id % 2}
+        t_workflow_buss_info:
+          actual-data-nodes: "ds0.t_workflow_buss_info"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_workflow_link:
+          actual-data-nodes: "ds0.t_workflow_link"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_workflow_register_example:
+          actual-data-nodes: "ds0.t_workflow_register_example"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_workflow_type:
+          actual-data-nodes: "ds0.t_workflow_type"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_workflow_buss_flow_step:
+          actual-data-nodes: "ds0.t_workflow_buss_flow_step"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_workflow_fallback:
+          actual-data-nodes: "ds0.t_workflow_fallback"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        pro_accept_example:
+          actual-data-nodes: "ds0.pro_accept_example"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+mybatis:
+  mapper-locations:
+    - classpath:com/zfsoft/microservice/workflow/dbaccess/mapper/*.xml
+mapper:
+  identity: MYSQL
+  not-empty: false
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql;pageNum=pageNum;pageSize=pageSize;
+logging:
+  level:
+    com.zfsoft.platform.dbaccess.dao: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+redis:
+  cache:
+    timeout: 360
+debug: true
+
+log:
+  extend:
+    fields: true
+
+#jasypt加密时的salt值
+jasypt:
+  encryptor:
+    password: zfsoft888

@@ -1,0 +1,376 @@
+.gpy-upload-content {
+  width: 570px;
+  height: 430px;
+  background: #f8f9fa;
+  box-shadow: 0px 0px 16px 0px rgb(97 126 155 / 44%);
+  border-radius: 10px;
+  position: absolute;
+  // 后面删除
+  // left: 935px;
+  // top: 272px;
+  z-index: 5000;
+  transition: all 0.5s ease;
+
+  .gpy-upload-content--header {
+    height: 50px;
+    background: linear-gradient(90deg, rgba(0, 102, 255, 0.58) 0%, rgba(0, 72, 255, 0.58) 100%);
+    border-radius: 10px 0px 0px 0px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    .header-num {
+      width: 42px;
+      height: 40px;
+      background: url(~@/assets/image/gpy/wenjianj.png) center no-repeat;
+      background-size: 100% 100%;
+      // padding: 16px 0 11px 0;
+      line-height: 45px;
+      text-align: center;
+
+      span {
+        font-size: 14px;
+        font-family: WeChatNum-150916test;
+        font-weight: bold;
+        color: #ffffff;
+      }
+    }
+
+    .header-title {
+      width: calc(100% - 80px);
+      padding: 0 8px;
+      font-size: 14px;
+      font-family: Microsoft YaHei;
+      font-weight: bold;
+      color: #ffffff;
+      @include overflow-ellipsis();
+    }
+
+    .header-sort {
+      margin-right: 8px;
+
+      &.header-sort-not-allowed {
+        cursor: not-allowed;
+        visibility: hidden;
+      }
+    }
+
+    .header-sort,
+    .header-full-screen {
+      width: 30px;
+      height: 30px;
+      background: rgba(54, 98, 200, 0.2);
+      border-radius: 3px;
+      padding: 4px;
+
+      > img {
+        width: 23px;
+        height: 22px;
+      }
+    }
+
+    .gpy-upload-content--close {
+      position: absolute;
+      width: 32px;
+      height: 25px;
+      background: linear-gradient(90deg, rgba(0, 102, 255, 0.6) 0%, rgba(0, 72, 255, 0.6) 100%);
+      border-radius: 10px 10px 0px 0px;
+      right: 0;
+      top: -25px;
+      font-size: 16px;
+      color: #ffffff;
+      text-align: center;
+      line-height: 29px;
+    }
+  }
+
+  .gpy-upload-content--body {
+    height: calc(100% - 50px);
+    // padding: 20px 20px 0 20px;
+
+    .gpy-upload-content--list {
+      height: 100%;
+      display: flex;
+      flex-wrap: wrap;
+
+      .gpy-upload-content--item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        // margin-bottom: 20px;
+        padding: 20px 15px;
+        transition: all 1s;
+
+        &.gpy-upload-content--item-ghost {
+          background: transparent;
+          .gpy-upload-content--item-img {
+            &::before {
+              content: "";
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 0;
+              bottom: 0;
+              background: rgba(213, 224, 249, 0.36);
+              box-shadow: 1px 1px 2px 1px #268cff;
+              z-index: 1;
+            }
+          }
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.8);
+          box-shadow: 0px 0px 18px 0px rgba(45, 63, 116, 0.35);
+          border-radius: 5px;
+
+          .gpy-upload-content--item-img {
+            &::after {
+              content: "点击预览";
+              height: 30px;
+              background: rgba(43, 43, 43, 0.54);
+              box-shadow: 0px 4px 7px 0px rgb(45 63 116 / 27%);
+              border-radius: 0px 0px 3px 3px;
+              position: absolute;
+              bottom: 0;
+              width: 100%;
+              color: #fff;
+              text-align: center;
+              line-height: 30px;
+              cursor: pointer;
+            }
+          }
+        }
+
+        .gpy-upload-content--item-img {
+          border-radius: 5px;
+          box-shadow: 1px 1px 2px 1px #c0c4d0;
+          height: 145px;
+          width: 112px;
+          overflow: hidden;
+          transition: all 0.5s;
+          position: relative;
+
+          .gpy-upload-content--item-img-matched {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 1;
+          }
+
+          .gpy-upload-content--item-img-delete {
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 1;
+            cursor: pointer;
+          }
+        }
+
+        > span {
+          font-size: 12px;
+          font-family: Microsoft YaHei;
+          font-weight: 400;
+          color: #122456;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+
+  .gpy-upload-content--suspension {
+    position: absolute;
+    height: 370px;
+    display: flex;
+    top: 50px;
+    transition: all 0.5s;
+
+    &.gpy-upload-content--suspension-left {
+      left: 0;
+    }
+
+    &.gpy-upload-content--suspension-right {
+      left: -250px;
+    }
+
+    .suspension {
+      background: url(~@/assets/image/gpy/suspension.png) no-repeat center;
+      background-size: 100% 100%;
+      width: 35px;
+      height: 150px;
+      position: absolute;
+      left: -30px;
+      top: -6px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      padding-top: 16px;
+      cursor: pointer;
+
+      .suspension-num {
+        font-size: 12px;
+        font-family: Microsoft YaHei;
+        font-weight: 400;
+        color: #ffffff;
+        margin-top: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .suspension-num--text {
+          width: 13px;
+          margin-bottom: 6px;
+        }
+      }
+
+      .suspension-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        width: 24px;
+        height: 22px;
+        background: linear-gradient(90deg, rgba(0, 102, 255, 0.43) 0%, rgba(6, 69, 229, 0.43) 100%);
+        border-radius: 0px 0px 0px 10px;
+      }
+    }
+
+    .suspension-content {
+      width: 240px;
+      height: 100%;
+      background: #e8ecf0;
+      border-radius: 0px 10px 10px 10px;
+      transition: all 0.5s;
+      z-index: -1;
+      position: absolute;
+
+      &.suspension-content--right {
+        opacity: 1;
+      }
+
+      &.suspension-content--left {
+        opacity: 0;
+      }
+
+      .suspension-content--title {
+        font-size: 12px;
+        font-family: Microsoft YaHei;
+        font-weight: 400;
+        color: #ff9702;
+        height: 36px;
+        line-height: 36px;
+        padding-left: 16px;
+      }
+
+      .suspension-content--process {
+        height: 28px;
+        background: #f5f8ff;
+        padding: 7px 10px;
+
+        >>> .el-progress-bar__inner {
+          background: linear-gradient(90deg, #00aeff 0%, #0645e5 100%);
+        }
+
+        >>> .el-progress-bar__outer {
+          background: rgba(139, 171, 247, 0.62);
+        }
+      }
+
+      .suspension-content--steps {
+        height: calc(100% - 28px - 36px);
+        padding: 15px 0 0 10px;
+
+        .suspension-content--dot-line {
+          position: absolute;
+          left: 12px;
+          top: 24px;
+          border: 1px dashed #b3bccd;
+          z-index: -1;
+          max-height: 245px;
+        }
+
+        .suspension-content--step {
+          display: flex;
+          align-items: center;
+          margin-bottom: 30px;
+
+          .suspension-content--step-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 3px;
+            background: #b3bccd;
+            margin-right: 10px;
+
+            &.matched {
+              background: #1890ff;
+            }
+          }
+
+          .suspension-content--step-title {
+            font-size: 14px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            margin: 0 10px;
+            max-width: 120px;
+            color: #122456;
+            @include overflow-ellipsis();
+
+            &.matched {
+              color: #1890ff;
+            }
+          }
+
+          .suspension-content--step-match {
+            width: 48px;
+            height: 20px;
+            background: #b3bccd;
+            border-radius: 10px;
+            font-size: 12px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: #ffffff;
+            line-height: 20px;
+            text-align: center;
+
+            &.matched {
+              background: #1890ff;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .upload-enter,
+  .upload-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .upload-leave-active {
+    position: absolute;
+  }
+
+  // 全屏
+  &.gpy-upload-content--full-screen {
+    width: 98vw;
+    height: 95vh;
+
+    &.gpy-upload-content--full-screen-suspensioned {
+      width: 82vw;
+    }
+
+    .gpy-upload-content--suspension {
+      height: calc(100% - 50px);
+    }
+
+    .gpy-upload-content--body .gpy-upload-content--list .gpy-upload-content--item .gpy-upload-content--item-img {
+      height: 170px;
+      width: 135px;
+    }
+  }
+}
+@media screen and (min-width: 1280px) and (max-width: 1300px) {
+  .gpy-upload-content.gpy-upload-content--full-screen.gpy-upload-content--full-screen-suspensioned {
+    width: 76vw;
+  }
+}

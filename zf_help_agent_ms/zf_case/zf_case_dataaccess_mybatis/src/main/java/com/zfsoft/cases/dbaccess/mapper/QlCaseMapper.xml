@@ -1,0 +1,1049 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.cases.dbaccess.dao.QlCaseMapper">
+
+    <resultMap type="com.zfsoft.cases.dbaccess.data.DbQlCase" id="QlCaseMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="caseOid" column="CASE_OID" jdbcType="VARCHAR"/>
+        <result property="serviceOid" column="SERVICE_OID" jdbcType="VARCHAR"/>
+        <result property="caseNumber" column="CASE_NUMBER" jdbcType="VARCHAR"/>
+        <result property="organOid" column="ORGAN_OID" jdbcType="VARCHAR"/>
+        <result property="caseStatus" column="CASE_STATUS" jdbcType="INTEGER"/>
+        <result property="delFlag" column="DEL_FLAG" jdbcType="INTEGER"/>
+        <result property="acceptanceDate" column="ACCEPTANCE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="createUserOid" column="CREATE_USER_OID" jdbcType="VARCHAR"/>
+        <result property="concludeDate" column="CONCLUDE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="caseType" column="CASE_TYPE" jdbcType="VARCHAR"/>
+        <result property="shouldConcludeDate" column="SHOULD_CONCLUDE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="serviceName" column="SERVICE_NAME" jdbcType="VARCHAR"/>
+        <result property="serviceType" column="SERVICE_TYPE" jdbcType="VARCHAR"/>
+        <result property="serviceTypeName" column="SERVICE_TYPE_NAME" jdbcType="VARCHAR"/>
+        <result property="projectName" column="PROJECT_NAME" jdbcType="VARCHAR"/>
+        <result property="packageCaseOid" column="PACKAGE_CASE_OID" jdbcType="VARCHAR"/>
+        <result property="sourceApp" column="SOURCE_APP" jdbcType="INTEGER"/>
+        <result property="rqbzDueDate" column="RQBZ_DUE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="sourceType" column="SOURCE_TYPE" jdbcType="INTEGER"/>
+        <result property="queueNum" column="QUEUE_NUM" jdbcType="VARCHAR"/>
+        <result property="formOids" column="FORM_OIDS" jdbcType="VARCHAR"/>
+        <result property="modifyDate" column="MODIFY_DATE" jdbcType="TIMESTAMP"  />
+        <result property="remarks" column="REMARKS" jdbcType="VARCHAR"  />
+        <result property="terminalOid" column="TERMINAL_OID" jdbcType="VARCHAR"  />
+        <result property="terminalCode" column="TERMINAL_CODE" jdbcType="VARCHAR"  />
+        <result column="PREP_FILL" jdbcType="INTEGER" property="prepFill" />
+        <result column="MATERIAL_TYPE" jdbcType="INTEGER" property="materialType" />
+        <!--新加字段 create by  wuqy at 2022-09-21 start -->
+        <result column="CERT_WAY" jdbcType="VARCHAR" property="certWay" />
+        <result column="EXPRESS_COMPANY" jdbcType="VARCHAR" property="expressCompany" />
+        <!--新加字段 create by  wuqy at 2022-09-21 start -->
+    </resultMap>
+
+
+    <resultMap type="com.zfsoft.cases.dbaccess.data.DbQlCase" id="queryRqhbCaseMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="caseOid" column="CASE_OID" jdbcType="VARCHAR"/>
+        <result property="serviceOid" column="SERVICE_OID" jdbcType="VARCHAR"/>
+        <result property="caseNumber" column="CASE_NUMBER" jdbcType="VARCHAR"/>
+        <result property="caseStatus" column="CASE_STATUS" jdbcType="INTEGER"/>
+        <result property="serviceName" column="SERVICE_NAME" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="serviceTypeName" column="SERVICE_TYPE_NAME" jdbcType="VARCHAR"/>
+        <result property="projectName" column="PROJECT_NAME" jdbcType="VARCHAR"/>
+        <result property="rqbzDueDate" column="RQBZ_DUE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="applyUserName" column="APPLY_USER_NAME" jdbcType="VARCHAR"/>
+        <result property="applyUserPhone" column="APPLY_USER_PHONE" jdbcType="VARCHAR"/>
+        <result property="applyUserType" column="APPLY_USER_TYPE" jdbcType="VARCHAR"/>
+        <result property="credentialNumber" column="CREDENTIAL_NUMBER" jdbcType="VARCHAR"/>
+        <result property="credentialType" column="CREDENTIAL_TYPE" jdbcType="VARCHAR"/>
+        <result property="modifyDate" column="MODIFY_DATE" jdbcType="TIMESTAMP"  />
+        <result property="remarks" column="REMARKS" jdbcType="VARCHAR"  />
+        <result property="terminalOid" column="TERMINAL_OID" jdbcType="VARCHAR"  />
+        <result property="terminalCode" column="TERMINAL_CODE" jdbcType="VARCHAR"  />
+        <result column="PREP_FILL" jdbcType="INTEGER" property="prepFill" />
+        <result column="MATERIAL_TYPE" jdbcType="INTEGER" property="materialType" />
+        <!--新加字段 create by  wuqy at 2022-09-21 start -->
+        <result column="CERT_WAY" jdbcType="VARCHAR" property="certWay" />
+        <result column="EXPRESS_COMPANY" jdbcType="VARCHAR" property="expressCompany" />
+        <!--新加字段 create by  wuqy at 2022-09-21 start -->
+    </resultMap>
+
+    <resultMap type="com.zfsoft.cases.dbaccess.data.DbQlCase" id="QlCaseDoMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="caseOid" column="CASE_OID" jdbcType="VARCHAR"/>
+        <result property="serviceOid" column="SERVICE_OID" jdbcType="VARCHAR"/>
+        <result property="caseNumber" column="CASE_NUMBER" jdbcType="VARCHAR"/>
+        <result property="organOid" column="ORGAN_OID" jdbcType="VARCHAR"/>
+        <result property="caseStatus" column="CASE_STATUS" jdbcType="INTEGER"/>
+        <result property="acceptanceDate" column="ACCEPTANCE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="concludeDate" column="CONCLUDE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="caseType" column="CASE_TYPE" jdbcType="VARCHAR"/>
+        <result property="serviceName" column="SERVICE_NAME" jdbcType="VARCHAR"/>
+        <result property="serviceType" column="SERVICE_TYPE" jdbcType="VARCHAR"/>
+        <result property="serviceTypeName" column="SERVICE_TYPE_NAME" jdbcType="VARCHAR"/>
+        <result property="projectName" column="PROJECT_NAME" jdbcType="VARCHAR"/>
+        <result property="applyUserType" column="APPLY_USER_TYPE" jdbcType="VARCHAR"/>
+        <result property="applyUserName" column="APPLY_USER_NAME" jdbcType="VARCHAR"/>
+        <result property="credentialNumber" column="CREDENTIAL_NUMBER" jdbcType="VARCHAR"/>
+        <result property="applyUserPhone" column="APPLY_USER_PHONE" jdbcType="VARCHAR"/>
+        <result property="applyUserAddress" column="APPLY_USER_ADDRESS" jdbcType="VARCHAR"/>
+        <result property="addresseeDetailAddress" column="ADDRESSEE_DETAIL_ADDRESS" jdbcType="VARCHAR"/>
+        <result property="modifyDate" column="MODIFY_DATE" jdbcType="TIMESTAMP"  />
+        <result property="remarks" column="REMARKS" jdbcType="VARCHAR"  />
+        <result property="terminalOid" column="TERMINAL_OID" jdbcType="VARCHAR"  />
+        <result property="terminalCode" column="TERMINAL_CODE" jdbcType="VARCHAR"  />
+        <result column="PREP_FILL" jdbcType="INTEGER" property="prepFill" />
+        <result column="MATERIAL_TYPE" jdbcType="INTEGER" property="materialType" />
+        <!--新加字段 create by  wuqy at 2022-09-21 start -->
+        <result column="CERT_WAY" jdbcType="VARCHAR" property="certWay" />
+        <result column="EXPRESS_COMPANY" jdbcType="VARCHAR" property="expressCompany" />
+        <!--新加字段 create by  wuqy at 2022-09-21 start -->
+    </resultMap>
+
+    <sql id="selectQlCaseVo">
+        select
+            ql.ID, ql.CASE_OID, ql.SERVICE_OID, ql.CASE_NUMBER, ql.CASE_STATUS, ql.DEL_FLAG, ql.ACCEPTANCE_DATE,
+            ql.CREATE_DATE, ql.CREATE_USER_OID, ql.CONCLUDE_DATE, ql.CASE_TYPE, ql.SHOULD_CONCLUDE_DATE, ql.SERVICE_NAME,
+            ql.SERVICE_TYPE, ql.SERVICE_TYPE_NAME, ql.PROJECT_NAME, ql.MODIFY_DATE, ql.REMARKS, ql.TERMINAL_OID,
+            ql.TERMINAL_CODE, ql.PREP_FILL, ql.SOURCE_TYPE,ql.CERT_WAY,ql.EXPRESS_COMPANY
+        from t_ql_case ql  left join t_ql_case_applay apply on ql.CASE_OID = apply.CASE_OID
+        where ql.DEL_FLAG = 0
+    </sql>
+
+    <!--id查询单个-->
+    <select id="queryById"  parameterType="com.zfsoft.cases.dbaccess.data.DbQlCase" resultMap="QlCaseMap">
+        select
+            ID, CASE_OID, SERVICE_OID, CASE_NUMBER, ORGAN_OID, CASE_STATUS, DEL_FLAG, ACCEPTANCE_DATE, CREATE_DATE,
+            CREATE_USER_OID, CONCLUDE_DATE, CASE_TYPE, SHOULD_CONCLUDE_DATE, SERVICE_NAME, SERVICE_TYPE, SERVICE_TYPE_NAME,
+            PROJECT_NAME, PACKAGE_CASE_OID, SOURCE_APP,SOURCE_TYPE,MODIFY_DATE, REMARKS, TERMINAL_OID, TERMINAL_CODE, PREP_FILL, MATERIAL_TYPE,CERT_WAY,EXPRESS_COMPANY
+        from t_ql_case ql
+        where ID = #{id}
+    </select>
+
+
+    <!--caseOid查询单个-->
+    <select id="queryQlCaseByCaseOid" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCase" resultMap="QlCaseMap">
+        select
+            ID, CASE_OID, SERVICE_OID, CASE_NUMBER, ORGAN_OID, CASE_STATUS, DEL_FLAG, ACCEPTANCE_DATE, CREATE_DATE,
+            CREATE_USER_OID, CONCLUDE_DATE, CASE_TYPE, SHOULD_CONCLUDE_DATE, SERVICE_NAME, SERVICE_TYPE, SERVICE_TYPE_NAME,
+            PROJECT_NAME, PACKAGE_CASE_OID, SOURCE_APP,SOURCE_TYPE,MODIFY_DATE,RQBZ_DUE_DATE,FORM_OIDS,REMARKS,
+            TERMINAL_OID, TERMINAL_CODE, PREP_FILL,MATERIAL_TYPE,CERT_WAY,EXPRESS_COMPANY
+        from t_ql_case
+        where CASE_OID = #{caseOid}
+    </select>
+
+    <!--caseNumber查询单个-->
+    <select id="queryQlCaseByCaseNumber" parameterType="String" resultMap="QlCaseMap">
+        select
+            ID, CASE_OID, SERVICE_OID, CASE_NUMBER, ORGAN_OID, CASE_STATUS, DEL_FLAG, ACCEPTANCE_DATE, CREATE_DATE,
+            CREATE_USER_OID, CONCLUDE_DATE, CASE_TYPE, SHOULD_CONCLUDE_DATE, SERVICE_NAME, SERVICE_TYPE, SERVICE_TYPE_NAME,
+            PROJECT_NAME, PACKAGE_CASE_OID, SOURCE_APP,RQBZ_DUE_DATE,SOURCE_TYPE,MODIFY_DATE,REMARKS, TERMINAL_OID,
+            TERMINAL_CODE, PREP_FILL, MATERIAL_TYPE,CERT_WAY,EXPRESS_COMPANY
+        from t_ql_case
+        where CASE_NUMBER = #{caseNumber} order by CREATE_DATE desc limit 1
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCase" resultMap="QlCaseMap">
+        select
+            ID, CASE_OID, SERVICE_OID, CASE_NUMBER, ORGAN_OID, CASE_STATUS, DEL_FLAG, ACCEPTANCE_DATE, CREATE_DATE,
+            CREATE_USER_OID, CONCLUDE_DATE, CASE_TYPE, SHOULD_CONCLUDE_DATE, SERVICE_NAME, SERVICE_TYPE, SERVICE_TYPE_NAME,
+            PROJECT_NAME, PACKAGE_CASE_OID, SOURCE_APP,RQBZ_DUE_DATE,SOURCE_TYPE,MODIFY_DATE,REMARKS, TERMINAL_OID,
+            TERMINAL_CODE, PREP_FILL, MATERIAL_TYPE,CERT_WAY,EXPRESS_COMPANY
+        from t_ql_case
+                 limit #{offset}, #{limit}
+    </select>
+
+    <!--caseOid查询单个-->
+    <select id="getQlCaseByPackageCaseOid" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCase" resultMap="QlCaseMap">
+        select
+            ID, CASE_OID, SERVICE_OID, CASE_NUMBER, ORGAN_OID, CASE_STATUS, DEL_FLAG, ACCEPTANCE_DATE, CREATE_DATE,
+            CREATE_USER_OID, CONCLUDE_DATE, CASE_TYPE, SHOULD_CONCLUDE_DATE, SERVICE_NAME, SERVICE_TYPE, SERVICE_TYPE_NAME,
+            PROJECT_NAME, PACKAGE_CASE_OID, SOURCE_APP,RQBZ_DUE_DATE,SOURCE_TYPE,MODIFY_DATE,REMARKS, TERMINAL_OID,
+            TERMINAL_CODE, PREP_FILL, MATERIAL_TYPE,CERT_WAY,EXPRESS_COMPANY
+        from t_ql_case
+        where PACKAGE_CASE_OID = #{packageCaseOid} and DEL_FLAG = 0
+    </select>
+
+    <select id="getQlCaseByOid" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCase" resultMap="QlCaseMap">
+        select
+            ID, CASE_OID, SERVICE_OID, CASE_NUMBER, ORGAN_OID, CASE_STATUS, DEL_FLAG, ACCEPTANCE_DATE, CREATE_DATE,
+            CREATE_USER_OID, CONCLUDE_DATE, CASE_TYPE, SHOULD_CONCLUDE_DATE, SERVICE_NAME, SERVICE_TYPE, SERVICE_TYPE_NAME,
+            PROJECT_NAME, PACKAGE_CASE_OID, SOURCE_APP,RQBZ_DUE_DATE,SOURCE_TYPE,MODIFY_DATE,REMARKS, TERMINAL_OID,
+            TERMINAL_CODE, PREP_FILL, MATERIAL_TYPE,CERT_WAY,EXPRESS_COMPANY
+        from t_ql_case
+        where PACKAGE_CASE_OID = #{packageCaseOid} and SERVICE_OID = #{serviceOid} and DEL_FLAG = 0
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectQlCaseList" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCase" resultMap="QlCaseMap">
+        select
+        ID, CASE_OID, SERVICE_OID, CASE_NUMBER, ORGAN_OID, CASE_STATUS, DEL_FLAG, ACCEPTANCE_DATE, CREATE_DATE,
+        CREATE_USER_OID, CONCLUDE_DATE, CASE_TYPE, SHOULD_CONCLUDE_DATE, SERVICE_NAME, SERVICE_TYPE, SERVICE_TYPE_NAME,
+        PROJECT_NAME, PACKAGE_CASE_OID, SOURCE_APP,SOURCE_TYPE,MODIFY_DATE,REMARKS, TERMINAL_OID, TERMINAL_CODE, PREP_FILL, MATERIAL_TYPE,CERT_WAY,EXPRESS_COMPANY
+        from t_ql_case
+        <where>
+            <if test="caseOid != null and caseOid != ''">
+                and CASE_OID = #{caseOid}
+            </if>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="caseOid != null and caseOid != ''">
+                and CASE_OID = #{caseOid}
+            </if>
+            <if test="serviceOid != null and serviceOid != ''">
+                and SERVICE_OID = #{serviceOid}
+            </if>
+            <if test="caseNumber != null and caseNumber != ''">
+                and CASE_NUMBER like concat('%', #{caseNumber}, '%')
+            </if>
+            <if test="organOid != null and organOid != ''">
+                and ORGAN_OID = #{organOid}
+            </if>
+            <if test="caseStatus != null">
+                and CASE_STATUS = #{caseStatus}
+            </if>
+            <if test="delFlag != null">
+                and DEL_FLAG = #{delFlag}
+            </if>
+            <if test="acceptanceDate != null">
+                and ACCEPTANCE_DATE = #{acceptanceDate}
+            </if>
+            <if test="startDate != null and startDate != ''"><!-- 开始时间检索 -->
+                AND ql.CREATE_DATE &gt;= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%S')
+            </if>
+            <if test="endDate != null and endDate != ''"><!-- 结束时间检索 -->
+                AND ql.CREATE_DATE &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%S')
+            </if>
+            <if test="createUserOid != null and createUserOid != ''">
+                and CREATE_USER_OID = #{createUserOid}
+            </if>
+            <if test="concludeDate != null">
+                and CONCLUDE_DATE = #{concludeDate}
+            </if>
+            <if test="caseType != null and caseType != ''">
+                and CASE_TYPE = #{caseType}
+            </if>
+            <if test="shouldConcludeDate != null">
+                and SHOULD_CONCLUDE_DATE = #{shouldConcludeDate}
+            </if>
+            <if test="serviceName != null and serviceName != ''">
+                and SERVICE_NAME like concat('%', #{serviceName}, '%')
+            </if>
+            <if test="serviceType != null and serviceType != ''">
+                and SERVICE_TYPE = #{serviceType}
+            </if>
+            <if test="serviceTypeName != null and serviceTypeName != ''">
+                and SERVICE_TYPE_NAME like concat('%', #{serviceTypeName}, '%')
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and PROJECT_NAME like concat('%', #{projectName}, '%')
+            </if>
+            <if test="packageCaseOid != null and packageCaseOid != ''">
+                and PACKAGE_CASE_OID = #{packageCaseOid}
+            </if>
+            <if test="sourceApp != null">
+                and SOURCE_APP = #{sourceApp}
+            </if>
+            <if test="modifyDate != null">
+                and MODIFY_DATE = #{modifyDate}
+            </if>
+            <if test="remarks != null">
+                and REMARKS = #{remarks}
+            </if>
+            <if test="terminalOid != null">
+                and TERMINAL_OID = #{terminalOid}
+            </if>
+            <if test="terminalCode != null">
+                and TERMINAL_CODE = #{terminalCode}
+            </if>
+            <if test="prepFill != null">
+                and PREP_FILL = #{prepFill}
+            </if>
+            <if test="materialType != null">
+                and MATERIAL_TYPE = #{materialType}
+            </if>
+            <if test="certWay != null">
+                and CERT_WAY = #{certWay}
+            </if>
+            <if test="expressCompany != null">
+                and EXPRESS_COMPANY = #{expressCompany}
+            </if>
+        </where>
+        order by CREATE_DATE desc
+    </select>
+
+    <!--查询已办办件状态主要为2，3，4，5，6列表  -->
+    <select id="selectDoneQlCaseList" parameterType="com.zfsoft.cases.dbaccess.data.vo.DbQlCaseVo" resultMap="QlCaseMap">
+        <include refid="selectQlCaseVo"/>
+        <if test="caseOid != null and caseOid != ''">
+            and ql.CASE_OID = #{caseOid}
+        </if>
+        <if test="caseNumber != null and caseNumber != ''">
+            and ql.CASE_NUMBER like concat('%', #{caseNumber}, '%')
+        </if>
+        <if test="organOid != null and organOid != ''">
+            and ql.ORGAN_OID = #{organOid}
+        </if>
+        <if test="serviceName != null and serviceName != '' ">
+            and ql.SERVICE_NAME like concat('%', #{serviceName}, '%')
+        </if>
+        <if test="applyUserName != null and applyUserName != '' ">
+            and apply.APPLY_USER_NAME like concat('%', #{applyUserName}, '%')
+        </if>
+        <!--<if test="caseStatus != null">
+            and CASE_STATUS = #{caseStatus}
+        </if>-->
+        <if test="registerUser != null"><!-- 开始时间检索 -->
+            and ql.CREATE_USER_OID = #{registerUser}
+        </if>
+        <if test="startDate != null and startDate != ''"><!-- 开始时间检索 -->
+            AND ql.CREATE_DATE &gt;= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="endDate != null and endDate != ''"><!-- 结束时间检索 -->
+            AND ql.CREATE_DATE &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="sourceApp != null">
+            and ql.SOURCE_APP = #{sourceApp}
+        </if>
+        <if test="sourceApp != 2">
+            and ql.PACKAGE_CASE_OID is null
+        </if>
+        <if test="serviceOids != null">
+            and ql.SERVICE_OID in
+            <foreach collection="serviceOids" separator="," index="index" item="serviceOid" open="(" close=")">
+                #{serviceOid}
+            </foreach>
+        </if>
+        <if test="credentialNumber != null">
+            and apply.CREDENTIAL_NUMBER like concat('%', #{credentialNumber},'%')
+        </if>
+        <if test="netUserId != null">
+            and apply.NET_USER_ID = #{netUserId} AND ql.CASE_STATUS IS NOT NULL
+        </if>
+        <if test="netUserId == null">
+            AND ql.CASE_STATUS != 0
+        </if>
+        order by ql.CREATE_DATE desc
+    </select>
+
+    <!--查询暂存办件列表-->
+    <select id="selectTemporaryQlCaseList" parameterType="com.zfsoft.cases.dbaccess.data.vo.DbQlCaseVo" resultMap="QlCaseMap">
+        <include refid="selectQlCaseVo"/>
+        <if test="caseOid != null and caseOid != ''">
+            and ql.CASE_OID = #{caseOid}
+        </if>
+        <if test="caseNumber != null and caseNumber != ''">
+            and ql.CASE_NUMBER like  #{caseNumber}
+        </if>
+        <if test="organOid != null and organOid != ''">
+            and ql.ORGAN_OID = #{organOid}
+        </if>
+        <if test="projectName != null and projectName != ''">
+            and ql.PROJECT_NAME like concat('%', #{projectName}, '%')
+        </if>
+        <if test="serviceType != null and serviceType != ''">
+            and ql.SERVICE_TYPE = #{serviceType}
+        </if>
+        <if test="applyUserName != null and applyUserName != '' ">
+            and apply.APPLY_USER_NAME like concat('%', #{applyUserName}, '%')
+        </if>
+        <if test="registerUser != null"><!-- 开始时间检索 -->
+            and ql.CREATE_USER_OID = #{registerUser}
+        </if>
+        <if test="startDate != null and startDate != ''"><!-- 开始时间检索 -->
+            AND ql.CREATE_DATE &gt;= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''"><!-- 结束时间检索 -->
+            AND ql.CREATE_DATE &lt;= #{endDate}
+        </if>
+        <if test="sourceApp != null">
+            and ql.SOURCE_APP = #{sourceApp}
+        </if>
+        <if test="prepFill != null">
+            and ql.PREP_FILL = #{prepFill}
+        </if>
+        <if test="certWay != null">
+            and ql.CERT_WAY = #{certWay}
+        </if>
+        <if test="expressCompany != null">
+            and ql.EXPRESS_COMPANY = #{expressCompany}
+        </if>
+        AND ql.CASE_STATUS = 0
+        <if test="serviceOids != null">
+            and ql.SERVICE_OID in
+            <foreach collection="serviceOids" separator="," index="index" item="serviceOid" open="(" close=")">
+                #{serviceOid}
+            </foreach>
+        </if>
+        order by ql.CREATE_DATE desc
+    </select>
+
+    <!--查询办件列表-->
+    <select id="selectApplyQlCaseList" parameterType="com.zfsoft.cases.dbaccess.data.vo.DbQlCaseVo" resultMap="QlCaseDoMap">
+        select
+           ql.ID, ql.CASE_OID, ql.SERVICE_OID, ql.CASE_NUMBER, ql.CASE_STATUS, ql.ACCEPTANCE_DATE,
+           ql.CREATE_DATE, ql.CONCLUDE_DATE, ql.CASE_TYPE, ql.SHOULD_CONCLUDE_DATE,
+           ql.SERVICE_NAME, ql.SERVICE_TYPE, ql.SERVICE_TYPE_NAME, ql.PROJECT_NAME, ql.REMARKS, apply.APPLY_USER_TYPE,
+           apply.APPLY_USER_NAME, apply.CREDENTIAL_NUMBER, apply.APPLY_USER_PHONE, apply.APPLY_USER_ADDRESS,
+           ql.TERMINAL_OID, ql.TERMINAL_CODE, ql.PREP_FILL,ql.CERT_WAY,ql.EXPRESS_COMPANY
+        from t_ql_case ql , t_ql_case_applay apply where  ql.CASE_OID = apply.CASE_OID and ql.DEL_FLAG = 0
+        <if test="caseOid != null and caseOid != ''">
+            and ql.CASE_OID = #{caseOid}
+        </if>
+        <if test="caseNumber != null and caseNumber != ''">
+            and ql.CASE_NUMBER like concat('%', #{caseNumber}, '%')
+        </if>
+        <if test="organOid != null and organOid != ''">
+            and ql.ORGAN_OID = #{organOid}
+        </if>
+        <if test="applyUserName != null and applyUserName != ''">
+            and apply.APPLY_USER_NAME like concat('%', #{applyUserName}, '%')
+        </if>
+        <if test="credentialNumber != null and credentialNumber != ''">
+            and apply.CREDENTIAL_NUMBER like concat('%', #{credentialNumber}, '%')
+        </if>
+        <if test="caseStatus != null">
+            and CASE_STATUS = #{caseStatus}
+        </if>
+        <if test="sourceType != null">
+            and SOURCE_TYPE = #{sourceType}
+        </if>
+        <if test="startDate != null and startDate != ''"><!-- 开始时间检索 -->
+            AND ql.CREATE_DATE &gt;= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="endDate != null and endDate != ''"><!-- 结束时间检索 -->
+            AND ql.CREATE_DATE &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="sourceApp != null">
+            and SOURCE_APP = #{sourceApp}
+        </if>
+        <if test="sourceApp != 2">
+            and ql.PACKAGE_CASE_OID is null
+        </if>
+        <if test="prepFill != null">
+            and ql.PREP_FILL = #{prepFill}
+        </if>
+        <if test="certWay != null">
+            and ql.CERT_WAY = #{certWay}
+        </if>
+        <if test="expressCompany != null">
+            and ql.EXPRESS_COMPANY = #{expressCompany}
+        </if>
+        <if test="serviceOids != null">
+            and ql.SERVICE_OID in
+            <foreach collection="serviceOids" separator="," index="index" item="serviceOid" open="(" close=")">
+                #{serviceOid}
+            </foreach>
+        </if>
+        order by ql.CREATE_DATE desc
+    </select>
+
+    <!-- 跨省通办查询 办件 -->
+    <select id="selectKstbApplyQlCaseList" parameterType="com.zfsoft.cases.dbaccess.data.vo.DbQlCaseVo" resultMap="QlCaseMap">
+        <include refid="selectQlCaseVo"/>
+        <if test="caseOid != null and caseOid != ''">
+            and ql.CASE_OID = #{caseOid}
+        </if>
+        <if test="caseStatus != null">
+            and CASE_STATUS = #{caseStatus}
+        </if>
+        <if test="sourceApp != null">
+            and SOURCE_APP = #{sourceApp}
+        </if>
+        <if test="organOid != null and organOid != ''">
+            and ql.ORGAN_OID = #{organOid}
+        </if>
+        <if test="caseNumber != null and caseNumber != ''">
+            and ql.CASE_NUMBER like concat('%', #{caseNumber}, '%')
+        </if>
+        <if test="applyUserName != null and applyUserName != ''">
+            and apply.APPLY_USER_NAME like concat('%', #{applyUserName},'%')
+        </if>
+        <if test="credentialNumber != null and credentialNumber != ''">
+            and apply.CREDENTIAL_NUMBER like concat('%', #{credentialNumber},'%')
+        </if>
+        <if test="sourceType != null">
+            and SOURCE_TYPE = #{sourceType}
+        </if>
+        <if test="prepFill != null">
+            and ql.PREP_FILL = #{prepFill}
+        </if>
+        <if test="certWay != null">
+            and ql.CERT_WAY = #{certWay}
+        </if>
+        <if test="expressCompany != null">
+            and ql.EXPRESS_COMPANY = #{expressCompany}
+        </if>
+        <if test="startDate != null and startDate != ''"><!-- 开始时间检索 -->
+            AND ql.CREATE_DATE &gt;= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="endDate != null and endDate != ''"><!-- 结束时间检索 -->
+            AND ql.CREATE_DATE &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="filterUserOidList != null and filterUserOidList.size()>0">
+            and ql.CREATE_USER_OID in
+            <foreach collection="filterUserOidList" index="index" item="userOid" open="(" separator="," close=")">
+					#{userOid}
+			</foreach>
+        </if>
+        <if test="sourceApp != 2">
+            and ql.PACKAGE_CASE_OID is null
+        </if>
+        order by ql.CREATE_DATE desc
+    </select>
+
+    <!--查询普通办件业务监督列表-->
+    <select id="selectQlCaseSuperviseList" parameterType="com.zfsoft.cases.dbaccess.data.vo.DbQlCaseVo" resultMap="QlCaseMap">
+        <include refid="selectQlCaseVo"/>
+        <if test="caseOid != null and caseOid != ''">
+            and ql.CASE_OID = #{caseOid}
+        </if>
+        <if test="caseNumber != null and caseNumber != ''">
+            and ql.CASE_NUMBER like concat('%', #{caseNumber}, '%')
+        </if>
+        <if test="organOid != null and organOid != ''">
+            and ql.ORGAN_OID = #{organOid}
+        </if>
+        <if test="prepFill != null">
+            and ql.PREP_FILL = #{prepFill}
+        </if>
+        <if test="certWay != null">
+            and ql.CERT_WAY = #{certWay}
+        </if>
+        <if test="expressCompany != null">
+            and ql.EXPRESS_COMPANY = #{expressCompany}
+        </if>
+        <if test="applyUserName != null and applyUserName != ''">
+            and apply.APPLY_USER_NAME like concat('%', #{applyUserName},'%')
+        </if>
+        <if test="caseStatus != null">
+            and CASE_STATUS = #{caseStatus}
+        </if>
+        <if test="sourceApp != null">
+            and SOURCE_APP = #{sourceApp}
+        </if>
+        <if test="registerUser != null">
+            and CREATE_USER_OID = #{registerUser}
+        </if>
+        <if test="overTime =='0'"><!-- 未超时 -->
+            AND date_format(NOW(),'%y%m%d %H:%i:%S') &gt;= date_format(ql.SHOULD_CONCLUDE_DATE,'%y%m%d %H:%i:%S')
+        </if>
+        <if test="overTime =='1'"><!-- 已超时 -->
+            AND date_format(ql.SHOULD_CONCLUDE_DATE,'%y%m%d %H:%i:%S') > date_format(NOW(),'%y%m%d %H:%i:%S')
+        </if>
+        <if test="startDate != null and startDate != ''"><!-- 开始时间检索 -->
+            AND ql.CREATE_DATE &gt;= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="endDate != null and endDate != ''"><!-- 结束时间检索 -->
+            AND ql.CREATE_DATE &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="sourceApp != 2">
+            AND ql.SOURCE_APP=1 AND and ql.PACKAGE_CASE_OID is null
+        </if>
+        order by ql.CREATE_DATE desc
+    </select>
+
+    <!--查询容缺后补办件列表-->
+    <select id="selectRqhbQlCaseList" parameterType="com.zfsoft.cases.dbaccess.data.vo.DbQlCaseVo" resultMap="queryRqhbCaseMap">
+        select
+        DISTINCT
+        ql.ID, ql.CASE_OID, ql.CASE_NUMBER, ql.CASE_STATUS, ql.SERVICE_TYPE_NAME, ql.PROJECT_NAME,
+        ql.RQBZ_DUE_DATE,ql.SERVICE_OID,
+        apply.APPLY_USER_NAME,apply.APPLY_USER_PHONE, apply.CREDENTIAL_NUMBER, ql.CREATE_DATE,apply.CREDENTIAL_TYPE
+        from t_ql_case ql , t_ql_case_applay apply , t_ql_case_material m
+        <where>
+            ql.CASE_OID=m.CASE_OID
+            and m.collection_type=4 and m.del_flag=0
+            and ql.CASE_OID = apply.CASE_OID
+            and ql.DEL_FLAG = 0
+            and ( ql.CASE_STATUS = 10 or  ql.CASE_STATUS = 2)
+            <if test="caseOid != null and caseOid != ''">
+                and ql.CASE_OID = #{caseOid}
+            </if>
+            <if test="caseNumber != null and caseNumber != ''">
+                and ql.CASE_NUMBER like concat('%', #{caseNumber}, '%')
+            </if>
+            <if test="organOid != null and organOid != ''">
+                and ql.ORGAN_OID = #{organOid}
+            </if>
+            <if test="applyUserName != null and applyUserName != ''">
+                and apply.APPLY_USER_NAME like concat('%', #{applyUserName}, '%')
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and ql.PROJECT_NAME like concat('%', #{projectName}, '%')
+            </if>
+
+            <if test="sourceApp != null">
+                and ql.SOURCE_APP = #{sourceApp}
+            </if>
+            <if test="sourceApp != 2">
+                and ql.PACKAGE_CASE_OID is null
+            </if>
+            <if test="registerUser != null and registerUser != ''">
+                and ql.CREATE_USER_OID = #{registerUser}
+            </if>
+            <if test="startDate != null and startDate != ''"><!-- 开始时间检索 -->
+                AND ql.CREATE_DATE &gt;= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%S')
+            </if>
+            <if test="endDate != null and endDate != ''"><!-- 结束时间检索 -->
+                AND ql.CREATE_DATE &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%S')
+            </if>
+            <if test="serviceOids != null">
+                and ql.SERVICE_OID in
+                <foreach collection="serviceOids" separator="," index="index" item="serviceOid" open="(" close=")">
+                    #{serviceOid}
+                </foreach>
+            </if>
+        </where>
+        order by ql.CREATE_DATE desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" keyColumn="ID"  useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCase">
+        insert into t_ql_case(CASE_OID, SERVICE_OID, CASE_NUMBER, ORGAN_OID, CASE_STATUS, DEL_FLAG, ACCEPTANCE_DATE,
+        CREATE_DATE, CREATE_USER_OID, CONCLUDE_DATE, CASE_TYPE, SHOULD_CONCLUDE_DATE, SERVICE_NAME, SERVICE_TYPE,
+        SERVICE_TYPE_NAME, PROJECT_NAME, PACKAGE_CASE_OID, SOURCE_APP,RQBZ_DUE_DATE,SOURCE_TYPE,MODIFY_DATE,
+        QUEUE_NUM, REMARKS, TERMINAL_OID, TERMINAL_CODE, PREP_FILL,MATERIAL_TYPE,CERT_WAY,EXPRESS_COMPANY)
+        values (#{caseOid}, #{serviceOid}, #{caseNumber}, #{organOid}, #{caseStatus}, #{delFlag}, #{acceptanceDate},
+        #{createDate}, #{createUserOid}, #{concludeDate}, #{caseType}, #{shouldConcludeDate}, #{serviceName},
+        #{serviceType}, #{serviceTypeName}, #{projectName}, #{packageCaseOid}, #{sourceApp}, #{rqbzDueDate},#{sourceType},
+        #{modifyDate},#{queueNum},#{remarks},#{terminalOid},#{terminalCode},#{prepFill},#{materialType},#{certWay},#{expressCompany})
+    </insert>
+
+    <!--  <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+          insert into t_ql_case(CASE_OID, SERVICE_OID, CASE_NUMBER, ORGAN_OID, CASE_STATUS, DEL_FLAG,
+          ACCEPTANCE_DATE, CREATE_DATE, CREATE_USER_OID, CONCLUDE_DATE, CASE_TYPE, SHOULD_CONCLUDE_DATE, SERVICE_NAME,
+          SERVICE_TYPE, SERVICE_TYPE_NAME, PROJECT_NAME, PACKAGE_CASE_OID, SOURCE_APP)
+          values
+          <foreach collection="entities" item="entity" separator=",">
+              (#{entity.caseOid}, #{entity.serviceOid}, #{entity.caseNumber}, #{entity.organOid}, #{entity.caseStatus},
+              #{entity.delFlag}, #{entity.acceptanceDate}, #{entity.createDate}, #{entity.createUserOid},
+              #{entity.concludeDate}, #{entity.caseType}, #{entity.shouldConcludeDate}, #{entity.serviceName},
+              #{entity.serviceType}, #{entity.serviceTypeName}, #{entity.projectName}, #{entity.packageCaseOid},
+              #{entity.sourceApp})
+          </foreach>
+      </insert>
+
+      <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+          insert into t_ql_case(CASE_OID, SERVICE_OID, CASE_NUMBER, ORGAN_OID, CASE_STATUS, DEL_FLAG,
+          ACCEPTANCE_DATE, CREATE_DATE, CREATE_USER_OID, CONCLUDE_DATE, CASE_TYPE, SHOULD_CONCLUDE_DATE, SERVICE_NAME,
+          SERVICE_TYPE, SERVICE_TYPE_NAME, PROJECT_NAME, PACKAGE_CASE_OID, SOURCE_APP)
+          values
+          <foreach collection="entities" item="entity" separator=",">
+              (#{entity.caseOid}, #{entity.serviceOid}, #{entity.caseNumber}, #{entity.organOid}, #{entity.caseStatus},
+              #{entity.delFlag}, #{entity.acceptanceDate}, #{entity.createDate}, #{entity.createUserOid},
+              #{entity.concludeDate}, #{entity.caseType}, #{entity.shouldConcludeDate}, #{entity.serviceName},
+              #{entity.serviceType}, #{entity.serviceTypeName}, #{entity.projectName}, #{entity.packageCaseOid},
+              #{entity.sourceApp})
+          </foreach>
+          on duplicate key update
+          CASE_OID = values(CASE_OID) , SERVICE_OID = values(SERVICE_OID) , CASE_NUMBER = values(CASE_NUMBER) , ORGAN_OID
+          = values(ORGAN_OID) , CASE_STATUS = values(CASE_STATUS) , DEL_FLAG = values(DEL_FLAG) , ACCEPTANCE_DATE =
+          values(ACCEPTANCE_DATE) , CREATE_DATE = values(CREATE_DATE) , CREATE_USER_OID = values(CREATE_USER_OID) ,
+          CONCLUDE_DATE = values(CONCLUDE_DATE) , CASE_TYPE = values(CASE_TYPE) , SHOULD_CONCLUDE_DATE =
+          values(SHOULD_CONCLUDE_DATE) , SERVICE_NAME = values(SERVICE_NAME) , SERVICE_TYPE = values(SERVICE_TYPE) ,
+          SERVICE_TYPE_NAME = values(SERVICE_TYPE_NAME) , PROJECT_NAME = values(PROJECT_NAME) , PACKAGE_CASE_OID =
+          values(PACKAGE_CASE_OID) , SOURCE_APP = values(SOURCE_APP)
+      </insert>-->
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCase">
+        update t_ql_case
+        <set>
+            <if test="caseOid != null and caseOid != ''">
+                CASE_OID = #{caseOid},
+            </if>
+            <if test="serviceOid != null and serviceOid != ''">
+                SERVICE_OID = #{serviceOid},
+            </if>
+            <if test="caseNumber != null and caseNumber != ''">
+                CASE_NUMBER = #{caseNumber},
+            </if>
+            <if test="organOid != null and organOid != ''">
+                ORGAN_OID = #{organOid},
+            </if>
+            <if test="caseStatus != null">
+                CASE_STATUS = #{caseStatus},
+            </if>
+            <if test="delFlag != null">
+                DEL_FLAG = #{delFlag},
+            </if>
+            <if test="acceptanceDate != null">
+                ACCEPTANCE_DATE = #{acceptanceDate},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="createUserOid != null and createUserOid != ''">
+                CREATE_USER_OID = #{createUserOid},
+            </if>
+            <if test="concludeDate != null">
+                CONCLUDE_DATE = #{concludeDate},
+            </if>
+            <if test="caseType != null and caseType != ''">
+                CASE_TYPE = #{caseType},
+            </if>
+            <if test="shouldConcludeDate != null">
+                SHOULD_CONCLUDE_DATE = #{shouldConcludeDate},
+            </if>
+            <if test="serviceName != null and serviceName != ''">
+                SERVICE_NAME = #{serviceName},
+            </if>
+            <if test="serviceType != null and serviceType != ''">
+                SERVICE_TYPE = #{serviceType},
+            </if>
+            <if test="serviceTypeName != null and serviceTypeName != ''">
+                SERVICE_TYPE_NAME = #{serviceTypeName},
+            </if>
+            <if test="projectName != null and projectName != ''">
+                PROJECT_NAME = #{projectName},
+            </if>
+            <if test="packageCaseOid != null and packageCaseOid != ''">
+                PACKAGE_CASE_OID = #{packageCaseOid},
+            </if>
+            <if test="sourceApp != null">
+                SOURCE_APP = #{sourceApp},
+            </if>
+            <if test="rqbzDueDate != null">
+                RQBZ_DUE_DATE = #{rqbzDueDate},
+            </if>
+            <if test="sourceType != null">
+                SOURCE_TYPE = #{sourceType},
+            </if>
+            <if test="formOids != null">
+                FORM_OIDS = #{formOids},
+            </if>
+            <if test="modifyDate != null">
+                MODIFY_DATE = #{modifyDate},
+            </if>
+            <if test="remarks != null">
+                REMARKS = #{remarks},
+            </if>
+            <if test="terminalOid != null">
+                TERMINAL_OID = #{terminalOid},
+            </if>
+            <if test="terminalCode != null">
+                TERMINAL_CODE = #{terminalCode},
+            </if>
+            <if test="prepFill != null">
+                PREP_FILL = #{prepFill},
+            </if>
+            <if test="materialType != null">
+                MATERIAL_TYPE = #{materialType},
+            </if>
+            <if test="certWay != null">
+                CERT_WAY = #{certWay},
+            </if>
+            <if test="expressCompany != null">
+                EXPRESS_COMPANY = #{expressCompany}
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="String">
+        delete from t_ql_case where CASE_OID = #{caseOid}
+    </delete>
+
+
+    <!--查询暂存受理列表-->
+    <select id="selectZcslQlCaseList" parameterType="com.zfsoft.cases.dbaccess.data.vo.DbQlCaseVo" resultMap="queryRqhbCaseMap">
+        select
+        distinct
+        ql.ID, ql.CASE_OID, ql.CASE_NUMBER, ql.CASE_STATUS, ql.SERVICE_TYPE_NAME, ql.PROJECT_NAME, ql.RQBZ_DUE_DATE,
+        apply.APPLY_USER_NAME, apply.CREDENTIAL_NUMBER, ql.CREATE_DATE
+        from t_ql_case ql , t_ql_case_applay apply , t_ql_case_material m
+        <where>
+            ql.CASE_OID=m.CASE_OID
+            and m.collection_type=4 and m.del_flag=0
+            and ql.CASE_OID = apply.CASE_OID
+            and ql.DEL_FLAG = 0
+            <if test="caseOid != null and caseOid != ''">
+                and ql.CASE_OID = #{caseOid}
+            </if>
+            <if test="caseNumber != null and caseNumber != ''">
+                and ql.CASE_NUMBER like concat('%', #{caseNumber}, '%')
+            </if>
+            <if test="organOid != null and organOid != ''">
+                and ql.ORGAN_OID = #{organOid}
+            </if>
+            <if test="applyUserName != null and applyUserName != ''">
+                and apply.APPLY_USER_NAME like concat('%', #{applyUserName}, '%')
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and ql.PROJECT_NAME like concat('%', #{projectName}, '%')
+            </if>
+            <if test="caseStatus != null">
+                and CASE_STATUS = #{caseStatus}
+            </if>
+            <if test="startDate != null and startDate != ''"><!-- 开始时间检索 -->
+                AND ql.CREATE_DATE &gt;= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%S')
+            </if>
+            <if test="endDate != null and endDate != ''"><!-- 结束时间检索 -->
+                AND ql.CREATE_DATE &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%S')
+            </if>
+            AND SOURCE_APP=1
+        </where>
+        order by ql.CREATE_DATE desc
+    </select>
+
+
+    <select id="selectByExample" resultMap="QlCaseMap" parameterType="com.zfsoft.cases.dbaccess.data.example.QlCaseExample" >
+        <!--
+          WARNING - @mbggenerated
+          This element is automatically generated by MyBatis Generator, do not modify.
+        -->
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from t_ql_case
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+
+    <sql id="Base_Column_List" >
+        <!--
+          WARNING - @mbggenerated
+          This element is automatically generated by MyBatis Generator, do not modify.
+        -->
+        ID, CASE_OID, SERVICE_OID,CASE_NUMBER,ORGAN_OID,CASE_STATUS,DEL_FLAG,ACCEPTANCE_DATE,CREATE_DATE,CREATE_USER_OID,
+        CONCLUDE_DATE,CASE_TYPE,SHOULD_CONCLUDE_DATE,
+        SERVICE_NAME,SERVICE_TYPE,SERVICE_TYPE_NAME,PROJECT_NAME,PACKAGE_CASE_OID,SOURCE_APP,PREP_FILL,CERT_WAY,EXPRESS_COMPANY
+    </sql>
+    <sql id="Example_Where_Clause" >
+        <!--
+          WARNING - @mbggenerated
+          This element is automatically generated by MyBatis Generator, do not modify.
+        -->
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+
+    <!--查询材料退件办件列表-->
+    <select id="selectcltjQlCaseList" parameterType="com.zfsoft.cases.dbaccess.data.vo.DbQlCaseVo" resultMap="queryRqhbCaseMap">
+        select
+        ql.ID, ql.CASE_OID, ql.SERVICE_OID, ql.CASE_NUMBER, ql.CASE_STATUS, ql.ACCEPTANCE_DATE,
+        ql.CREATE_DATE, ql.CONCLUDE_DATE, ql.CASE_TYPE, ql.SHOULD_CONCLUDE_DATE,
+        ql.SERVICE_NAME, ql.SERVICE_TYPE, ql.SERVICE_TYPE_NAME, ql.PROJECT_NAME, ql.PREP_FILL,ql.CERT_WAY,ql.EXPRESS_COMPANY, apply.APPLY_USER_TYPE,
+        apply.APPLY_USER_NAME, apply.CREDENTIAL_NUMBER, apply.APPLY_USER_PHONE, apply.APPLY_USER_ADDRESS,
+        apply.ADDRESSEE_DETAIL_ADDRESS
+        from t_ql_case ql , t_ql_case_applay apply
+        <where>
+            ql.CASE_OID = apply.CASE_OID
+            and ql.DEL_FLAG = 0
+            and ql.CASE_STATUS =5
+            <if test="caseOid != null and caseOid != ''">
+                and ql.CASE_OID = #{caseOid}
+            </if>
+            <if test="caseNumber != null and caseNumber != ''">
+                and ql.CASE_NUMBER like concat('%', #{caseNumber}, '%')
+            </if>
+            <if test="organOid != null and organOid != ''">
+                and ql.ORGAN_OID = #{organOid}
+            </if>
+            <if test="applyUserName != null and applyUserName != ''">
+                and apply.APPLY_USER_NAME like concat('%', #{applyUserName}, '%')
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and ql.PROJECT_NAME like concat('%', #{projectName}, '%')
+            </if>
+            <if test="startDate != null and startDate != ''"><!-- 开始时间检索 -->
+                AND ql.CREATE_DATE &gt;= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%S')
+            </if>
+            <if test="endDate != null and endDate != ''"><!-- 结束时间检索 -->
+                AND ql.CREATE_DATE &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%S')
+            </if>
+            <if test="informStatus =='1'.toString() and returnStatus == '1'.toString()">
+                AND NOT EXISTS (select r.CASE_OID from t_case_return r where ql.CASE_OID=r.CASE_OID and  (r.RETURN_STATUS is not null or r.INFORM_STATUS is not null))
+            </if>
+            <if test="informStatus == '1'.toString() and returnStatus != '1'.toString()">
+                AND EXISTS (select r.CASE_OID from t_case_return r where ql.CASE_OID=r.CASE_OID and r.RETURN_STATUS = #{returnStatus}  and (r.INFORM_STATUS is null or r.INFORM_STATUS =''))
+            </if>
+            <if test="informStatus == '3'.toString() and returnStatus == '1'.toString()">
+                AND EXISTS (select r.CASE_OID from t_case_return r where ql.CASE_OID=r.CASE_OID and  (r.RETURN_STATUS is null or r.RETURN_STATUS ='') and  r.INFORM_STATUS=#{informStatus})
+            </if>
+            <if test="informStatus == '3'.toString() and returnStatus != '1'.toString()">
+                AND EXISTS (select r.CASE_OID from t_case_return r where ql.CASE_OID=r.CASE_OID and r.RETURN_STATUS = #{returnStatus}  and r.INFORM_STATUS=#{informStatus})
+            </if>
+            <if test="sourceApp != null">
+                and ql.SOURCE_APP = #{sourceApp}
+            </if>
+            <if test="sourceApp != 2">
+                and ql.PACKAGE_CASE_OID is null
+            </if>
+            <if test="serviceOids != null">
+                and ql.SERVICE_OID in
+                <foreach collection="serviceOids" separator="," index="index" item="serviceOid" open="(" close=")">
+                    #{serviceOid}
+                </foreach>
+            </if>
+
+        </where>
+        order by ql.CREATE_DATE desc
+    </select>
+
+    <select id="getOneRetuenCaseByCaseNumber" parameterType="com.zfsoft.cases.dbaccess.data.vo.DbQlCaseVo" resultMap="QlCaseMap">
+        select
+        ql.ID, ql.CASE_OID, ql.SERVICE_OID, ql.CASE_NUMBER, ql.ORGAN_OID, ql.CASE_STATUS, ql.DEL_FLAG, ql.ACCEPTANCE_DATE,
+         ql.CREATE_DATE, ql.CREATE_USER_OID, ql.CONCLUDE_DATE, ql.CASE_TYPE, ql.SHOULD_CONCLUDE_DATE, ql.SERVICE_NAME,
+         ql.SERVICE_TYPE, ql.SERVICE_TYPE_NAME, ql.PROJECT_NAME, ql.PACKAGE_CASE_OID, ql.SOURCE_APP, ql.PREP_FILL,ql.CERT_WAY,ql.EXPRESS_COMPANY
+        from t_ql_case ql
+        <where>
+            and ql.DEL_FLAG = 0
+            and ql.CASE_STATUS =5
+            and ql.CASE_NUMBER like concat('%', #{caseNumber}, '%')
+            AND NOT EXISTS (select r.CASE_OID from t_case_return r where ql.CASE_OID=r.CASE_OID and  (r.RETURN_STATUS is not null or r.INFORM_STATUS is not null))
+        </where>
+        order by ql.CREATE_DATE desc
+    </select>
+
+    <select id="getFzOnthingCase" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCase" resultMap="QlCaseMap">
+        select
+            c.ID, c.CASE_OID, c.SERVICE_OID, c.CASE_NUMBER, c.ORGAN_OID, c.CASE_STATUS
+        from t_ql_case c
+        where c.PACKAGE_CASE_OID = #{packageCaseOid} and c.CASE_STATUS=3 and c.DEL_FLAG = 0 and EXISTS (SELECT r.CASE_OID from t_ql_case_link_result r WHERE c.CASE_OID=r.case_oid and r.final_status=40)
+    </select>
+
+    <select id="countCase" parameterType="map"  resultType="java.lang.Integer">
+        select count(ql.case_oid) from t_ql_case ql , t_ql_case_applay apply
+        <where>
+            ql.CASE_OID = apply.CASE_OID
+            and ql.DEL_FLAG = 0
+            and ql.CASE_STATUS is not null and ql.CASE_STATUS !=0 and ql.ACCEPTANCE_DATE is not null
+            <if test="applyUserType != null and applyUserType ==2">
+                and apply.APPLY_USER_TYPE = 0
+            </if>
+            <if test="applyUserType != null and applyUserType == 1">
+                and apply.APPLY_USER_TYPE = 1
+            </if>
+            <if test="userOid != null and userOid != ''">
+                and ql.CREATE_USER_OID =#{userOid}
+            </if>
+            <if test="sourceApp != null">
+                and ql.SOURCE_APP = #{sourceApp}
+            </if>
+            <if test="prepFill != null">
+                and ql.PREP_FILL = #{prepFill}
+            </if>
+            <if test="certWay != null">
+                and ql.CERT_WAY = #{certWay}
+            </if>
+            <if test="expressCompany != null">
+                and ql.EXPRESS_COMPANY = #{expressCompany}
+            </if>
+            <if test="sourceApp != 2">
+                and ql.PACKAGE_CASE_OID is null
+            </if>
+
+        </where>
+        order by ql.CREATE_DATE desc
+    </select>
+    <select id="taskYsCase" parameterType="list" resultMap="queryRqhbCaseMap">
+        select
+        ql.ID, ql.CASE_OID, ql.SERVICE_OID, ql.CASE_NUMBER, ql.CASE_STATUS, ql.ACCEPTANCE_DATE,
+        ql.CREATE_DATE, ql.CONCLUDE_DATE, ql.CASE_TYPE, ql.SHOULD_CONCLUDE_DATE,
+        ql.SERVICE_NAME, ql.SERVICE_TYPE, ql.SERVICE_TYPE_NAME, ql.PROJECT_NAME, apply.APPLY_USER_TYPE,
+        apply.APPLY_USER_NAME, apply.CREDENTIAL_NUMBER, apply.APPLY_USER_PHONE, apply.APPLY_USER_ADDRESS, apply.ADDRESSEE_DETAIL_ADDRESS
+        from t_ql_case ql , t_ql_case_applay apply
+        <where>
+        ql.CASE_OID = apply.CASE_OID
+        and ql.DEL_FLAG = 0 and ql.CASE_STATUS is not null
+        and ql.CASE_STATUS =1 and source_type=2 and source_app=1
+        and ql.SERVICE_OID in
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+                #{item}
+            </foreach>
+        </where>
+        order by ql.CREATE_DATE desc
+    </select>
+
+    <!--工作台待办荣却后补-->
+    <select id="taskRqhbCaseList" parameterType="list" resultMap="queryRqhbCaseMap">
+        select
+        DISTINCT
+        ql.ID, ql.CASE_OID, ql.CASE_NUMBER, ql.CASE_STATUS, ql.SERVICE_NAME, ql.RQBZ_DUE_DATE, apply.APPLY_USER_NAME, ql.CREATE_DATE
+        from t_ql_case ql , t_ql_case_applay apply , t_ql_case_material m
+        <where>
+            ql.CASE_OID=m.CASE_OID
+            and m.collection_type=4 and m.del_flag=0
+            and ql.CASE_OID = apply.CASE_OID
+            and ql.DEL_FLAG = 0 and ( ql.CASE_STATUS = 10 or  ql.CASE_STATUS = 2) and ql.source_app=1 and ql.PACKAGE_CASE_OID is null
+            and ql.SERVICE_OID in
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+                #{item}
+            </foreach>
+        </where>
+        order by ql.CREATE_DATE desc
+    </select>
+    <!-- 根据证件号查询办件申请信息-->
+
+    <select id="queryCaseByZjh" parameterType="map" resultMap="queryRqhbCaseMap">
+        select
+        ql.ID, ql.CASE_OID, ql.SERVICE_OID, ql.CASE_NUMBER, ql.CASE_STATUS, ql.ACCEPTANCE_DATE,
+        ql.CREATE_DATE, ql.CONCLUDE_DATE, ql.CASE_TYPE, ql.SHOULD_CONCLUDE_DATE,
+        ql.SERVICE_NAME, ql.SERVICE_TYPE_NAME, ql.PROJECT_NAME, apply.APPLY_USER_TYPE,
+        apply.APPLY_USER_NAME, apply.CREDENTIAL_NUMBER, apply.APPLY_USER_PHONE, apply.APPLY_USER_ADDRESS, apply.ADDRESSEE_DETAIL_ADDRESS
+        from t_ql_case ql , t_ql_case_applay apply
+        <where>
+            ql.CASE_OID = apply.CASE_OID
+            and ql.DEL_FLAG = 0 and ql.CASE_STATUS is not null
+            <if test="caseOid != null and caseOid != ''">
+                and ql.CASE_OID = #{caseOid}
+            </if>
+            <if test="credentialNumber != null and credentialNumber != ''">
+                and apply.CREDENTIAL_NUMBER =#{credentialNumber}
+            </if>
+            <if test="applyUserType != null and applyUserType != ''">
+                and apply.APPLY_USER_TYPE =#{applyUserType}
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and ql.PROJECT_NAME like concat('%', #{projectName}, '%')
+            </if>
+            <if test="caseNumber != null and caseNumber != ''">
+                and ql.CASE_NUMBER like concat('%', #{caseNumber}, '%')
+            </if>
+            <if test="serviceName != null and serviceName != ''">
+                and ql.SERVICE_NAME like concat('%', #{serviceName}, '%')
+            </if>
+        </where>
+        order by ql.CREATE_DATE desc
+    </select>
+
+
+</mapper>

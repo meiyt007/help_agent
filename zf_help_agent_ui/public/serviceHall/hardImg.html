@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人证核验</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hard-img-container {
+      background: url('./img/hard-bg.jpg') no-repeat center center;
+      background-size: 100% 100%;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hard-img-container--content {
+      box-sizing: border-box;
+      border: 6px solid #97C6F1;
+      border-radius: 6px;
+      height: 480px;
+      width: 640px;
+      overflow: hidden;
+    }
+
+    .hard-img-container .hard-img-container--content img {
+      object-fit: contain;
+      height: 480px;
+      width: 640px;
+    }
+
+    .hard-img-container--content>div {
+      height: 480px;
+      width: 640px;
+    }
+
+    @media screen and (min-width: 1920px) {
+      .hard-img-container--content {
+        width: 800px;
+        height: 600px;
+        overflow: hidden;
+        margin-top: 100px;
+      }
+
+      .hard-img-container .hard-img-container--content img {
+        width: 800px;
+        height: 600px;
+      }
+
+      .hard-img-container .hard-img-container--content>div {
+        width: 800px;
+        height: 600px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="hard-img-container" id="vue_det">
+  <div class="hard-img-container--content">
+    <img v-if="faceImg" :src="faceImg" id="imgSmall">
+    <div v-else></div>
+  </div>
+</div>
+<script src="../pbpj/js/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  var app = new Vue({
+    el: '#vue_det',
+    data: {
+      imgBase: "",
+      faceImg: "", //人脸图像
+      faceImgTemp: "", //临时的视频人脸像
+      URL_PRE: "",
+      startTime: null,
+      smallspeech: 'N',
+      speechAddress: ''
+    },
+    mounted: function () {
+      this.getCaseInfo();//需要触发的函数
+      //this.getImageCamera ();
+    },
+    methods: {
+      getCaseInfo() {
+        this.URL_PRE = this.getURLParameter("push");
+        let info=this.getURLParameter("jsonObject");
+        let data= JSON.parse(info);
+        this.smallspeech=data.smallspeech;
+        this.speechAddress=data.speechAddress;
+        if(this.smallspeech=='Y' && this.speechAddress){
+          this.getAudioSpeech();
+        }
+        if (this.URL_PRE) {
+          this.getImageCamera();
+        }
+        console.log(this.URL_PRE)
+      },
+      getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+      },
+      //调用摄像头获取图像信息
+      getImageCamera() {
+        //设置定时器获取图像信息，每一秒一次
+        this.startTime = null;
+        this.startTime = Date.now();
+        let timer = setInterval(() => this.getImageInfo(timer), 200);
+      },
+      //点击拍照，获取最后的图片
+      getImageRes() {
+        this.faceImg = this.faceImgTemp;
+      },
+      //调用摄像头打开方法
+      getReceiveCamera(timer) {
+        axios.get(this.URL_PRE + '/camera/Open', {}).then((res) => {
+          if (res) {
+            //0:成功-1:设备已经打开-2：设备打开失败
+            if (res.state == "sucess") {
+              //调用获取图像信息接口
+            } else if (res.StateCode == -2) {
+              this.$message.error("摄像头打开失败！");
+              clearInterval(timer);
+            }
+          } else {
+            this.$message.error("连接服务失败！");
+            clearInterval(timer);
+          }
+        }).catch((error) => {
+          clearInterval(timer);
+          console.log(error);
+        });
+      },
+      //获取图像
+      getImageInfo(timer) {
+        axios.get(this.URL_PRE + '/camera/GetImage', {}).then((respon) => {
+          let res = respon.data;
+          if (res) {
+            //code 0:成功-1:设备没有打开-2:没有获取到图像-3:没有初始化对象
+            if (res.state == "sucess") {
+              if (res.FaceLen && res.FaceLen != 0) {
+                let time = Date.now();
+                if (time - this.startTime > 3000) {
+                  clearInterval(timer);
+                } else {
+                  this.faceImgTemp = "data:image/jpeg;base64," + res.Image;
+                  this.getImageRes();
+                }
+              } else {
+                this.faceImgTemp = "data:image/jpeg;base64," + res.Image;
+                this.getImageRes();
+              }
+            } else if (res.StateCode == -1) {
+              //失败，说明摄像头没打开调用打开摄像头方法
+              this.getReceiveCamera(timer);
+            }
+          } else {
+            this.$message.error("请检查设备或连接是否正常");
+            clearInterval(timer);
+          }
+        }).catch((error) => {
+          clearInterval(timer);
+          console.log(error);
+        });
+
+      },
+      //查询综窗小屏播报语音
+      getAudioSpeech() {
+        axios.get('/zc-api/guidSpeech/selectByGuidSpeechCode', { params: { 'guidSpeechCode': 'camera_confirm' } }).then((res) => {
+          if (res && res.data) {
+            console.log(JSON.stringify(res + "-----------"))
+            if (res.data.data.speechUrl) {
+              this.aotuAudioSpeech(res.data.data.speechUrl);
+            }
+          }
+        }).catch((error) => {
+        });
+      },
+      aotuAudioSpeech(data) {
+        axios.get(this.speechAddress + '/audio/Play', { params: { 'PlayUrl': data } }).then((res) => {
+          if (res) {
+            console.log("返回值：" + JSON.stringify(res));
+          }
+        }).catch((error) => {
+        });
+      },
+
+    }
+  })
+</script>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+server:
+  port: 8005
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  redis:
+    host: 172.21.176.204
+    port: 13302
+    timeout: 60000
+    database: 3
+    password: ZhuoFan888!@#
+    lettuce:
+      shutdown-timeout: 100
+    cache:
+      timeout: 360
+  datasource:
+    url: jdbc:mysql://172.21.176.204:13301/hp_bussiness_v1.0?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Zfsoft888
+
+
+# 正式
+# 政务外网访问地址
+cert:
+#  url: http://ywtbcert.sh.cegn.cn:8022/zzk
+  url: http://10.81.16.12:8022/zzk
+#  url: http://10.83.66.24:8022/zzk
+  account: huangpu #用证查询账号
+  password: 95Q53aTd
+  orgName: 黄浦区行政服务中心
+  username: 00-E0-4C-68-00-E8
+  login: /cert/usage/login.do
+  scanCertQrCode: /cert/usage/scanCertQrCode.do
+
+#万达取号相关接口
+tasknumber:
+  account: scj016
+  password: 123456
+  url: http://172.21.179.149
+  getToken: /syn/base/open/loginToken
+  getMachineCategoryTreeById: /ac-queue/unified/getMachineCategoryTreeById.do
+  takeNumber: /ac-queue/unified/takeNumber.do
+  takePriorityNumber: /ac-queue/unified/takePriorityNumber.do
+zfsoft:
+  #第三方接口
+  inter:
+    #万达
+    url: http://172.21.179.149/syn/base/open/loginToken  #获取token接口地址
+    applicantConfirm: http://172.21.179.149/syn/workApplyInfo/applicantConfirm #获取办件编码接口地址
+    addApplyStuffUrl: http://172.21.179.149/syn/workApplyStuff/addApplyStuff  #增加材料
+    submitApplyUrl: http://172.21.179.149/syn/workUnionLogistics/submitApply  #提交办件
+    addStuffAttachment: http://172.21.179.149/syn/workAttachment/addStuffAttachment #材料添加附件并关联派生
+    searchWorkflowCataLog: http://172.21.179.149/syn/windowWorkflow/searchWorkflowCataLog #18.4获取工作流列表
+    searchWorkflowNodeInfo: http://172.21.179.149/syn/windowWorkflowNode/searchWorkflowNodeInfo #18.5获取工作流明细
+    handlePostNode: http://172.21.179.149/syn/workApplyNode/handlePostNode #触发流程操作
+    saveDateUrl: http://172.21.179.149/syn/logistics/external/saveData #6.6领取方式
+    #万行 http://172.21.178.64:8080/api/zf/pushsx
+    pushsxUrl: http://172.21.178.64:8080/api/zf/pushsx #一键推送接口地址
+    stUrl: http://172.21.178.64:8080/api/zf/st #号票推送
+    attaPushUrl: http://172.21.178.64:8080/api/zf/push-atta #附件推送接口地址
+    policyPushUrl: https://172.21.178.64:8080/api/zf/push-atta #政策推送接口地址
+    evalPushUrl: https://172.21.178.64:8080/api/zf/appraise #评价推送接口地址
+#天气接口
+weather:
+#  互联网环境
+#  url: http://gfapi.mlogcn.com/weather/v001/now
+#  135一页一证环境
+#  url: http://173.22.1.9:8085/weather/v001/now
+#  黄浦新大厅互联网服务器，inter_web服务
+  url: http://173.22.1.17:8086/web/inter/getWeather
+  areacode: 101020400   #黄浦区域代码
+  key: UTEhoKgfScQo5NJcGCHbSaBWp9PIB4FI  #密钥(私人
+
+#短信
+sms:
+#  互联网环境
+#  url: https://station.shhuangpu.gov.cn/shhpewb/rest/shhpmessagedatarest/messagedata
+#  135一页一证环境
+#  url: http://173.22.1.9:8085/shhpewb/rest/shhpmessagedatarest/messagedata
+#  黄浦新大厅互联网服务器，inter_web服务
+  url: http://173.22.1.17:8086/web/inter/shhpewb
+  token: Epointshhp**##
+  displayOu: 行政服务中心  #短信接口调用方单位
+  unit: "008"  #调用主体单位代码项值
+  msgusage: "009"  #短信用途代码项值

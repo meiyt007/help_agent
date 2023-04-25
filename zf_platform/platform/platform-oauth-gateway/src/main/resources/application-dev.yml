@@ -1,0 +1,99 @@
+server:
+  port: 8081
+spring:
+  codec:
+    max-in-memory-size: 2MB
+  redis:
+    # host: 172.168.252.221
+    host: 172.168.250.92
+    port: 10008
+    timeout: 60000
+    database: 13
+    password: root
+  cloud:
+    gateway:
+      enabled:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: platform-service-provider
+          uri: lb://platform-service-provider
+          predicates:
+            - Path=/platform/**
+          filters:
+            - StripPrefix=1
+        - id: settings-service-provider
+          uri: lb://settings-service-provider
+          predicates:
+            - Path=/settings/**
+          filters:
+            - StripPrefix=1
+        - id: workflow-service-provider
+          uri: lb://workflow-service-provider
+          predicates:
+            - Path=/workflow/**
+          filters:
+            - StripPrefix=1
+        - id: platform-auth-server
+          uri: lb://platform-auth-server
+          predicates:
+            - Path=/platform-auth-server/**
+          filters:
+            - name: PasswordDecoderFilter
+            - StripPrefix=1
+kaptcha:
+  border:
+    style: "no"
+    color: "105,179,90"
+  image:
+    width: 250
+    height: 90
+  session:
+    key: "code"
+  textproducer:
+    char:
+      length: 4
+      string: "0123456789"
+    font:
+      names: "宋体,楷体,微软雅黑"
+      size: 70
+      color: "red"
+  noise:
+    impl: com.google.code.kaptcha.impl.NoNoise
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      enabled: true
+client:
+  feign:
+    global:
+      error:
+        handler: true
+feign:
+  sentinel:
+    enabled: true
+
+#jasypt加密时的salt值
+jasypt:
+  encryptor:
+    password: zfsoft888
+
+com:
+  zfsoft:
+    #验证站点请求是否开启 true开启（默认）  false关闭
+    refererCheck: false
+    #验证站点请求来源，用于跨站点请求伪造 设置可访问的IP
+    allowSites: localhost,127.0.0.1,172.168.252.121
+    login:
+      validCode: true
+    # 权限不拦截列表 多个使用 , 号隔开
+    security:
+      access: "/ueditor/controller"

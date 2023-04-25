@@ -1,0 +1,21 @@
+@import "@/assets/styles/mixin/index.scss";
+.el-scrollbar__wrap {
+    scroll-behavior: smooth;
+}
+
+.el-scrollbar__view {
+    // padding-right: 10px;
+    // padding-left: 10px;
+}
+.el-dialog__wrapper {
+    overflow: hidden !important;
+}
+.el-dialog__header {
+    .el-dialog__title {
+        display: inline-block;
+        width: calc(100% - 100px);
+        height: 20px;
+        line-height: inherit;
+        @include overflow-rows(1);
+    }
+}

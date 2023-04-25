@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.superwindow.dbaccess.dao.DbVirtualBusinessRecordMapper">
+
+    <resultMap type="com.zfsoft.superwindow.dbaccess.data.DbVirtualBusinessRecord" id="BaseResultMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="oid" column="oid" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="windowInfo" column="window_info" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="handleOid" column="handle_oid" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="createName" column="create_name" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="caseUserName" column="case_user_name" jdbcType="VARCHAR"/>
+        <result property="audioAddress" column="audio_address" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="ResultMapWithManual" type="com.zfsoft.superwindow.dbaccess.data.DbVirtualBusinessRecordManual" extends="BaseResultMap" >
+        <result column="maOid" property="maOid" jdbcType="VARCHAR" />
+        <result column="SERVICE_EVALUATION" property="serviceEvaluation" jdbcType="VARCHAR" />
+        <result column="PUSH_FLAG" property="pushFlag" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select id,
+               oid,
+               create_by,
+               window_info,
+               create_time,
+               handle_oid,
+               is_delete,
+               create_name,
+               phone,
+               case_user_name,
+               audio_address
+        from t_virtual_business_record
+        where id = #{id}
+    </select>
+
+    <select id="queryByOid" resultMap="BaseResultMap">
+        select id,
+               oid,
+               create_by,
+               window_info,
+               create_time,
+               handle_oid,
+               is_delete,
+               create_name,
+               phone,
+               case_user_name,
+               audio_address
+        from t_virtual_business_record
+        where oid = #{oid}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ResultMapWithManual">
+        select
+        re.id, re.oid, re.create_by, re.window_info, re.create_time, re.handle_oid, re.is_delete, re.create_name,
+               re.phone, re.case_user_name, re.audio_address, ma.OID as maOid, ma.SERVICE_EVALUATION, ma.PUSH_FLAG
+        from t_virtual_business_record re, t_manual_evaluation ma
+        where 1 = 1 and re.is_delete = 0 and ma.DEL_FLAG = 0 and re.oid = ma.VIRTUAL_BUSINESS_NUM
+
+        <if test="createBy != null and createBy != ''">
+            and re.create_by = #{createBy}
+        </if>
+        <if test="windowInfo != null and windowInfo != ''">
+            and re.window_info = #{windowInfo}
+        </if>
+        <if test="createTime != null">
+            and re.create_time = #{createTime}
+        </if>
+        <if test="handleOid != null and handleOid != ''">
+            and re.handle_oid = #{handleOid}
+        </if>
+        <if test="createName != null and createName != ''">
+            and re.create_name = #{createName}
+        </if>
+        <if test="phone != null and phone != ''">
+            and re.phone = #{phone}
+        </if>
+        <if test="caseUserName != null and caseUserName != ''">
+            and re.case_user_name = #{caseUserName}
+        </if>
+        <if test="audioAddress != null and audioAddress != ''">
+            and re.audio_address = #{audioAddress}
+        </if>
+        <if test="serviceEvaluation != null and serviceEvaluation != ''">
+            and ma.SERVICE_EVALUATION = #{serviceEvaluation}
+        </if>
+        <if test="pushFlag != null and pushFlag != '' or pushFlag == 0">
+            and ma.PUSH_FLAG = #{pushFlag,jdbcType=INTEGER}
+        </if>
+        order by re.create_time DESC
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into t_virtual_business_record(oid, create_by, window_info, create_time, handle_oid,
+                                                                  is_delete, create_name, phone, case_user_name, audio_address)
+        values (#{oid}, #{createBy}, #{windowInfo}, #{createTime}, #{handleOid}, #{isDelete}, #{createName}, #{phone}, #{caseUserName}, #{audioAddress})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_virtual_business_record
+        <set>
+            <if test="oid != null and oid != ''">
+                oid = #{oid},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy},
+            </if>
+            <if test="windowInfo != null and windowInfo != ''">
+                window_info = #{windowInfo},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="handleOid != null and handleOid != ''">
+                handle_oid = #{handleOid},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+            <if test="createName != null and createName != ''">
+                create_name = #{createName},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="caseUserName != null and caseUserName != ''">
+                case_user_name = #{caseUserName},
+            </if>
+            <if test="audioAddress != null and audioAddress != ''">
+                audio_address = #{audioAddress},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t_virtual_business_record
+        where id = #{id}
+    </delete>
+
+</mapper>
+

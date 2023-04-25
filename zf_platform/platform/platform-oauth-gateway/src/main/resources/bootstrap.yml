@@ -1,0 +1,101 @@
+sentinel:
+  server:
+    dev:
+      host: 172.168.249.3:8718
+    test:
+      host: 172.168.251.67:8718
+    kk:
+      host: 172.168.250.6:10003
+
+nacos:
+  server:
+    group: PLATFORM-01
+    dev:
+#      host: 172.168.251.67:8848
+#      host: 121.40.182.248:8848
+      host: 172.168.250.91:10001
+      namespace: 2747e872-580e-4205-a0c0-cf91766b8b64
+#      namespace: 0247bd90-1226-4edd-9727-e40c0582eb31
+    test:
+      host: 172.168.251.67:8848
+      namespace: cf6a51dc-8264-40ca-89ef-e94f9729ff2f
+    zktest:
+      host: 172.168.249.1:10001
+      namespace: 2747e872-580e-4205-a0c0-cf91766b8b64
+    kk:
+      host: 172.168.250.6:10003
+      namespace: f5ee42e6-f7ec-4cac-a2da-7bcc2a2c9bd2
+spring:
+  application:
+    name: platform-oauth-gateway
+  cloud:
+    sentinel:
+      transport:
+        dashboard: ${sentinel.server.${spring.profiles.active}.host}
+      eager: true
+      datasource:
+        # 名称随意
+        flow:
+          nacos:
+            server-addr: ${nacos.server.${spring.profiles.active}.host}
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
+            # 规则类型，取值见：
+            # org.springframework.cloud.alibaba.sentinel.datasource.RuleType
+            rule-type: flow
+        degrade:
+          nacos:
+            server-addr: ${nacos.server.${spring.profiles.active}.host}
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: SENTINEL_GROUP
+            rule-type: degrade
+        system:
+          nacos:
+            server-addr: ${nacos.server.${spring.profiles.active}.host}
+            dataId: ${spring.application.name}-system-rules
+            groupId: SENTINEL_GROUP
+            rule-type: system
+        authority:
+          nacos:
+            server-addr: ${nacos.server.${spring.profiles.active}.host}
+            dataId: ${spring.application.name}-authority-rules
+            groupId: SENTINEL_GROUP
+            rule-type: authority
+        param-flow:
+          nacos:
+            server-addr: ${nacos.server.${spring.profiles.active}.host}
+            dataId: ${spring.application.name}-param-flow-rules
+            groupId: SENTINEL_GROUP
+            rule-type: param-flow
+    nacos:
+      config:
+        server-addr: ${nacos.server.${spring.profiles.active}.host}
+        file-extension: yaml
+        group: ${nacos.server.group}
+        namespace: ${nacos.server.${spring.profiles.active}.namespace}
+      discovery:
+        server-addr: ${nacos.server.${spring.profiles.active}.host}
+        group: ${nacos.server.group}
+        namespace: ${nacos.server.${spring.profiles.active}.namespace}
+  profiles:
+    active: 'kk'
+#debug: true
+#
+### spring security 配置
+#security:
+#  oauth2:
+#    client:
+#      client-id: ENC(ltJPpR50wT0oIY9kfOe1Iw==)
+#      client-secret: ENC(ltJPpR50wT0oIY9kfOe1Iw==)
+#      scope: server
+#      ignore-urls:
+#        - /druid/**
+#        - /actuator/**
+#        - /v2/api-docs
+#logging:
+#  config: classpath:logback-logstash.xml
+log:
+  level: info
+  path: logs/
+logstash:
+  server-addr: 192.168.78.129:9601,192.168.78.129:9602

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.cases.dbaccess.dao.QlCaseTitleValueRelationMapper">
+
+    <resultMap type="com.zfsoft.cases.dbaccess.data.DbQlCaseSituationTitleValRelation" id="QlCaseTitleValueRelationMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="relationOid" column="RELATION_OID" jdbcType="VARCHAR"/>
+        <result property="caseOid" column="CASE_OID" jdbcType="VARCHAR"/>
+        <result property="situationOid" column="SITUATION_OID" jdbcType="VARCHAR"/>
+        <result property="titleOid" column="TITLE_OID" jdbcType="VARCHAR"/>
+        <result property="valueOid" column="VALUE_OID" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--根据办件查询关系数据查询-->
+    <select id="selectQlCaseTitleValRelationList"  parameterType="String"  resultMap="QlCaseTitleValueRelationMap">
+        select
+          ID, RELATION_OID, CASE_OID, SITUATION_OID, TITLE_OID, VALUE_OID
+        from t_ql_case_title_value_relation
+        where CASE_OID = #{caseOid}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById"  resultMap="QlCaseTitleValueRelationMap">
+        select
+          ID, RELATION_OID, CASE_OID, SITUATION_OID, TITLE_OID, VALUE_OID
+        from t_ql_case_title_value_relation
+        where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="QlCaseTitleValueRelationMap">
+        select
+          ID, RELATION_OID, CASE_OID, SITUATION_OID, TITLE_OID, VALUE_OID
+        from t_ql_case_title_value_relation
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="QlCaseTitleValueRelationMap">
+        select
+        ID, RELATION_OID, CASE_OID, SITUATION_OID, TITLE_OID, VALUE_OID
+        from t_ql_case_title_value_relation
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="relationOid != null and relationOid != ''">
+                and RELATION_OID = #{relationOid}
+            </if>
+            <if test="caseOid != null and caseOid != ''">
+                and CASE_OID = #{caseOid}
+            </if>
+            <if test="situationOid != null and situationOid != ''">
+                and SITUATION_OID = #{situationOid}
+            </if>
+            <if test="titleOid != null and titleOid != ''">
+                and TITLE_OID = #{titleOid}
+            </if>
+            <if test="valueOid != null and valueOid != ''">
+                and VALUE_OID = #{valueOid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" keyColumn="ID"  useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseSituationTitleValRelation">
+        insert into t_ql_case_title_value_relation(RELATION_OID, CASE_OID, SITUATION_OID, TITLE_OID, VALUE_OID)
+        values (#{relationOid}, #{caseOid}, #{situationOid}, #{titleOid}, #{valueOid})
+    </insert>
+
+    <insert id="insertBatch"  keyProperty="id" keyColumn="ID"  useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseSituationTitleValRelation">
+        insert into t_ql_case_title_value_relation(RELATION_OID, CASE_OID, SITUATION_OID, TITLE_OID,
+        VALUE_OID)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.relationOid}, #{entity.caseOid}, #{entity.situationOid}, #{entity.titleOid}, #{entity.valueOid})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t_ql_case_title_value_relation(RELATION_OID, CASE_OID, SITUATION_OID, TITLE_OID,
+        VALUE_OID)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.relationOid}, #{entity.caseOid}, #{entity.situationOid}, #{entity.titleOid}, #{entity.valueOid})
+        </foreach>
+        on duplicate key update
+        RELATION_OID = values(RELATION_OID) , CASE_OID = values(CASE_OID) , SITUATION_OID = values(SITUATION_OID) ,
+        TITLE_OID = values(TITLE_OID) , VALUE_OID = values(VALUE_OID)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseSituationTitleValRelation">
+        update t_ql_case_title_value_relation
+        <set>
+            <if test="relationOid != null and relationOid != ''">
+                RELATION_OID = #{relationOid},
+            </if>
+            <if test="caseOid != null and caseOid != ''">
+                CASE_OID = #{caseOid},
+            </if>
+            <if test="situationOid != null and situationOid != ''">
+                SITUATION_OID = #{situationOid},
+            </if>
+            <if test="titleOid != null and titleOid != ''">
+                TITLE_OID = #{titleOid},
+            </if>
+            <if test="valueOid != null and valueOid != ''">
+                VALUE_OID = #{valueOid},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="Long">
+        delete from t_ql_case_title_value_relation where ID = #{id}
+    </delete>
+
+</mapper>

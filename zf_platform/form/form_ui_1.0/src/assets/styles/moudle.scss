@@ -1,0 +1,122 @@
+// moudle公共scss
+.app-left .tree-title{
+  height: 35px;
+  line-height: 35px;
+  background-color: #0b76c8;
+  color: #fff;
+  font-size: 14px;
+  padding-left: 20px;
+}
+
+.app-left .head-container .el-input{
+  margin-top: 10px;
+  margin-bottom: 10px!important;
+}
+
+.app-right .el-form,.app-container .el-form{
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 10px;
+}
+.app-container .el-form-item{
+  margin-bottom: 15px;
+}
+// .has-gutter tr th:nth-last-child(2),.el-table__body tr td:nth-last-child(1){
+//   border-right: none;
+// }
+
+.gutter{
+  display: inherit!important;
+}
+
+.fr{
+  float: right;
+}
+.ml0{
+  margin-left: 0!important;
+}
+.ml5{
+  margin-left: 5px!important;
+}
+.mr0{
+  margin-right: 0!important;
+}
+.el-button--primary {
+  color: #fff;
+  background-color: #0b76c8;
+  border-color: #0b76c8;
+}
+.el-button--primary.btn-reset{
+  background-color: #f66902;
+  border-color: #f66902;
+}
+.el-button--default{
+  color: #006cff;
+}
+.el-button--warning{
+  background-color: #f66902;
+  border-color: #f66902;
+}
+.el-button--warning:hover, .el-button--warning:focus {
+  background: #f58a3d;
+  border-color: #f58a3d;
+  color: #fff;
+}
+.el-table__body-wrapper tbody td{
+  background-color: inherit;
+}
+
+.require {
+  color: #ff0000;
+  font-style: normal;
+  font-size: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+//弹框样式
+// .dialog-table {
+//   padding: 20px;
+//   box-sizing: border-box;
+// }
+.el-dialog__body{
+  padding:10px 20px!important;
+}
+.dialog-table h3 {
+  font-size: 14px;
+  font-weight: normal;
+  color: #333;
+  margin: 0px 0px 10px 0px;
+}
+table {
+  border-collapse: collapse !important;
+}
+.dialog-table table {
+  width: 100%;
+  // border: 1px solid #dfe6ec;
+  border-collapse: collapse!important
+}
+
+.dialog-table table tr td {
+  border: 1px solid #dfe6ec;
+  padding: 17px 8px;
+  font-size: 12px;
+  color: #515a6e;
+  text-align: right
+}
+.dialog-table table tr td:nth-of-type(2n+1){
+  background-color: #f8f8f9;
+}
+.dialog-table table tr td:nth-of-type(2n) {
+  color: #606266;
+  text-align: left;
+}
+.dialog-table .el-form-item {
+  margin-bottom: 0;
+}
+.el-form-item--small .el-form-item_content,.el-form-item--medium .el-form-item__content{
+  //margin-left: 0px !important;
+}
+.line {
+  text-align: center;
+}

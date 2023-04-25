@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.single.dbaccess.dao.ywbl.DbSfCaseChargeMapper">
+    <resultMap type="com.zfsoft.single.dbaccess.data.ywbl.DbSfCaseCharge" id="DbSfCaseChargeMap">
+        <result property="caseChargeOid" column="CASE_CHARGE_OID" jdbcType="VARCHAR"/>
+        <result property="caseOid" column="CASE_OID" jdbcType="VARCHAR"/>
+        <result property="paymentOrder" column="PAYMENT_ORDER" jdbcType="VARCHAR"/>
+        <result property="sumMoney" column="SUM_MONEY" jdbcType="NUMERIC"/>
+        <result property="discountMoney" column="DISCOUNT_MONEY" jdbcType="NUMERIC"/>
+        <result property="chargeUserOid" column="CHARGE_USER_OID" jdbcType="VARCHAR"/>
+        <result property="chargeTime" column="CHARGE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="chargeFlag" column="CHARGE_FLAG" jdbcType="VARCHAR"/>
+        <result property="createUserOid" column="CREATE_USER_OID" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="paidAmount" column="PAID_AMOUNT" jdbcType="NUMERIC"/>
+        <result property="orderAttaOid" column="ORDER_ATTA_OID" jdbcType="VARCHAR"/>
+        <result property="payType" column="PAY_TYPE" jdbcType="VARCHAR"/>
+        <result property="modifyDate" column="MODIFY_DATE" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DbSfCaseChargeMap">
+        select CASE_CHARGE_OID,
+               CASE_OID,
+               PAYMENT_ORDER,
+               SUM_MONEY,
+               DISCOUNT_MONEY,
+               CHARGE_USER_OID,
+               CHARGE_TIME,
+               CHARGE_FLAG,
+               CREATE_USER_OID,
+               CREATE_DATE,
+               PAID_AMOUNT,
+               ORDER_ATTA_OID,
+               PAY_TYPE,
+               MODIFY_DATE
+        from t_sf_case_charge
+        where CASE_CHARGE_OID = #{caseChargeOid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DbSfCaseChargeMap">
+        select CASE_CHARGE_OID,
+               CASE_OID,
+               PAYMENT_ORDER,
+               SUM_MONEY,
+               DISCOUNT_MONEY,
+               CHARGE_USER_OID,
+               CHARGE_TIME,
+               CHARGE_FLAG,
+               CREATE_USER_OID,
+               CREATE_DATE,
+               PAID_AMOUNT,
+               ORDER_ATTA_OID,
+               PAY_TYPE,
+               MODIFY_DATE
+        from t_sf_case_charge limit #{offset}
+           , #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DbSfCaseChargeMap">
+        select
+        CASE_CHARGE_OID, CASE_OID, PAYMENT_ORDER, SUM_MONEY, DISCOUNT_MONEY, CHARGE_USER_OID, CHARGE_TIME, CHARGE_FLAG,
+        CREATE_USER_OID, CREATE_DATE, PAID_AMOUNT, ORDER_ATTA_OID, PAY_TYPE, MODIFY_DATE
+        from t_sf_case_charge
+        <where>
+            <if test="caseChargeOid != null and caseChargeOid != ''">
+                and CASE_CHARGE_OID = #{caseChargeOid}
+            </if>
+            <if test="caseOid != null and caseOid != ''">
+                and CASE_OID = #{caseOid}
+            </if>
+            <if test="paymentOrder != null and paymentOrder != ''">
+                and PAYMENT_ORDER = #{paymentOrder}
+            </if>
+            <if test="sumMoney != null">
+                and SUM_MONEY = #{sumMoney}
+            </if>
+            <if test="discountMoney != null">
+                and DISCOUNT_MONEY = #{discountMoney}
+            </if>
+            <if test="chargeUserOid != null and chargeUserOid != ''">
+                and CHARGE_USER_OID = #{chargeUserOid}
+            </if>
+            <if test="chargeTime != null">
+                and CHARGE_TIME = #{chargeTime}
+            </if>
+            <if test="chargeFlag != null and chargeFlag != ''">
+                and CHARGE_FLAG = #{chargeFlag}
+            </if>
+            <if test="createUserOid != null and createUserOid != ''">
+                and CREATE_USER_OID = #{createUserOid}
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="paidAmount != null">
+                and PAID_AMOUNT = #{paidAmount}
+            </if>
+            <if test="orderAttaOid != null and orderAttaOid != ''">
+                and ORDER_ATTA_OID = #{orderAttaOid}
+            </if>
+            <if test="payType != null and payType != ''">
+                and PAY_TYPE = #{payType}
+            </if>
+            <if test="modifyDate != null">
+                and MODIFY_DATE = #{modifyDate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="caseChargeOid" useGeneratedKeys="true">
+        insert into t_sf_case_charge(CASE_OID, PAYMENT_ORDER, SUM_MONEY, DISCOUNT_MONEY,
+                                     CHARGE_USER_OID, CHARGE_TIME, CHARGE_FLAG, CREATE_USER_OID,
+                                     CREATE_DATE, PAID_AMOUNT, ORDER_ATTA_OID, PAY_TYPE,
+                                     MODIFY_DATE)
+        values (#{caseOid}, #{paymentOrder}, #{sumMoney}, #{discountMoney}, #{chargeUserOid}, #{chargeTime},
+                #{chargeFlag}, #{createUserOid}, #{createDate}, #{paidAmount}, #{orderAttaOid}, #{payType},
+                #{modifyDate})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="caseChargeOid" useGeneratedKeys="true">
+        insert into t_sf_case_charge(CASE_OID, PAYMENT_ORDER, SUM_MONEY, DISCOUNT_MONEY,
+        CHARGE_USER_OID, CHARGE_TIME, CHARGE_FLAG, CREATE_USER_OID, CREATE_DATE, PAID_AMOUNT, ORDER_ATTA_OID, PAY_TYPE,
+        MODIFY_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.caseOid}, #{entity.paymentOrder}, #{entity.sumMoney}, #{entity.discountMoney},
+            #{entity.chargeUserOid}, #{entity.chargeTime}, #{entity.chargeFlag}, #{entity.createUserOid},
+            #{entity.createDate}, #{entity.paidAmount}, #{entity.orderAttaOid}, #{entity.payType}, #{entity.modifyDate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="caseChargeOid" useGeneratedKeys="true">
+        insert into t_sf_case_charge(CASE_OID, PAYMENT_ORDER, SUM_MONEY, DISCOUNT_MONEY,
+        CHARGE_USER_OID, CHARGE_TIME, CHARGE_FLAG, CREATE_USER_OID, CREATE_DATE, PAID_AMOUNT, ORDER_ATTA_OID, PAY_TYPE,
+        MODIFY_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.caseOid}, #{entity.paymentOrder}, #{entity.sumMoney}, #{entity.discountMoney},
+            #{entity.chargeUserOid}, #{entity.chargeTime}, #{entity.chargeFlag}, #{entity.createUserOid},
+            #{entity.createDate}, #{entity.paidAmount}, #{entity.orderAttaOid}, #{entity.payType}, #{entity.modifyDate})
+        </foreach>
+        on duplicate key update
+        CASE_OID = values(CASE_OID) , PAYMENT_ORDER = values(PAYMENT_ORDER) , SUM_MONEY = values(SUM_MONEY) ,
+        DISCOUNT_MONEY = values(DISCOUNT_MONEY) , CHARGE_USER_OID = values(CHARGE_USER_OID) , CHARGE_TIME =
+        values(CHARGE_TIME) , CHARGE_FLAG = values(CHARGE_FLAG) , CREATE_USER_OID = values(CREATE_USER_OID) ,
+        CREATE_DATE = values(CREATE_DATE) , PAID_AMOUNT = values(PAID_AMOUNT) , ORDER_ATTA_OID = values(ORDER_ATTA_OID)
+        , PAY_TYPE = values(PAY_TYPE) , MODIFY_DATE = values(MODIFY_DATE)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_sf_case_charge
+        <set>
+            <if test="caseOid != null and caseOid != ''">
+                CASE_OID = #{caseOid},
+            </if>
+            <if test="paymentOrder != null and paymentOrder != ''">
+                PAYMENT_ORDER = #{paymentOrder},
+            </if>
+            <if test="sumMoney != null">
+                SUM_MONEY = #{sumMoney},
+            </if>
+            <if test="discountMoney != null">
+                DISCOUNT_MONEY = #{discountMoney},
+            </if>
+            <if test="chargeUserOid != null and chargeUserOid != ''">
+                CHARGE_USER_OID = #{chargeUserOid},
+            </if>
+            <if test="chargeTime != null">
+                CHARGE_TIME = #{chargeTime},
+            </if>
+            <if test="chargeFlag != null and chargeFlag != ''">
+                CHARGE_FLAG = #{chargeFlag},
+            </if>
+            <if test="createUserOid != null and createUserOid != ''">
+                CREATE_USER_OID = #{createUserOid},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="paidAmount != null">
+                PAID_AMOUNT = #{paidAmount},
+            </if>
+            <if test="orderAttaOid != null and orderAttaOid != ''">
+                ORDER_ATTA_OID = #{orderAttaOid},
+            </if>
+            <if test="payType != null and payType != ''">
+                PAY_TYPE = #{payType},
+            </if>
+            <if test="modifyDate != null">
+                MODIFY_DATE = #{modifyDate},
+            </if>
+        </set>
+        where CASE_CHARGE_OID = #{caseChargeOid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t_sf_case_charge
+        where CASE_CHARGE_OID = #{caseChargeOid}
+    </delete>
+
+
+    <!--查询单个-->
+    <select id="querySfCaseChargePageList" parameterType="java.util.Map" resultMap="DbSfCaseChargeMap">
+        select CASE_CHARGE_OID,
+        CASE_OID,
+        PAYMENT_ORDER,
+        SUM_MONEY,
+        DISCOUNT_MONEY,
+        CHARGE_USER_OID,
+        CHARGE_TIME,
+        CHARGE_FLAG,
+        CREATE_USER_OID,
+        CREATE_DATE,
+        PAID_AMOUNT,
+        ORDER_ATTA_OID,
+        PAY_TYPE,
+        MODIFY_DATE
+        from t_sf_case_charge
+        where 1=1
+        <if test="applyUserName != null and applyUserName != ''">
+            and PAYMENT_ORDER = #{paymentOrder}
+        </if>
+        <if test="caseNumber != null and caseNumber != ''">
+            and PAYMENT_ORDER = #{paymentOrder}
+        </if>
+        <if test="startDate != null and startDate != ''"><!-- 开始时间检索 -->
+            AND ql.CREATE_DATE &gt;= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="endDate != null and endDate != ''"><!-- 结束时间检索 -->
+            AND ql.CREATE_DATE &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%S')
+        </if>
+        order by MODIFY_DATE desc
+    </select>
+
+</mapper>
+

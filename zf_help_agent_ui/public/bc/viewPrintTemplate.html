@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html style="height:100%;overflow-y:hidden;">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="shortcut icon" href="images/zflogo.ico" type="image/x-icon" />
+		<meta name="renderer" content="webkit">
+		<title>模板预览</title>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="css/tabs/font-awesome.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/init.css" type="text/css">
+    <script src="js/fa/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="js/fa/zDialog/zDialog.css">
+     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="js/fa/zDialog/zDialog.css">
+    <script src="js/fa/zDialog/zDialog.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/element.js"></script>
+    <script src="js/common.js"></script>
+
+    <script src="../common.js" type="text/javascript" charset="utf-8"></script>
+
+    <!--弹框  -->
+    <style>
+      body{margin: 0;padding: 0;}
+    </style>
+
+    <script type="text/javascript">
+      //获取参数
+      function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+      }
+
+      var fromJsp = {};
+      var  faModelTemplateOid = getURLParameter("faModelTemplateOid");
+      var  resultOid=getURLParameter("materialCatalogOid");
+      var  ctxPath = getURLParameter("ctxPath");
+      var  VUE_APP_ZC_INDUSTRY_ROUTE_PATH=getURLParameter("ctxPath1");
+      var filePlatAddr = VUE_APP_ZC_INDUSTRY_ROUTE_PATH;
+      var VUE_APP_BASE_API=commonUrl.VUE_APP_BASE_API;
+      var VUE_APP_ZC_ROUTE_PATH="";
+      var  elementValueList=getURLParameter("elementValueList");
+      var elementValues=JSON.parse(elementValueList);
+
+      console.log("faModelTemplateOid="+faModelTemplateOid+"&&materialCatalogOid="+resultOid+"^ctxPath="+ctxPath+"%%%%VUE_APP_ZC_INDUSTRY_ROUTE_PATH="+VUE_APP_ZC_INDUSTRY_ROUTE_PATH)
+      console.log("elementValueList=***"+elementValueList)
+      fromJsp.ctxPath = ctxPath;
+      fromJsp.filePlatAddr = VUE_APP_ZC_INDUSTRY_ROUTE_PATH;
+      fromJsp.licenseMetaInfoStr=elementValues;
+
+
+      $(function(){
+        setMetaDataJsonArrayStr();
+        getinit();
+      })
+
+
+      function   setMetaDataJsonArrayStr (){
+        var url =  VUE_APP_ZC_INDUSTRY_ROUTE_PATH+"/combo/industryElement/queryIndustryElementByResultOid/"+resultOid;
+        $.ajaxSettings.async = false;
+        $.get( url, null, function(data, textStatus, jqXHR){
+          /*  _metaDataJsonArrayStr=data.data.metaDataJsonArrayStr;*/
+          fromJsp.metaDataJsonArrayStr=data.data.metaDataJsonArrayStr;
+        },'json');
+      }
+
+      //初始化数据
+      function  getinit()  {
+        var url = ctxPath+"/faModelTemplate/initFaModelTemplateByResultOid";
+        var data = {
+          "faModelTemplateOid": faModelTemplateOid,
+          "resultOid": resultOid,
+        }
+        fromJsp.licenseElementValueLlist=elementValues;
+        $.ajaxSettings.async = false;
+        $.get( url, data, function(data, textStatus, jqXHR){
+          fromJsp.blockArrayStr=JSON.stringify(data.data.blockArrayStr);
+          fromJsp.versionTemplateList=JSON.stringify(data.data.versionTemplateList);
+          fromJsp.cataOid = resultOid;
+          fromJsp.materialCatalogOid = resultOid;
+          fromJsp.templateOid = data.data.tempOid;
+          fromJsp.templateStr=JSON.stringify(data.data.templateStr);
+          fromJsp.blockColorClass = data.data.blockColorClass;
+          fromJsp.fileOid= data.data.baseImgFileOid;
+        },'json');
+      }
+      //console.log("&&&fromJsp"+JSON.stringify(fromJsp))
+    </script>
+
+    <script src="js/licPrint/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/licPrint/artDialog/dist/dialog-plus.js"></script>
+    <script src="js/licPrint/licPrint.js"></script>
+
+    <script>
+      $(function(){
+        $('#picPrintDiv').height($(window).height() - 20);
+        LIC_PRINT.previewLic($('#picPrintDiv'));
+      });
+    </script>
+  </head>
+  <body style="overflow-y: hidden;">
+  <div id="btnDiv">&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:LIC_PRINT.printLic();">单击打印</a></div>
+  <div id="picPrintDiv" style="overflow-x: hidden;overflow-y: scroll;width: 100%;"></div>
+  </body>
+
+
+</html>
+
+

@@ -1,0 +1,70 @@
+.serviceContinue {
+    margin-top: 30vh !important;
+
+    .continue-title {
+        width: 136px;
+        height: 36px;
+        background-image: linear-gradient(90deg,
+                #2473ff 0%,
+                #56b0fd 100%);
+        border-radius: 5px 5px 20px 0px;
+        font-size: 18px;
+        color: #fff;
+        line-height: 36px;
+
+        img {
+            width: 21px;
+            margin-right: 10px;
+        }
+
+    }
+
+    .el-dialog__header {
+        background: #ececec;
+        padding-left: 0 !important;
+    }
+
+    .el-dialog__close {
+        color: #575757 !important;
+    }
+
+    .el-select {
+        background-color: #8c9ab3;
+        color: #fff;
+        border-radius: 5px 0px 0px 5px;
+
+        .el-input {
+            width: 170px;
+        }
+    }
+
+    .el-input-group>input {
+        width: 380px;
+    }
+
+    .continue-wrap {
+        margin: 20px 0;
+
+        .btn {
+            width: 46px;
+            height: 42px;
+            background-image: linear-gradient(90deg,
+                    #2473ff 0%,
+                    #56b0fd 100%);
+            border-radius: 5px;
+            margin-right: 10px;
+
+            img {
+                width: 28px;
+            }
+
+        }
+
+        .el-button {
+            background-image: linear-gradient(90deg, #2473ff 0%, #56b0fd 100%);
+            border-radius: 0px 5px 5px 0px;
+            color: #fff;
+            width: 96px;
+        }
+    }
+}

@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/ry-vue?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    #    password: 123456
+    initialSize: 1
+    minIdle: 1
+    maxActive: 10
+    maxWait: 10000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    testWhileIdle: true
+    testOnBorrow: true
+    testOnReturn: true
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    defaultAutoCommit: true
+    validationQuery: "select 1"
+    filters: "stat"
+mybatis:
+  mapper-locations:
+    - classpath:com/zfsoft/microservice/platform/dbaccess/mapper/*.xml
+mapper:
+  identity: MYSQL
+  not-empty: false
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql;pageNum=pageNum;pageSize=pageSize;
+logging:
+  level:
+    com.yanzhan.psb.lgnw.lgnwmybatis.stat.dao: debug
+    com.yanzhan.psb.lgnw.lgnwmybatis.dao: debug

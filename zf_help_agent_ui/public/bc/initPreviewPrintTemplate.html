@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html style="height:100%;overflow-y:hidden;">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="shortcut icon" href="images/zflogo.ico" type="image/x-icon" />
+		<meta name="renderer" content="webkit">
+		<title>模板制作</title>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="css/init.css" type="text/css">
+<!--    <link rel="stylesheet" href="css/element.css" type="text/css">-->
+    <link rel="stylesheet" href="js/fa/zDialog/zDialog.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+    <script src="js/licPrint/zDialog/zDialog.js"></script>
+    <script src="js/licPrint/jquery/1.11.3/jquery.min.js"></script>
+    <script src="../common.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/element.js"></script>
+
+    <style>
+      .el-upload input{
+        display:none
+      }
+    </style>
+
+	</head>
+  <body class="" style="background: #f1f1f1;">
+  <div id="manage">
+    <form id="form2" name="form2">
+
+      <div class="pull-wrap">
+        <table class="table-bordereds"   id="table-bordereds">
+<!--          <tr>
+            <td class="table_header">
+              <label for="printerName">选择打印机：</label>
+            </td>
+            <td class="table_text">
+              <select id="printerName" name="printerName" class="select2">
+                <option value="-1">请选择</option>
+
+              </select>
+
+            </td>
+          </tr>-->
+
+          <template v-for="(metadata,index) in metadataList">
+            <tr>
+              <td class="table_header"><label >{{metadata.elementName}}：</label></td>
+                <td class="table_text">
+                    <template v-if="metadata.elementType=='imgFile'">
+                      <el-upload
+                        class="upload-demo"
+                        :action="uploadUrl(metadata.elementOid)"
+                        :file-list="fileList"
+                        :id="metadata.elementOid"
+                        :on-error="uploadError"
+                        :on-success="function (res,file){return handleImgSuccess(res,file,metadata.elementOid)}"
+                        :on-remove="function (res,file){return handleImgRemove(res,file,metadata.elementOid)}">
+                        <el-button size="small" type="primary">选择图片<i class="iconfont zfsoft-wenjianshangchuan"></i></el-button>
+                      </el-upload>
+                    </template>
+                    <template v-else>
+                    <input type="text" v-model="metadata.templateChar" className="form-control" >
+                    </template>
+                </td>
+            </tr>
+          </template>
+        </table>
+      </div>
+    </form>
+    <div class="layui-layer-btn">
+      <a class="layui-layer-btn2" type="button" onclick="saveInfo()">确定</a>
+      <a onclick="Dialog.close();" class="layui-layer-btn1">关闭</a>
+    </div>
+  </div>
+  </body>
+
+
+  <script type="text/javascript">
+    //获取参数
+    function getURLParameter(name) {
+      return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+    }
+    var  faModelTemplateOid = getURLParameter("faModelTemplateOid");
+    var  materialCatalogOid=getURLParameter("materialCatalogOid");
+    var  ctxPath = getURLParameter("ctxPath");
+    var  VUE_APP_ZC_INDUSTRY_ROUTE_PATH=getURLParameter("ctxPath1");
+ /*   var filePlatAddr = '${filePlatAddr}';*/
+    //var VUE_APP_BASE_API=commonUrl.VUE_APP_BASE_API;
+    var VUE_APP_BASE_API=VUE_APP_BASE_API;
+    var VUE_APP_ZC_ROUTE_PATH="";
+
+    var vm1= new Vue({
+      el: '#manage',
+      data: {
+        metadataList:[],
+        fileList:[],
+        attaList:[],
+        elementValueList:[],
+      },
+      methods: {
+        //成功后返回
+        handleImgSuccess(resp,file,elementOid){
+          this.attaList = this.attaList.filter(item => item.elementOid !== elementOid);
+          console.log("resp="+ JSON.stringify(this.fileList) );
+          var atta={};
+          atta.attaOid = resp.data.oid;
+          atta.originName = resp.data.name;
+          atta.name = resp.data.name;
+          atta.filePath= resp.data.url;
+          atta.elementOid= elementOid;
+          this.attaList.push(atta);
+          //console.log("attaList="+ JSON.stringify(this.attaList) )
+        },
+        handleImgRemove(resp,file,elementOid){
+          this.attaList = this.attaList.filter(item => item.elementOid !== elementOid);
+         // console.log("attaList="+ JSON.stringify(this.attaList) )
+        },
+        //失败后返回
+        uploadError(resp){
+          this.msgError("文件上传失败");
+        },
+        uploadUrl(elementOid){
+          const baseURL = VUE_APP_BASE_API;
+          return baseURL + "/platform/security/atta/uploadFile";
+        }
+
+      }
+    })
+
+    $(function(){
+      getinit();
+    })
+
+
+    function getinit(){
+      var urlIndustry = VUE_APP_ZC_INDUSTRY_ROUTE_PATH+"/combo/industryElement/queryIndustryElementByResultOid/"+materialCatalogOid;
+      $.get( urlIndustry,  function(data){
+        var metadataList=data.data.metaDataJsonArrayStr;
+        var allhtml="";
+        for (var i = 0; i < metadataList.length; i++) {
+          vm1.metadataList.push(metadataList[i]);
+        }
+
+      },'json');
+    }
+
+function saveInfo(){
+  if (vm1.metadataList.length > 0) {
+    console.log("metadataList="+ JSON.stringify(vm1.metadataList) )
+    vm1.metadataList.forEach(data => {
+      var elements={};
+      var elementOid=data.elementOid;
+      elements.elementOid=data.elementOid;
+      var elementValue="";
+      if(data.templateChar!=undefined){
+        elementValue=data.templateChar;
+      }
+      if(data.elementType=='imgFile'){
+        vm1.attaList.forEach(atta => {
+          if(atta.elementOid==data.elementOid){
+            elementValue=atta.filePath;
+          }
+        })
+      }
+      elements.elementValue=elementValue;
+      vm1.elementValueList.push(elements);
+      console.log("elementValueList="+ JSON.stringify(vm1.elementValueList) )
+    });
+    getViewPrinTemplate();
+  }
+}
+//跳转预览模板页面
+function getViewPrinTemplate(){
+  var elementValueList=JSON.stringify(vm1.elementValueList);
+  var url='viewPrintTemplate.html?faModelTemplateOid='+faModelTemplateOid+'&materialCatalogOid='+materialCatalogOid
+    +'&ctxPath='+ctxPath+'&ctxPath1='+VUE_APP_ZC_INDUSTRY_ROUTE_PATH+'&elementValueList='+elementValueList;
+  window.open(url)
+  Dialog.close();
+ /* var diag = new Dialog();
+  diag.Width = 800;
+  diag.Height = 560;
+  diag.Title = "打印信息";*/
+
+
+
+}
+
+  </script>
+
+</html>
+

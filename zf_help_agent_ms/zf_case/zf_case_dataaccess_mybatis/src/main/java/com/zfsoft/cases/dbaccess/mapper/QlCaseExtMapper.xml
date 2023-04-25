@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.cases.dbaccess.dao.QlCaseExtMapper">
+
+    <resultMap type="com.zfsoft.cases.dbaccess.data.DbQlCaseExt" id="QlCaseExtMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="caseOid" column="CASE_OID" jdbcType="VARCHAR"/>
+        <result property="investProjectCode" column="INVEST_PROJECT_CODE" jdbcType="VARCHAR"/>
+        <result property="investProjecName" column="INVEST_PROJEC_NAME" jdbcType="VARCHAR"/>
+        <result property="needLincese" column="NEED_LINCESE" jdbcType="INTEGER"/>
+        <result property="belongsystem" column="BELONGSYSTEM" jdbcType="VARCHAR"/>
+        <result property="projpwd" column="PROJPWD" jdbcType="VARCHAR"/>
+        <result property="sourceType" column="SOURCE_TYPE" jdbcType="VARCHAR"/>
+        <result property="sendDate" column="SEND_DATE" jdbcType="TIMESTAMP"/>
+        <result property="taskHandleItem" column="TASK_HANDLE_ITEM" jdbcType="VARCHAR"/>
+        <result property="localTaskCode" column="LOCAL_TASK_CODE" jdbcType="VARCHAR"/>
+        <result property="acceptDocNo" column="ACCEPT_DOC_NO" jdbcType="VARCHAR"/>
+        <result property="projectAbstract" column="PROJECT_ABSTRACT" jdbcType="VARCHAR"/>
+        <result property="targeOrgName" column="TARGE_ORG_NAME" jdbcType="VARCHAR"/>
+        <result property="isBqbz" column="IS_BQBZ" jdbcType="INTEGER"/>
+        <result property="serviceCharacter" column="SERVICE_CHARACTER" jdbcType="VARCHAR"/>
+        <result property="resultDeliveryWay" column="RESULT_DELIVERY_WAY" jdbcType="VARCHAR"/>
+        <result property="deliverFlag" column="DELIVER_FLAG" jdbcType="INTEGER"/>
+        <result property="proxyFlag" column="PROXY_FLAG" jdbcType="INTEGER"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="modifyDate" column="MODIFY_DATE" jdbcType="TIMESTAMP"  />
+        <result property="paperSubmitType" column="PAPER_SUBMIT_TYPE" jdbcType="INTEGER"  />
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" parameterType="String" resultMap="QlCaseExtMap">
+        select
+          ID, CASE_OID, INVEST_PROJECT_CODE, INVEST_PROJEC_NAME, NEED_LINCESE, BELONGSYSTEM, PROJPWD, SOURCE_TYPE,
+          SEND_DATE, TASK_HANDLE_ITEM, LOCAL_TASK_CODE, ACCEPT_DOC_NO, PROJECT_ABSTRACT, TARGE_ORG_NAME, IS_BQBZ,
+          SERVICE_CHARACTER, RESULT_DELIVERY_WAY, DELIVER_FLAG, PROXY_FLAG, CREATE_DATE, MODIFY_DATE, PAPER_SUBMIT_TYPE
+        from t_ql_case_ext
+        where ID = #{id}
+    </select>
+
+    <!--根据办件业务编号查询办件扩展信息-->
+    <select id="queryQlCaseExtByCaseOid" parameterType="String" resultMap="QlCaseExtMap">
+        select
+          ID, CASE_OID, INVEST_PROJECT_CODE, INVEST_PROJEC_NAME, NEED_LINCESE, BELONGSYSTEM, PROJPWD, SOURCE_TYPE,
+          SEND_DATE, TASK_HANDLE_ITEM, LOCAL_TASK_CODE, ACCEPT_DOC_NO, PROJECT_ABSTRACT, TARGE_ORG_NAME, IS_BQBZ,
+          SERVICE_CHARACTER, RESULT_DELIVERY_WAY, DELIVER_FLAG, PROXY_FLAG,CREATE_DATE, MODIFY_DATE, PAPER_SUBMIT_TYPE
+        from t_ql_case_ext
+        where CASE_OID = #{caseOid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit"  resultMap="QlCaseExtMap">
+        select
+          ID, CASE_OID, INVEST_PROJECT_CODE, INVEST_PROJEC_NAME, NEED_LINCESE, BELONGSYSTEM, PROJPWD, SOURCE_TYPE,
+          SEND_DATE, TASK_HANDLE_ITEM, LOCAL_TASK_CODE, ACCEPT_DOC_NO, PROJECT_ABSTRACT, TARGE_ORG_NAME, IS_BQBZ,
+          SERVICE_CHARACTER, RESULT_DELIVERY_WAY, DELIVER_FLAG, PROXY_FLAG, CREATE_DATE, MODIFY_DATE, PAPER_SUBMIT_TYPE
+        from t_ql_case_ext
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseExt" resultMap="QlCaseExtMap">
+        select
+        ID, CASE_OID, INVEST_PROJECT_CODE, INVEST_PROJEC_NAME, NEED_LINCESE, BELONGSYSTEM, PROJPWD, SOURCE_TYPE,
+        SEND_DATE, TASK_HANDLE_ITEM, LOCAL_TASK_CODE, ACCEPT_DOC_NO, PROJECT_ABSTRACT, TARGE_ORG_NAME, IS_BQBZ,
+        SERVICE_CHARACTER, RESULT_DELIVERY_WAY, DELIVER_FLAG, PROXY_FLAG, CREATE_DATE, MODIFY_DATE, PAPER_SUBMIT_TYPE
+        from t_ql_case_ext
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="caseOid != null and caseOid != ''">
+                and CASE_OID = #{caseOid}
+            </if>
+            <if test="investProjectCode != null and investProjectCode != ''">
+                and INVEST_PROJECT_CODE = #{investProjectCode}
+            </if>
+            <if test="investProjecName != null and investProjecName != ''">
+                and INVEST_PROJEC_NAME = #{investProjecName}
+            </if>
+            <if test="needLincese != null">
+                and NEED_LINCESE = #{needLincese}
+            </if>
+            <if test="belongsystem != null and belongsystem != ''">
+                and BELONGSYSTEM = #{belongsystem}
+            </if>
+            <if test="projpwd != null and projpwd != ''">
+                and PROJPWD = #{projpwd}
+            </if>
+            <if test="sourceType != null and sourceType != ''">
+                and SOURCE_TYPE = #{sourceType}
+            </if>
+            <if test="sendDate != null">
+                and SEND_DATE = #{sendDate}
+            </if>
+            <if test="taskHandleItem != null and taskHandleItem != ''">
+                and TASK_HANDLE_ITEM = #{taskHandleItem}
+            </if>
+            <if test="localTaskCode != null and localTaskCode != ''">
+                and LOCAL_TASK_CODE = #{localTaskCode}
+            </if>
+            <if test="acceptDocNo != null and acceptDocNo != ''">
+                and ACCEPT_DOC_NO = #{acceptDocNo}
+            </if>
+            <if test="projectAbstract != null and projectAbstract != ''">
+                and PROJECT_ABSTRACT = #{projectAbstract}
+            </if>
+            <if test="targeOrgName != null and targeOrgName != ''">
+                and TARGE_ORG_NAME = #{targeOrgName}
+            </if>
+            <if test="isBqbz != null">
+                and IS_BQBZ = #{isBqbz}
+            </if>
+            <if test="serviceCharacter != null and serviceCharacter != ''">
+                and SERVICE_CHARACTER = #{serviceCharacter}
+            </if>
+            <if test="resultDeliveryWay != null and resultDeliveryWay != ''">
+                and RESULT_DELIVERY_WAY = #{resultDeliveryWay}
+            </if>
+            <if test="deliverFlag != null">
+                and DELIVER_FLAG = #{deliverFlag}
+            </if>
+            <if test="paperSubmitType != null">
+                and PAPER_SUBMIT_TYPE = #{paperSubmitType}
+            </if>
+            <if test="proxyFlag != null">
+                and PROXY_FLAG = #{proxyFlag}
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseExt">
+        insert into t_ql_case_ext(CASE_OID, INVEST_PROJECT_CODE, INVEST_PROJEC_NAME, NEED_LINCESE, BELONGSYSTEM, PROJPWD,
+        SOURCE_TYPE, SEND_DATE, TASK_HANDLE_ITEM, LOCAL_TASK_CODE, ACCEPT_DOC_NO, PROJECT_ABSTRACT, TARGE_ORG_NAME,
+        IS_BQBZ, SERVICE_CHARACTER, RESULT_DELIVERY_WAY, DELIVER_FLAG, PROXY_FLAG, CREATE_DATE, PAPER_SUBMIT_TYPE)
+        values (#{caseOid}, #{investProjectCode}, #{investProjecName}, #{needLincese}, #{belongsystem}, #{projpwd},
+        #{sourceType}, #{sendDate}, #{taskHandleItem}, #{localTaskCode}, #{acceptDocNo}, #{projectAbstract},
+        #{targeOrgName}, #{isBqbz}, #{serviceCharacter}, #{resultDeliveryWay}, #{deliverFlag}, #{proxyFlag},
+        #{createDate}, #{paperSubmitType})
+    </insert>
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseExt">
+        update t_ql_case_ext
+        <set>
+            <if test="caseOid != null and caseOid != ''">
+                CASE_OID = #{caseOid},
+            </if>
+            <if test="needLincese != null">
+                NEED_LINCESE = #{needLincese},
+            </if>
+            <if test="belongsystem != null and belongsystem != ''">
+                BELONGSYSTEM = #{belongsystem},
+            </if>
+            <if test="projpwd != null and projpwd != ''">
+                PROJPWD = #{projpwd},
+            </if>
+            <if test="sourceType != null and sourceType != ''">
+                SOURCE_TYPE = #{sourceType},
+            </if>
+            <if test="sendDate != null">
+                SEND_DATE = #{sendDate},
+            </if>
+            <if test="taskHandleItem != null and taskHandleItem != ''">
+                TASK_HANDLE_ITEM = #{taskHandleItem},
+            </if>
+            <if test="localTaskCode != null and localTaskCode != ''">
+                LOCAL_TASK_CODE = #{localTaskCode},
+            </if>
+            <if test="acceptDocNo != null and acceptDocNo != ''">
+                ACCEPT_DOC_NO = #{acceptDocNo},
+            </if>
+                INVEST_PROJECT_CODE = #{investProjectCode},
+                INVEST_PROJEC_NAME = #{investProjecName},
+                PROJECT_ABSTRACT = #{projectAbstract},
+            <if test="targeOrgName != null and targeOrgName != ''">
+                TARGE_ORG_NAME = #{targeOrgName},
+            </if>
+            <if test="isBqbz != null">
+                IS_BQBZ = #{isBqbz},
+            </if>
+            <if test="serviceCharacter != null and serviceCharacter != ''">
+                SERVICE_CHARACTER = #{serviceCharacter},
+            </if>
+            <if test="resultDeliveryWay != null and resultDeliveryWay != ''">
+                RESULT_DELIVERY_WAY = #{resultDeliveryWay},
+            </if>
+            <if test="deliverFlag != null">
+                DELIVER_FLAG = #{deliverFlag},
+            </if>
+            <if test="paperSubmitType != null">
+                PAPER_SUBMIT_TYPE = #{paperSubmitType},
+            </if>
+            <if test="proxyFlag != null">
+                PROXY_FLAG = #{proxyFlag},
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE = #{createDate}
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t_ql_case_ext where ID = #{id}
+    </delete>
+
+</mapper>

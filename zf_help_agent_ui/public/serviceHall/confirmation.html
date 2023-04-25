@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>办件信息</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style-screen-1920.css">
+</head>
+
+<body>
+  <div class="content">
+    <header>
+      <img src="./img/hall-name.png">
+    </header>
+    <div class="main clearfix" id="vue_det">
+      <div class="main-fl">
+        <img class="portrait" src="./img/portrait.png">
+        <ul class="info">
+          <li><span v-cloak>姓名：{{userName}}</span></li>
+          <!-- <li><span>部门：{{organName}}</span></li> -->
+          <li><span>工号：089757</span></li>
+        </ul>
+        <p class="teleNum">咨询电话：0553-2626578</p>
+      </div>
+      <div class="main-fr">
+        <p class="title">办件信息确认</p>
+        <div class="cont">
+          <table class="table-row">
+            <colgroup>
+              <col width="18%">
+              <col width="34%">
+              <col width="18%">
+              <col width="34%">
+            </colgroup>
+            <tbody>
+              <tr>
+              <tr>
+                <td>申请人名称:</td>
+                <td v-cloak>{{caseContent.applyUserName}}</td>
+                <td>申请人类型:</td>
+                <td v-cloak>{{caseContent.applyUserType}}</td>
+              </tr>
+              <tr>
+                <td>证件类型:</td>
+                <td v-cloak>{{caseContent.credentialName}}</td>
+                <td>证件号:</td>
+                <td v-cloak>{{caseContent.credentialNumber}}</td>
+              </tr>
+              <tr>
+                <td>代理人:</td>
+                <td>无</td>
+                <td>申请人手机:</td>
+                <td v-cloak>{{caseContent.applyUserPhone}}</td>
+              </tr>
+              <tr>
+                <td>邮政编码:</td>
+                <td v-cloak>{{caseContent.applyPostCode}}</td>
+                <td>申请人固话:</td>
+                <td>0551-65602662</td>
+              </tr>
+              <tr>
+                <td>通讯地址:</td>
+                <td>合肥市禹州中央城2栋101</td>
+                <td>送达方式:</td>
+                <td>自行取件</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="confirm confirmation">
+            <button type="button" onclick="ShowSuccess()">确认信息正确</button>
+            <button type="button" onclick="Showfail()">确认信息有误</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>2 0 2 1 @ 上 海 卓 繁 信 息 技 术 股 份 有 限 公 司 沪 I C P 备 2 0 2 1 0 0 4 4 6 9 号 - 1</footer>
+    <span class="tips" style="display:none;margin-left: 90px;background-color: #78e278" id="tips"></span>
+  </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="../pbpj/js/vue.min.js"></script>
+<script>
+  function ShowSuccess() {
+    (function button($) {
+      $.fn.Tips = function (options) {
+        var defaults = {
+          html: "",
+          times: 3000
+        }
+        _this_ = $("#tips");
+        _this_.html(options.html);
+        _this_.show();
+        setTimeout(function () {
+          _this_.hide()
+        }, options.times);
+      };
+      // 提示信息
+      $("#tips").Tips({
+        html: "信息确认无误",
+        times: 3000
+      })
+    })(jQuery);
+  }
+
+  function Showfail() {
+    (function button($) {
+      $.fn.Tips = function (options) {
+        var defaults = {
+          html: "",
+          times: 3000
+        }
+        _this_ = $("#tips");
+        _this_.html(options.html);
+        _this_.show();
+        setTimeout(function () {
+          _this_.hide()
+        }, options.times);
+      };
+      // 提示信息
+      $("#tips").Tips({
+        html: "信息信息有误",
+        times: 3000
+      })
+    })(jQuery);
+  }
+
+  var app = new Vue({
+    el: '#vue_det',
+    data: {
+      userName: "",
+      organName: "",
+      caseContent: {},
+    },
+    mounted: function () {
+      this.getCaseInfo();//需要触发的函数
+    },
+    methods: {
+      getCaseInfo: function () {
+        var content = this.getURLParameter("jsonObject");
+        var obj = JSON.parse(content);
+        this.userName = obj.userName;
+        this.organName = obj.organName;
+        this.caseContent = obj.content;
+      },
+      getURLParameter: function (name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+      },
+    }
+  })
+</script>
+
+</html>

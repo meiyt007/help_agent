@@ -1,0 +1,54 @@
+#sentinel:
+#  server:
+#    dev:
+#      host: 172.168.249.3:8718
+nacos:
+  server:
+    group: PLATFORM-01
+    online:
+      username: zfnacos
+      password: Zfsoft888
+      host: 172.21.176.204:13303  #黄埔线上环境
+      namespace: b23b2636-1723-48f1-b0ca-0a5a22d80767
+    prod:
+      username: nacos
+      password: nacos
+      host: 122.112.225.220:8848 #合肥环境
+      namespace: b23b2636-1723-48f1-b0ca-0a5a22d80767
+    dev:
+      username: nacos
+      password: nacos
+      host: 127.0.0.1:8848
+      namespace: b23b2636-1723-48f1-b0ca-0a5a22d80767
+spring:
+  application:
+    name: platform-service-provider
+  cloud:
+#    sentinel:
+#      transport:
+#        dashboard: ${sentinel.server.${spring.profiles.active}.host}
+#      eager: true
+#      datasource:
+#        ds:
+#          nacos:
+#            server-addr: ${nacos.server.${spring.profiles.active}.host}
+#            group-id: ${nacos.server.group}
+#            rule-type: flow
+#            data-id: ${spring.application.name}-sentinel
+#            data-type: json
+    nacos:
+      config:
+        server-addr: ${nacos.server.${spring.profiles.active}.host}
+        file-extension: yaml
+        group: ${nacos.server.group}
+        namespace: ${nacos.server.${spring.profiles.active}.namespace}
+        username: ${nacos.server.${spring.profiles.active}.username}
+        password: ${nacos.server.${spring.profiles.active}.password}
+      discovery:
+        server-addr: ${nacos.server.${spring.profiles.active}.host}
+        group: ${nacos.server.group}
+        namespace: ${nacos.server.${spring.profiles.active}.namespace}
+        username: ${nacos.server.${spring.profiles.active}.username}
+        password: ${nacos.server.${spring.profiles.active}.password}
+  profiles:
+    active: 'dev'

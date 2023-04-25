@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zfsoft.platform.auth.component.MyTokenEnhancer,\
+  com.zfsoft.platform.auth.listener.AuthenticationFailureEventListener,\
+  com.zfsoft.platform.auth.listener.AuthenticationSuccessEventListener
+

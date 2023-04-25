@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html style="height:100%;overflow-y:hidden;">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="shortcut icon" href="images/zflogo.ico" type="image/x-icon" />
+		<meta name="renderer" content="webkit">
+		<title>模板制作</title>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<!--    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">-->
+<!--    <link rel="stylesheet" href="css/index.css">-->
+    <link rel="stylesheet" href="css/init.css" type="text/css">
+    <script src="js/fa/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="js/fa/zDialog/zDialog.css">
+    <script src="js/fa/zDialog/zDialog.js"></script>
+    <script src="js/common.js"></script>
+    <script src="../common.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+
+      //获取参数
+      function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+      }
+      var  faModelTemplateOid = getURLParameter("faModelTemplateOid");
+      var materialCatalogOid=getURLParameter("materialCatalogOid");
+      var  ctxPath = getURLParameter("ctxPath");
+      var  ctxPath1=getURLParameter("ctxPath1");
+      var filePlatAddr = '${filePlatAddr}';
+      var VUE_APP_BASE_API=VUE_APP_BASE_API;
+      var VUE_APP_ZC_ROUTE_PATH="";
+
+      $(function(){
+        getZcUrl();
+      })
+      //获取综窗地址
+      function getZcUrl(){
+        var code="ZC_ROUTE_URL" ;
+        var urlImg = VUE_APP_BASE_API+'/settings/security/config/getSysConfigByCode';
+        var dataimg = {
+          "code": code,
+        }
+        $.ajax({
+          url: urlImg, //请求地址
+          type: "get", //请求方式
+          data:dataimg,
+          dataType:'json',
+          success: function(data) { //成功回调
+            VUE_APP_ZC_ROUTE_PATH=data.data.value;
+            getinit();
+          },
+          fail: function(data) {
+            console.log('fail')
+          }
+        });
+      }
+
+
+      function getinit(){
+        var param = {};
+        getDYSZDJ();
+        //获取材料列表
+       // getAttaList('');
+      }
+
+
+      function getDYSZDJ(){
+        $("#printerName").html("");
+        var url = VUE_APP_ZC_ROUTE_PATH+"/faModelTemplate/initPrintSetting";
+        var data = {
+          "faModelTemplateOid":faModelTemplateOid,
+        }
+        $.get( url, data, function(data) {
+          //var attaList = data.data.data;
+          console.log("******"+JSON.stringify(data.data))
+          var printSetting=data.data.printSetting;
+          var printNameList=data.data.printNameList;
+
+          var imgStr='<option value="-1">请选择</option>';
+          for (var i = 0; i < printNameList.length; i++) {
+            var dictOid=printNameList[i].dictOid;
+            var name=printNameList[i].name;
+            var code=printNameList[i].code;
+            imgStr+='<option value="' + dictOid +'">' + name +'</option>';
+          }
+          $("#printerName").append(imgStr)
+          console.log("******imgStr="+imgStr+"***")
+          if(printSetting!=null &&printSetting!='null'){
+            var printSettingnew=JSON.parse(printSetting);
+            var originName= printSettingnew.originName;
+            var orientation= printSettingnew.orientation;
+            var pageSize= printSettingnew.pageSize;
+
+            $('#printerName').val(originName);
+            $('#orientation').val(orientation);
+            $('#pageSize').val(pageSize);
+          }
+
+        })
+      }
+
+     function saveInfo(){
+       var originName= $('#printerName').val();
+       var orientation= $('#orientation').val();
+       var pageSize= $('#pageSize').val();
+       var  printSettingObject={};
+       printSettingObject.originName=originName;
+       printSettingObject.orientation=orientation;
+       printSettingObject.pageSize=pageSize;
+
+      var printSetting=JSON.stringify(printSettingObject);
+
+       var url = VUE_APP_ZC_ROUTE_PATH+"/faModelTemplate/savePrintSet";
+       var data = {
+         "faModelTemplateOid":faModelTemplateOid,
+         "printSetting":printSetting,
+       }
+       $.get( url, data, function(data) {
+         if(null!=data.data){
+           ownerDialog.diagClose();
+         }
+         console.log("******"+JSON.stringify(data.data))
+
+
+       })
+     }
+
+
+    </script>
+	</head>
+  <body class="" style="background: #f1f1f1;">
+  <div id="manage">
+    <form id="form1" name="form1">
+      <div class="pull-wrap">
+        <table class="table-bordereds">
+          <tr>
+            <td class="table_header">
+              <label for="printerName">选择打印机：</label>
+            </td>
+            <td class="table_text">
+              <select id="printerName" name="printerName" class="select2">
+                <option value="-1">请选择</option>
+
+              </select>
+              <font style="color: red; float: left; margin: 5px 0 0 5px;">*</font>
+            </td>
+          </tr>
+          <tr>
+            <td class="table_header">
+              <label for="pageSize">纸张尺寸：</label>
+            </td>
+            <td class="table_text">
+              <select id="pageSize" name="pageSize" class="select2">
+                <option value="-1">请选择</option>
+                <option value="A3">A3</option>
+                <option value="A4">A4</option>
+              </select>
+              <font style="color: red; float: left; margin: 5px 0 0 5px;">*</font>
+            </td>
+          </tr>
+          <tr>
+            <td class="table_header">
+              <label for="orientation">布局：</label>
+            </td>
+            <td class="table_text">
+              <select id="orientation" name="orientation" class="select2">
+                <option value="-1">请选择</option>
+                <option value="Landscape">横向</option>
+                <option value="Portrait">纵向</option>
+              </select>
+              <font style="color: red; float: left; margin: 5px 0 0 5px;">*</font>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </form>
+    <div class="layui-layer-btn">
+      <a class="layui-layer-btn2" type="button" onclick="saveInfo()">确定</a>
+      <a onclick="Dialog.close();" class="layui-layer-btn1">关闭</a>
+    </div>
+  </div>
+  </body>
+
+</html>

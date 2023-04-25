@@ -1,0 +1,59 @@
+server:
+  port: 8086
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    url: jdbc:mysql://119.3.101.156:3306/hp_bussiness_v1.0?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Zfsoft888
+
+#天气接口
+weather:
+  url: http://gfapi.mlogcn.com/weather/v001/now
+  areacode: 101020400   #黄浦区域代码
+  key: UTEhoKgfScQo5NJcGCHbSaBWp9PIB4FI  #密钥(私人zbf
+#短信
+sms:
+  url: https://station.shhuangpu.gov.cn/shhpewb/rest/shhpmessagedatarest/messagedata
+  token: Epointshhp**##
+  displayOu: 行政服务中心  #短信接口调用方单位
+  unit: "008"  #调用主体单位代码项值
+  msgusage: "009"  #短信用途代码项值
+
+fdfs:
+  #fastDFS,nginx预览的前缀url
+  fastDFSNginxUrl: http://139.9.123.180
+  so-timeout: 1501
+  connect-timeout: 601
+  thumb-image:
+    width: 150
+    height: 150
+  tracker-list:
+    - 139.9.123.180:22122 #根据实际情况填写，可以配置多个tracker服务器地址
+  # - 100.100.100.101:22122
+
+# 百家云账号地址信息
+baijiayun:
+  # 应用ID
+  appId: TfVBOgkSCDKNNLCGulCcjCnKUr6pBak0
+  # 应用密钥
+  appSecret: 94GTkOZZhWxxL1idGdVtM00gIFHTcKef
+  # 客户ID
+  customerId: y1zj2f10p511xwogvrgrbc2vqtp2ni09
+  # 客户密钥
+  customerSecret: vv2z0gxqrh08cf7bqslg1oczog69f4zo
+  # 获取混流录制录制资源口
+  streamMixUrl: https://brtc-api.baijiayun.com/vcs/recording/stream/mix
+  # 开始混流录制接口
+  streamMixStatusUrl: https://brtc-api.baijiayun.com/vcs/recording/stream/mix/start
+  # 结束混流录制接口
+  streamMixStopUrl: https://brtc-api.baijiayun.com/vcs/recording/stream/mix/stop
+  # 更新混流录制接口
+  streamMixUpdateUrl: https://brtc-api.baijiayun.com/vcs/recording/stream/mix/update
+  # 获取录制文件接口
+  streamQueryUrl: https://brtc-api.baijiayun.com/vcs/recording/stream/query
+

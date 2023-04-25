@@ -1,0 +1,17 @@
+${AnsiColor.BRIGHT_YELLOW}
+,-j-u-n-. ,--kk---.  ,-x-.    ,-xx--.  ,--kk--. ,---xx---.
+`--.   /  |  .---' '   .-'  '  .-.  ' |  .---' '--.  .--'
+  /   /   |  `--,  `.  `-.  |  | |  | |  `--,     |  |
+ /   `--. |  |`    .-'    | '  '-'  ' |  |`       |  |
+`--xx---' `--'     `-jun-'   `--kx-'  `--'        `--'
+
+                 platform
+
+                基础研发平台
+${AnsiColor.DEFAULT}
+${AnsiColor.RED}
+    Developers: junli xxzhong xxwu kkfan
+${AnsiColor.DEFAULT}
+${AnsiColor.BRIGHT_YELLOW}
+    Spring Boot Version: ${spring-boot.version}
+${AnsiColor.DEFAULT}

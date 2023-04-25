@@ -1,0 +1,179 @@
+#main {  
+  font-size: 80%;    
+  width: 100%;
+  margin-left:auto;
+  margin-right: auto;  
+  height: 2000px;
+  text-align: center;
+  position: relative;
+  background-color:#DEEFFF;    
+}
+
+.demo {
+  position: relative;
+  width:100%;
+  background-color:#DEEFFF;    
+  height: 2000px;
+}
+
+.demo {
+    /* for IE10+ touch devices */
+    touch-action:none;
+}
+
+.flowchart-demo .window {
+    border: 1px solid #111111;
+    box-shadow: 2px 2px 19px #aaa;
+    -o-box-shadow: 2px 2px 19px #aaa;
+    -webkit-box-shadow: 2px 2px 19px #aaa;
+    -moz-box-shadow: 2px 2px 19px #aaa;
+    -moz-border-radius: 0.5em;
+    border-radius: 0.5em;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    width: 80px;
+    height: 40px;
+    cursor: pointer;
+    text-align: center;
+    z-index: 20;
+    position: absolute;
+    color: black;
+    font-family: helvetica;
+    padding: 0.5em;
+    font-size: 0.9em;
+    -webkit-transition: -webkit-box-shadow 0.15s ease-in;
+    -moz-transition: -moz-box-shadow 0.15s ease-in;
+    -o-transition: -o-box-shadow 0.15s ease-in;
+    transition: box-shadow 0.15s ease-in;
+}
+
+.flowchart-demo .window:hover {
+    box-shadow: 2px 2px 19px #444;
+    -o-box-shadow: 2px 2px 19px #444;
+    -webkit-box-shadow: 2px 2px 19px #444;
+    -moz-box-shadow: 2px 2px 19px #444;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+}
+
+.window .displayfont1 {
+    color: #000000;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+} 
+.window .displayfont2 {
+    color: #000000;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.window_moren {
+    background-color: #FFFFFF;
+}
+.window0 {
+    background-color: #EEEEEF;
+}
+.window_outTime {
+    background-color: #FF332D;
+}
+.window_zhengZaiBanLi {
+    background-color: #F69C00;
+}
+.window_anShiBanLi {
+    background-color: #74B82A;
+}
+.window_buCanYu {
+    background-color: #999999;
+}
+.window_weiKaishi {
+	background-color: #E9E9E9;
+}
+.window_buYuXuKe {
+	background-color: #FF332D;
+}
+.window_yuanZeTongYi {
+	background-color: #999999;
+}
+.window_buYuShouLi {
+	background-color: #FF332D;
+}
+		
+.flowchart-demo .active {
+    border: 1px dotted green;
+}
+
+.flowchart-demo .hover {
+    border: 1px dotted red;
+}
+
+.flowchart-demo ._jsPlumb_connector {
+    z-index: 4;
+}
+
+.flowchart-demo ._jsPlumb_endpoint, .endpointTargetLabel, .endpointSourceLabel {
+    z-index: 21;
+    cursor: pointer;
+}
+
+.flowchart-demo .aLabel {
+    background-color: white;
+    padding: 0.4em;
+    font: 12px sans-serif;
+    color: #444;
+    z-index: 21;
+    border: 1px dotted gray;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    cursor: pointer;
+}
+
+.flowchart-demo .aLabel._jsPlumb_hover {
+    background-color: #5C96BC;
+    color: white;
+    border: 1px solid white;
+}
+
+.window._jsPlumb_connected {
+    border: 2px solid green;
+}
+
+.jsplumb-drag {
+    border: 4px solid pink !important;
+}
+
+path, ._jsPlumb_endpoint {
+    cursor: pointer;
+}
+
+.windowtips {
+    border: 1px solid #346789;
+    box-shadow: 2px 2px 19px #aaa;
+    -o-box-shadow: 2px 2px 19px #aaa;
+    -webkit-box-shadow: 2px 2px 19px #aaa;
+    -moz-box-shadow: 2px 2px 19px #aaa;
+    -moz-border-radius: 0.5em;
+    border-radius: 0.5em;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    font-family: helvetica;
+    -webkit-transition: -webkit-box-shadow 0.15s ease-in;
+    -moz-transition: -moz-box-shadow 0.15s ease-in;
+    -o-transition: -o-box-shadow 0.15s ease-in;
+    transition: box-shadow 0.15s ease-in;
+	padding: 5px;
+	min-width: 200px; 
+	min-height: 80px; 
+	max-width: 500px;
+	background-color: #7EB5D7; 
+	color: #FFFFFF; 
+	font-size: 14px; 
+	overflow: auto;
+	z-index: 9999;
+}
+.windowtips strong{
+	font-size: 14px;
+}

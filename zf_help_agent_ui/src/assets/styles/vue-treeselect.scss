@@ -1,0 +1,23 @@
+.vue-treeselect__multi-value {
+    padding: 0 5px;
+    line-height: 18px;
+}
+
+.vue-treeselect.vue-treeselect--multi.vue-treeselect--searchable.vue-treeselect--has-value.vue-treeselect--append-to-body {
+    z-index: 99999 !important;
+}
+
+.vue-treeselect.vue-treeselect--append-to-body .vue-treeselect__menu-container .vue-treeselect__menu,
+.vue-treeselect.vue-treeselect--append-to-body .vue-treeselect__menu-container .vue-treeselect__menu ul {
+    overflow: auto !important;
+}
+
+.vue-treeselect__control {
+    height: 32px !important;
+    display: block;
+}
+
+.vue-treeselect__placeholder,
+.vue-treeselect__single-value {
+    line-height: 32px !important;
+}

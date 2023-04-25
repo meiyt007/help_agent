@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.zfsoft</groupId>
+    <artifactId>hp_help_agent</artifactId>
+    <version>1.0-HP</version>
+    <name>hp_help_agent</name>
+    <packaging>pom</packaging>
+    <description>卓繁软件父项目</description>
+    <modules>
+        <module>zf_platform</module>
+        <module>zf_help_agent_ms</module>
+    </modules>
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Internal Releases</name>
+            <url>http://hf.zhuofansoft.com:16001/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Internal Releases</name>
+            <url>http://hf.zhuofansoft.com:16001/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <id>nexus_zfsoft</id>
+            <url>http://nexus.zfsoft.com/repository/maven-public-dev/</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

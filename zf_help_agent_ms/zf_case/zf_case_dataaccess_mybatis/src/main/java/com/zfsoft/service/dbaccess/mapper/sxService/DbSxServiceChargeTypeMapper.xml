@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.service.dbaccess.dao.sxService.DbSxServiceChargeTypeMapper">
+    <resultMap type="com.zfsoft.service.dbaccess.data.sxService.DbSxServiceChargeType" id="DbSxServiceChargeTypeMap">
+        <result property="chargeTypeOid" column="CHARGE_TYPE_OID" jdbcType="VARCHAR"/>
+        <result property="type" column="TYPE" jdbcType="VARCHAR"/>
+        <result property="unit" column="UNIT" jdbcType="VARCHAR"/>
+        <result property="enabledFlag" column="ENABLED_FLAG" jdbcType="VARCHAR"/>
+        <result property="delFlag" column="DEL_FLAG" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="createUser" column="CREATE_USER" jdbcType="VARCHAR"/>
+        <result property="subFlag" column="SUB_FLAG" jdbcType="VARCHAR"/>
+        <result property="chargeWay" column="CHARGE_WAY" jdbcType="VARCHAR"/>
+        <result property="floatFlag" column="FLOAT_FLAG" jdbcType="VARCHAR"/>
+        <result property="modifyDate" column="MODIFY_DATE" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DbSxServiceChargeTypeMap">
+        select CHARGE_TYPE_OID,
+               TYPE,
+               UNIT,
+               ENABLED_FLAG,
+               DEL_FLAG,
+               CREATE_DATE,
+               CREATE_USER,
+               SUB_FLAG,
+               CHARGE_WAY,
+               FLOAT_FLAG,
+               MODIFY_DATE
+        from t_sx_service_charge_type
+        where  DEL_FLAG = 0 and CHARGE_TYPE_OID = #{chargeTypeOid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DbSxServiceChargeTypeMap">
+        select CHARGE_TYPE_OID,
+               TYPE,
+               UNIT,
+               ENABLED_FLAG,
+               DEL_FLAG,
+               CREATE_DATE,
+               CREATE_USER,
+               SUB_FLAG,
+               CHARGE_WAY,
+               FLOAT_FLAG,
+               MODIFY_DATE
+        from t_sx_service_charge_type
+        limit #{offset}
+           , #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DbSxServiceChargeTypeMap">
+        select
+        CHARGE_TYPE_OID, TYPE, UNIT, ENABLED_FLAG, DEL_FLAG, CREATE_DATE, CREATE_USER, SUB_FLAG, CHARGE_WAY, FLOAT_FLAG,
+        MODIFY_DATE
+        from t_sx_service_charge_type
+        <where>
+            <if test="chargeTypeOid != null and chargeTypeOid != ''">
+                and CHARGE_TYPE_OID = #{chargeTypeOid}
+            </if>
+            <if test="type != null and type != ''">
+                and TYPE = #{type}
+            </if>
+            <if test="unit != null and unit != ''">
+                and UNIT = #{unit}
+            </if>
+            <if test="enabledFlag != null and enabledFlag != ''">
+                and ENABLED_FLAG = #{enabledFlag}
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                and DEL_FLAG = #{delFlag}
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="createUser != null and createUser != ''">
+                and CREATE_USER = #{createUser}
+            </if>
+            <if test="subFlag != null and subFlag != ''">
+                and SUB_FLAG = #{subFlag}
+            </if>
+            <if test="chargeWay != null and chargeWay != ''">
+                and CHARGE_WAY = #{chargeWay}
+            </if>
+            <if test="floatFlag != null and floatFlag != ''">
+                and FLOAT_FLAG = #{floatFlag}
+            </if>
+            <if test="modifyDate != null">
+                and MODIFY_DATE = #{modifyDate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="chargeTypeOid" useGeneratedKeys="true">
+        insert into t_sx_service_charge_type(TYPE, UNIT, ENABLED_FLAG, DEL_FLAG, CREATE_DATE,
+                                                                 CREATE_USER, SUB_FLAG, CHARGE_WAY, FLOAT_FLAG,
+                                                                 MODIFY_DATE)
+        values (#{type}, #{unit}, #{enabledFlag}, #{delFlag}, #{createDate}, #{createUser}, #{subFlag}, #{chargeWay}, #{floatFlag}, #{modifyDate})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="chargeTypeOid" useGeneratedKeys="true">
+        insert into t_sx_service_charge_type(TYPE, UNIT, ENABLED_FLAG, DEL_FLAG, CREATE_DATE,
+        CREATE_USER, SUB_FLAG, CHARGE_WAY, FLOAT_FLAG, MODIFY_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.type}, #{entity.unit}, #{entity.enabledFlag}, #{entity.delFlag}, #{entity.createDate},
+            #{entity.createUser}, #{entity.subFlag}, #{entity.chargeWay}, #{entity.floatFlag}, #{entity.modifyDate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="chargeTypeOid" useGeneratedKeys="true">
+        insert into t_sx_service_charge_type(TYPE, UNIT, ENABLED_FLAG, DEL_FLAG, CREATE_DATE,
+        CREATE_USER, SUB_FLAG, CHARGE_WAY, FLOAT_FLAG, MODIFY_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.type}, #{entity.unit}, #{entity.enabledFlag}, #{entity.delFlag}, #{entity.createDate},
+            #{entity.createUser}, #{entity.subFlag}, #{entity.chargeWay}, #{entity.floatFlag}, #{entity.modifyDate})
+        </foreach>
+        on duplicate key update
+        TYPE = values(TYPE) , UNIT = values(UNIT) , ENABLED_FLAG = values(ENABLED_FLAG) , DEL_FLAG = values(DEL_FLAG) ,
+        CREATE_DATE = values(CREATE_DATE) , CREATE_USER = values(CREATE_USER) , SUB_FLAG = values(SUB_FLAG) , CHARGE_WAY
+        = values(CHARGE_WAY) , FLOAT_FLAG = values(FLOAT_FLAG) , MODIFY_DATE = values(MODIFY_DATE)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_sx_service_charge_type
+        <set>
+            <if test="type != null and type != ''">
+                TYPE = #{type},
+            </if>
+            <if test="unit != null and unit != ''">
+                UNIT = #{unit},
+            </if>
+            <if test="enabledFlag != null and enabledFlag != ''">
+                ENABLED_FLAG = #{enabledFlag},
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                DEL_FLAG = #{delFlag},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="createUser != null and createUser != ''">
+                CREATE_USER = #{createUser},
+            </if>
+            <if test="subFlag != null and subFlag != ''">
+                SUB_FLAG = #{subFlag},
+            </if>
+            <if test="chargeWay != null and chargeWay != ''">
+                CHARGE_WAY = #{chargeWay},
+            </if>
+            <if test="floatFlag != null and floatFlag != ''">
+                FLOAT_FLAG = #{floatFlag},
+            </if>
+            <if test="modifyDate != null">
+                MODIFY_DATE = #{modifyDate},
+            </if>
+        </set>
+        where CHARGE_TYPE_OID = #{chargeTypeOid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t_sx_service_charge_type
+        where CHARGE_TYPE_OID = #{chargeTypeOid}
+    </delete>
+
+</mapper>
+

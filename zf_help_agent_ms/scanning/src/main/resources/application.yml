@@ -1,0 +1,6 @@
+server:
+  port: 9093
+
+
+#portname: COM1
+portname: COM7

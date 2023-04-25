@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>办事指南</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style-screen-1920.css">
+  <link rel="stylesheet" href="./css/style-screen-1920-extend.css">
+</head>
+
+<body>
+  <div class="content content-enlarge" id="vue_det">
+    <header v-if="!is1920" v-cloak>
+      <img src="./img/hall-name.png">
+    </header>
+    <div class="main clearfix">
+      <div class="main-fl" v-if="!is1920">
+        <img class="portrait" src="./img/portrait.png">
+        <ul class="info">
+          <li><span v-cloak>姓名：{{userName}}</span></li>
+          <!-- <li><span>部门：{{organName}}</span></li> -->
+          <li><span>工号：089757</span></li>
+        </ul>
+        <p class="teleNum">咨询电话：0553-2626578</p>
+      </div>
+      <div class="main-fr  content-enlarge__main-fr">
+        <p class="title">办事指南信息</p>
+        <div class="cont">
+          <table class="table-row">
+            <colgroup>
+              <col width="18%">
+              <col width="34%">
+              <col width="18%">
+              <col width="34%">
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>事项名称 :</td>
+                <td colspan="3" v-cloak>{{serviceName}}</td>
+              </tr>
+              <tr>
+                <td>办理方式 :</td>
+                <td v-cloak>{{handleFormName}}</td>
+                <td>是否收费 :</td>
+                <td v-cloak>{{chargeFlagName}}</td>
+              </tr>
+              <tr v-if="chargeFlag =='1'">
+                <td>收费标准 :</td>
+                <td colspan="3">30元</td>
+              </tr>
+              <tr>
+                <td>承诺时限 :</td>
+                <td v-cloak>{{promiseLimit}}工作日</td>
+                <td>法定时限 :</td>
+                <td v-cloak>{{legalLimit}}个工作日</td>
+              </tr>
+              <tr>
+                <td>监督电话 :</td>
+                <td v-cloak>{{tsDhText}}</td>
+                <td>咨询电话 :</td>
+                <td v-cloak>{{zxDhText}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table-col">
+            <colgroup>
+              <col width="20%">
+              <col width="50%">
+              <col width="30%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>材料名称</th>
+                <th>材料份数</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(material,index) in sxServiceMaterialList">
+                <td v-cloak>{{ index + 1 }}</td>
+                <td v-cloak>{{ material.materialName}}</td>
+                <td v-cloak>{{ material.paperNumber}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <footer>2 0 2 1 @ 上 海 卓 繁 信 息 技 术 股 份 有 限 公 司 沪 I C P 备 2 0 2 1 0 0 4 4 6 9 号 - 1</footer>
+  </div>
+  <script src="../pbpj/js/vue.min.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#vue_det',
+      data: {
+        userName: "",
+        organName: "",
+        sxServiceMaterialList: [],
+        chargeFlagName: "",
+        zxDhText: "",
+        tsDhText: "",
+        chargeFlag: "",
+        serviceName: "",
+        handleFormName: "",
+        promiseLimit: "",
+        legalLimit: "",
+      },
+      computed: {
+        is1920() {
+          return screen.width === 1920;
+        }
+      },
+      mounted: function () {
+        this.getCaseInfo();//需要触发的函数
+      },
+      methods: {
+        getCaseInfo: function () {
+          var content = this.getURLParameter("jsonObject");
+          var obj = JSON.parse(content);
+          this.userName = obj.userName;
+          this.organName = obj.organName;
+          this.chargeFlagName = obj.sxService.chargeFlagName;
+          this.zxDhText = obj.sxService.zxDhText;
+          this.tsDhText = obj.sxService.tsDhText;
+          this.chargeFlag = obj.sxService.chargeFlag;
+          this.serviceName = obj.sxService.serviceName;
+          this.promiseLimit = obj.sxService.promiseLimit;
+          this.legalLimit = obj.sxService.legalLimit;
+          this.handleFormName = obj.sxService.handleFormName;
+          this.sxServiceMaterialList = obj.sxServiceMaterialList;
+        },
+        getURLParameter: function (name) {
+          return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+        },
+      }
+    })
+  </script>
+</body>
+
+</html>

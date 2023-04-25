@@ -1,0 +1,14 @@
+// 隐藏页眉页脚
+@media print {
+    // @page {
+    //     size: auto;
+    //     margin: 3mm !important;
+    //     // 显示页脚
+    //     // margin-bottom: 15mm !important;
+    // }
+    td,
+    th {
+        border-color: #000 !important;
+        color: #000 !important;
+    }
+}

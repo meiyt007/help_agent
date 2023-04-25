@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.superwindow.dbaccess.dao.DbAveragePrescriptionMapper">
+
+    <resultMap type="com.zfsoft.superwindow.dbaccess.data.DbAveragePrescription" id="BaseResultMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="userOid" column="USER_OID" jdbcType="VARCHAR"/>
+        <result property="processingTime" column="PROCESSING_TIME" jdbcType="INTEGER"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="modifyDate" column="MODIFY_DATE" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="DEL_FLAG" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select ID,
+               USER_OID,
+               PROCESSING_TIME,
+               CREATE_DATE,
+               MODIFY_DATE,
+               DEL_FLAG
+        from t_average_prescription
+        where ID = #{id}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByUserOid" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select ID,
+               USER_OID,
+               PROCESSING_TIME,
+               CREATE_DATE,
+               MODIFY_DATE,
+               DEL_FLAG
+        from t_average_prescription
+        where USER_OID = #{userOid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select ID,
+               USER_OID,
+               PROCESSING_TIME,
+               CREATE_DATE,
+               MODIFY_DATE,
+               DEL_FLAG
+        from t_average_prescription
+        limit #{offset}
+           , #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        ID, USER_OID, PROCESSING_TIME, CREATE_DATE, MODIFY_DATE, DEL_FLAG
+        from t_average_prescription
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="userOid != null and userOid != ''">
+                and USER_OID = #{userOid}
+            </if>
+            <if test="processingTime != null">
+                and PROCESSING_TIME = #{processingTime}
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="modifyDate != null">
+                and MODIFY_DATE = #{modifyDate}
+            </if>
+            <if test="delFlag != null">
+                and DEL_FLAG = #{delFlag}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into t_average_prescription(USER_OID, PROCESSING_TIME, CREATE_DATE, MODIFY_DATE, DEL_FLAG)
+        values (#{userOid}, #{processingTime}, #{createDate}, #{modifyDate}, #{delFlag})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_average_prescription
+        <set>
+            <if test="userOid != null and userOid != ''">
+                USER_OID = #{userOid},
+            </if>
+            <if test="processingTime != null">
+                PROCESSING_TIME = #{processingTime},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="modifyDate != null">
+                MODIFY_DATE = #{modifyDate},
+            </if>
+            <if test="delFlag != null">
+                DEL_FLAG = #{delFlag},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t_average_prescription
+        where ID = #{id}
+    </delete>
+
+</mapper>
+

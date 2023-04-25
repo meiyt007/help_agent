@@ -1,0 +1,219 @@
+@font-face {
+    font-family: dFont;
+    src: url("../../assets/styles/fonts/DIN-Black.otf");
+}
+.el-table {
+    border-radius: 5px;
+}
+
+.el-table.el-table--striped tr:nth-of-type(2n + 1) {
+    background-color: #edf0f5 !important;
+
+    td.el-table__cell {
+        background-color: #edf0f5 !important;
+    }
+}
+
+.el-table.el-table--striped tr:nth-of-type(2n) {
+    background-color: #f2f6f7 !important;
+
+    td.el-table__cell {
+        background-color: #f2f6f7 !important;
+    }
+}
+
+.el-table .el-table__header-wrapper th,
+.el-table .el-table__fixed-header-wrapper th {
+    background-color: rgb(224, 230, 240);
+    padding: 12px 0;
+    border: none;
+    font-size: 14px;
+    font-weight: normal;
+    color: #2a344c;
+}
+
+.el-table tr {
+    border: 1px solid #eff0f2;
+    &:hover {
+        td {
+            background-color: rgba(215, 229, 255, 1) !important;
+        }
+    }
+    td {
+        padding: 6px 0;
+        color: #2a344c;
+    }
+}
+
+.el-table .fixed-width .el-button--mini {
+    color: rgba(14, 84, 255, 1);
+    font-size: 14px;
+}
+
+// 处理电子表单hover效果覆盖
+.el-button.is-disabled,
+.el-button.el-button--primary.is-disabled,
+.el-button.el-button--warning.is-disabled,
+.el-button.el-button--info.is-disabled,
+.el-button.el-button--success.is-disabled,
+.el-button.el-button--danger.is-disabled,
+.el-button.el-button--primary.is-disabled:focus,
+.el-button.el-button--primary.is-disabled:hover,
+.el-button.el-button--warning.is-disabled:focus,
+.el-button.el-button--warning.is-disabled:hover,
+.el-button.el-button--info.is-disabled:focus,
+.el-button.el-button--info.is-disabled:hover,
+.el-button.el-button--success.is-disabled:focus,
+.el-button.el-button--success.is-disabled:hover,
+.el-button.el-button--danger.is-disabled:focus,
+.el-button.el-button--danger.is-disabled:hover,
+.el-button.is-disabled:focus,
+.el-button.is-disabled:hover {
+    color: #fff !important;
+    cursor: not-allowed;
+    background-image: none !important;
+    background-color: #a0cfff !important;
+    border-color: #a0cfff !important;
+}
+
+.el-button--primary {
+    color: #fff;
+    background: #2e7dff !important;
+    // box-shadow: 0px 0px 4px 0px rgba(16, 140, 238, 0.35);
+    border-color: #2e7dff !important;
+
+    &.is-plain {
+        background: #ecf5ff !important;
+        border-color: #b3d8ff !important;
+
+        &:hover,
+        &:active,
+        &:focus {
+            background: #2e7dff !important;
+        }
+    }
+}
+
+.el-input__inner {
+    height: 32px !important;
+    line-height: 32px !important;
+    font-size: 14px !important;
+}
+.el-form-item--medium .el-form-item__content,
+.el-form-item--medium .el-form-item__label {
+    line-height: 32px !important;
+}
+.el-table .cell p {
+    margin: 0;
+}
+.hideSidebar {
+    .siderBar-fixed {
+        width: 85px;
+    }
+    .set-name {
+        display: none;
+    }
+    .suitcase-size {
+        font-size: 20px;
+    }
+}
+.el-popper[data-v-40bd2e60] {
+    left: 90px !important;
+    top: inherit !important;
+    /* right: 70px; */
+    bottom: 0px;
+}
+.el-form--inline .el-form-item__label {
+    font-weight: normal;
+}
+//tagsView面包屑梯形样式添加
+.tags-view-container {
+    .tags-view-wrapper {
+        .tags-view-item {
+            &:first-child {
+                margin-left: 20px !important;
+                background-color: inherit !important;
+                background: url(../../assets/image/first-tags-bg.png) no-repeat center center !important;
+                background-size: 100% 100%;
+                width: 84px;
+                height: 30px;
+                line-height: 33px;
+                padding: 0px 0px 0px 15px !important;
+                margin-right: -5px !important;
+                box-sizing: border-box;
+                .left-triangle,
+                .right-triangle {
+                    display: none;
+                }
+                &.active {
+                    background: url(../../assets/image/first-tags-bg-active.png) no-repeat center center !important;
+                    background-size: 100% 100%;
+                }
+            }
+            position: relative;
+            padding: 0px 6px !important;
+            margin: 8px 10px 0px 5px !important;
+            height: 30px !important;
+            line-height: 33px !important;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            background-color: #e6e9ec !important;
+            z-index: 9;
+            .left-triangle {
+                position: absolute;
+                left: -14px;
+                top: 0;
+                background: url(../../assets/image/left-tags-bg.png) no-repeat center;
+                background-size: 100% 100%;
+                width: 18px;
+                height: 30px;
+            }
+            .right-triangle {
+                position: absolute;
+                right: -14px;
+                top: 0;
+                background: url(../../assets/image/right-tags-bg.png) no-repeat center;
+                background-size: 100% 100%;
+                width: 18px;
+                height: 30px;
+            }
+            &.active {
+                background-color: #656e78 !important;
+                z-index: 10;
+                .left-triangle {
+                    position: absolute;
+                    left: -14px;
+                    top: 0;
+                    background: url(../../assets/image/left-tags-bg-active.png) no-repeat center;
+                    background-size: 100% 100%;
+                    width: 18px;
+                    height: 30px;
+                }
+                .right-triangle {
+                    position: absolute;
+                    right: -14px;
+                    top: 0;
+                    background: url(../../assets/image/right-tags-bg-active.png) no-repeat center;
+                    background-size: 100% 100%;
+                    width: 18px;
+                    height: 30px;
+                }
+            }
+        }
+    }
+}
+.pagination-container {
+    background: inherit !important;
+}
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+
+// .el-dialog {
+//     max-height: inherit;
+//     overflow-y: auto;
+// }

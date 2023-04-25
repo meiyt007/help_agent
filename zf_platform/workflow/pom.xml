@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.zfsoft</groupId>
+    <artifactId>zf_platform</artifactId>
+    <version>1.0-HP</version>
+  </parent>
+
+  <groupId>com.zfsoft.microservice.workflow</groupId>
+  <artifactId>workflow</artifactId>
+  <version>1.0-HP</version>
+  <name>workflow</name>
+  <packaging>pom</packaging>
+  <description>平台项目父项目</description>
+  <modules>
+    <module>workflow-dataaccess-mybatis</module>
+    <module>workflow-service</module>
+    <module>workflow-service-provider</module>
+  </modules>
+  <distributionManagement>
+    <repository>
+      <id>nexus-releases</id>
+      <name>Internal Releases</name>
+      <url>http://hf.zhuofansoft.com:16001/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <name>Internal Releases</name>
+      <url>http://hf.zhuofansoft.com:16001/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+</project>

@@ -1,0 +1,36 @@
+html body #app .chooseTypeDialog .el-dialog__body .content .options .formArea .baseFillInfo {
+    width: 50%;
+}
+.el-input__inner{
+    height: 60px;
+    line-height: 60px;
+}
+.key-wrap{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .flex{
+        display: flex;
+    }
+    .item{
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(-28deg, #3379F1 0%, #6EB2FF 100%);
+        border-radius: 4px;
+        margin: 5px;
+        text-align: center;
+        line-height: 120px;
+        font-size: 50px;
+        color: #fff;
+        font-weight: bold;
+    }
+    .text{
+        font-size: 35px;
+    }
+    .zero{
+        // width: 250px;
+    }
+    .key-content{
+        margin-left: 150px;
+    }
+}

@@ -1,0 +1,15 @@
+/* 弹出框按钮样式 */
+.buttonStyle {
+    border: 1px solid #2687b6;
+    background: #2fa0d7;
+    width: 60px;
+    height: 25px;
+    font-family: Microsoft YaHei;
+    font-size: 14px;
+    color: #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+}
+

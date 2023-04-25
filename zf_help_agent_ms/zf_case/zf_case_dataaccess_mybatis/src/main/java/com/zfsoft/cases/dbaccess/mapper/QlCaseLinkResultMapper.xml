@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.cases.dbaccess.dao.QlCaseLinkResultMapper">
+
+    <resultMap type="com.zfsoft.cases.dbaccess.data.DbQlCaseLinkResult" id="QlCaseLinkResultMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="linkResultOid" column="LINK_RESULT_OID" jdbcType="VARCHAR"/>
+        <result property="caseOid" column="CASE_OID" jdbcType="VARCHAR"/>
+        <result property="personOid" column="PERSON_OID" jdbcType="VARCHAR"/>
+        <result property="personName" column="PERSON_NAME" jdbcType="VARCHAR"/>
+        <result property="linkCode" column="LINK_CODE" jdbcType="VARCHAR"/>
+        <result property="linkName" column="LINK_NAME" jdbcType="VARCHAR"/>
+        <result property="finalStatus" column="FINAL_STATUS" jdbcType="INTEGER"/>
+        <result property="finalOpinion" column="FINAL_OPINION" jdbcType="VARCHAR"/>
+        <result property="finalOpinionDesc" column="FINAL_OPINION_DESC" jdbcType="VARCHAR"/>
+        <result property="finalDate" column="FINAL_DATE" jdbcType="TIMESTAMP"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="attaOid" column="ATTA_OID" jdbcType="VARCHAR"/>
+        <result property="modifyDate" column="MODIFY_DATE" jdbcType="TIMESTAMP"  />
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="QlCaseLinkResultMap">
+        select
+          ID, LINK_RESULT_OID, CASE_OID, PERSON_OID, PERSON_NAME, LINK_CODE, LINK_NAME, FINAL_STATUS, FINAL_OPINION, FINAL_OPINION_DESC, FINAL_DATE, CREATE_DATE, ATTA_OID, MODIFY_DATE
+        from t_ql_case_link_result
+        where ID = #{id}
+    </select>
+
+    <!--查询单个-->
+    <select id="querySlQlCaseLinkResultByCaseOid" parameterType="String"  resultMap="QlCaseLinkResultMap">
+        select
+          ID, LINK_RESULT_OID, CASE_OID, PERSON_OID, PERSON_NAME, LINK_CODE, LINK_NAME, FINAL_STATUS, FINAL_OPINION, FINAL_OPINION_DESC, FINAL_DATE, CREATE_DATE, ATTA_OID, MODIFY_DATE
+        from t_ql_case_link_result
+        where CASE_OID = #{caseOid} and (LINK_CODE ='SL' or LINK_CODE ='sl')
+    </select>
+
+
+    <!--查询单个-->
+    <select id="queryBjQlCaseLinkResultByCaseOid" parameterType="String"  resultMap="QlCaseLinkResultMap">
+        select
+            ID, LINK_RESULT_OID, CASE_OID, PERSON_OID, PERSON_NAME, LINK_CODE, LINK_NAME, FINAL_STATUS, FINAL_OPINION, FINAL_OPINION_DESC, FINAL_DATE, CREATE_DATE, ATTA_OID, MODIFY_DATE
+        from t_ql_case_link_result
+        where CASE_OID = #{caseOid} and LINK_CODE ='bj'
+    </select>
+
+
+    <!--办件业务编号查询办件环节集合-->
+    <select id="queryQlCaseLinkResultListByCaseOid" parameterType="String"  resultMap="QlCaseLinkResultMap">
+        select
+          ID, LINK_RESULT_OID, CASE_OID, PERSON_OID, PERSON_NAME, LINK_CODE, LINK_NAME, FINAL_STATUS, FINAL_OPINION, FINAL_OPINION_DESC, FINAL_DATE, CREATE_DATE, ATTA_OID, MODIFY_DATE
+        from t_ql_case_link_result
+        where CASE_OID = #{caseOid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="QlCaseLinkResultMap">
+        select
+          ID, LINK_RESULT_OID, CASE_OID, PERSON_OID, PERSON_NAME, LINK_CODE, LINK_NAME, FINAL_STATUS, FINAL_OPINION, FINAL_OPINION_DESC, FINAL_DATE, CREATE_DATE, ATTA_OID, MODIFY_DATE
+        from t_ql_case_link_result
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseLinkResult" resultMap="QlCaseLinkResultMap">
+        select
+        ID, LINK_RESULT_OID, CASE_OID, PERSON_OID, PERSON_NAME, LINK_CODE, LINK_NAME, FINAL_STATUS, FINAL_OPINION,
+        FINAL_OPINION_DESC, FINAL_DATE, CREATE_DATE, ATTA_OID, MODIFY_DATE
+        from t_ql_case_link_result
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="linkResultOid != null and linkResultOid != ''">
+                and LINK_RESULT_OID = #{linkResultOid}
+            </if>
+            <if test="caseOid != null and caseOid != ''">
+                and CASE_OID = #{caseOid}
+            </if>
+            <if test="personOid != null and personOid != ''">
+                and PERSON_OID = #{personOid}
+            </if>
+            <if test="personName != null and personName != ''">
+                and PERSON_NAME = #{personName}
+            </if>
+            <if test="linkCode != null and linkCode != ''">
+                and LINK_CODE = #{linkCode}
+            </if>
+            <if test="linkName != null and linkName != ''">
+                and LINK_NAME = #{linkName}
+            </if>
+            <if test="finalStatus != null">
+                and FINAL_STATUS = #{finalStatus}
+            </if>
+            <if test="finalOpinion != null and finalOpinion != ''">
+                and FINAL_OPINION = #{finalOpinion}
+            </if>
+            <if test="finalOpinionDesc != null and finalOpinionDesc != ''">
+                and FINAL_OPINION_DESC = #{finalOpinionDesc}
+            </if>
+            <if test="finalDate != null">
+                and FINAL_DATE = #{finalDate}
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE = #{createDate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseLinkResult">
+        insert into t_ql_case_link_result(LINK_RESULT_OID, CASE_OID, PERSON_OID, PERSON_NAME, LINK_CODE, LINK_NAME, FINAL_STATUS, FINAL_OPINION, FINAL_OPINION_DESC, FINAL_DATE, CREATE_DATE,ATTA_OID, MODIFY_DATE)
+        values (#{linkResultOid}, #{caseOid}, #{personOid}, #{personName}, #{linkCode}, #{linkName}, #{finalStatus}, #{finalOpinion}, #{finalOpinionDesc}, #{finalDate}, #{createDate},#{attaOid},#{modifyDate})
+    </insert>
+<!--
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseLinkResult">
+        insert into t_ql_case_link_result(LINK_RESULT_OID, CASE_OID, PERSON_OID, PERSON_NAME,
+        LINK_CODE, LINK_NAME, FINAL_STATUS, FINAL_OPINION, FINAL_OPINION_DESC, FINAL_DATE, CREATE_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.linkResultOid}, #{entity.caseOid}, #{entity.personOid}, #{entity.personName}, #{entity.linkCode},
+            #{entity.linkName}, #{entity.finalStatus}, #{entity.finalOpinion}, #{entity.finalOpinionDesc},
+            #{entity.finalDate}, #{entity.createDate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseLinkResult">
+        insert into t_ql_case_link_result(LINK_RESULT_OID, CASE_OID, PERSON_OID, PERSON_NAME,
+        LINK_CODE, LINK_NAME, FINAL_STATUS, FINAL_OPINION, FINAL_OPINION_DESC, FINAL_DATE, CREATE_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.linkResultOid}, #{entity.caseOid}, #{entity.personOid}, #{entity.personName}, #{entity.linkCode},
+            #{entity.linkName}, #{entity.finalStatus}, #{entity.finalOpinion}, #{entity.finalOpinionDesc},
+            #{entity.finalDate}, #{entity.createDate})
+        </foreach>
+        on duplicate key update
+        LINK_RESULT_OID = values(LINK_RESULT_OID) , CASE_OID = values(CASE_OID) , PERSON_OID = values(PERSON_OID) ,
+        PERSON_NAME = values(PERSON_NAME) , LINK_CODE = values(LINK_CODE) , LINK_NAME = values(LINK_NAME) , FINAL_STATUS
+        = values(FINAL_STATUS) , FINAL_OPINION = values(FINAL_OPINION) , FINAL_OPINION_DESC = values(FINAL_OPINION_DESC)
+        , FINAL_DATE = values(FINAL_DATE) , CREATE_DATE = values(CREATE_DATE)
+    </insert>
+-->
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseLinkResult">
+        update t_ql_case_link_result
+        <set>
+            <if test="linkResultOid != null and linkResultOid != ''">
+                LINK_RESULT_OID = #{linkResultOid},
+            </if>
+            <if test="caseOid != null and caseOid != ''">
+                CASE_OID = #{caseOid},
+            </if>
+            <if test="personOid != null and personOid != ''">
+                PERSON_OID = #{personOid},
+            </if>
+            <if test="personName != null and personName != ''">
+                PERSON_NAME = #{personName},
+            </if>
+            <if test="linkCode != null and linkCode != ''">
+                LINK_CODE = #{linkCode},
+            </if>
+            <if test="linkName != null and linkName != ''">
+                LINK_NAME = #{linkName},
+            </if>
+            <if test="finalStatus != null">
+                FINAL_STATUS = #{finalStatus},
+            </if>
+            <if test="finalOpinion != null and finalOpinion != ''">
+                FINAL_OPINION = #{finalOpinion},
+            </if>
+            <if test="finalOpinionDesc != null and finalOpinionDesc != ''">
+                FINAL_OPINION_DESC = #{finalOpinionDesc},
+            </if>
+            <if test="finalDate != null">
+                FINAL_DATE = #{finalDate},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="attaOid != null  and attaOid != ''">
+                ATTA_OID = #{attaOid},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t_ql_case_link_result where ID = #{id}
+    </delete>
+
+</mapper>

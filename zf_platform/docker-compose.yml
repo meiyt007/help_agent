@@ -1,0 +1,66 @@
+version: '2'
+services:
+  platform-auth-oauth2:
+    build:
+      context: ./platform-auth/platform-auth-oauth2
+    restart: always
+    image: platform-auth-oauth2
+    container_name: platform-auth-oauth2
+    ports:
+      - 6001:8080
+  platform-oauth-gateway:
+    build:
+      context: ./platform/platform-oauth-gateway
+    restart: always
+    image: platform-oauth-gateway
+    container_name: platform-oauth-gateway
+    ports:
+      - 8082:8080
+  es-service-provider:
+    build:
+      context: ./es-operation-demo/es-service-provider
+    restart: always
+    image: es-service-provider
+    container_name: es-service-provider
+    ports:
+      - 9991:8080
+  settings-service-provider:
+    build:
+      context: ./settings/settings-service-provider
+    restart: always
+    image: settings-service-provider
+    container_name: settings-service-provider
+    ports:
+      - 9996:8080
+  platform-service-provider:
+    build:
+      context: ./platform/platform-service-provider
+    restart: always
+    image: platform-service-provider
+    container_name: platform-service-provider
+    ports:
+      - 9997:8080
+  workflow-service-provider:
+    build:
+      context: ./workflow/workflow-service-provider
+    restart: always
+    image: workflow-service-provider
+    container_name: workflow-service-provider
+    ports:
+      - 9998:8080
+  gateway-service-provider:
+    build:
+      context: ./platform/platform-gateway
+    restart: always
+    image: gateway-service-provider
+    container_name: gateway-service-provider
+    ports:
+      - 9999:8080
+  example-service-provider:
+    build:
+      context: ./example/example-service-provider
+    restart: always
+    image: example-service-provider
+    container_name: example-service-provider
+    ports:
+      - 9995:8080

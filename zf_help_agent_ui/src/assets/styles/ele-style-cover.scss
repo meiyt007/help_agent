@@ -1,0 +1,58 @@
+/**
+ * @Author: kkfan
+ * @Date: 2020-10-31 10:35:32
+ * @Last Modified by: kkfan
+ * @Last Modified time: 2020-10-31 10:47:37
+ * @Description: 全局样式修改
+ */
+//  disabled 禁用样式覆盖开始
+.dialog-table .vue-treeselect--disabled .vue-treeselect__control {
+    background-color: #fff;
+    border: none;
+}
+.dialog-table .vue-treeselect--disabled .vue-treeselect__control-arrow-container {
+    display: none;
+}
+//  disabled 禁用样式覆盖结束
+
+// 弹窗样式表格样式开始
+.dialog-table {
+    padding: 20px;
+    box-sizing: border-box;
+}
+.dialog-table h3 {
+    font-size: 14px;
+    font-weight: normal;
+    color: #333;
+    margin: 0px 0px 10px 0px;
+}
+.dialog-table table {
+    width: 100%;
+}
+.dialog-table table {
+    border: 1px solid #dfe6ec;
+    border-collapse: collapse;
+}
+
+.dialog-table table tr td {
+    border: 1px solid #dfe6ec;
+    padding: 17px 8px;
+    font-size: 12px;
+    color: #515a6e;
+    text-align: right;
+}
+.dialog-table table tr td:nth-of-type(2n+1){
+    background-color: #f8f8f9;
+}
+.dialog-table table tr td:nth-of-type(2n) {
+    color: #606266;
+    text-align: left;
+}
+.dialog-table .el-form-item {
+    margin-bottom: 0;
+}
+
+.dialog-table .line {
+    text-align: center;
+}
+// 弹窗样式表格样式结束

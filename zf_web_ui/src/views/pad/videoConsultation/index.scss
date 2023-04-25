@@ -1,0 +1,208 @@
+.consult-container {
+    width: 100%;
+    -o-border-image: linear-gradient(-90deg, #bedaf8, #ffffff) 10 10;
+    border-image: linear-gradient(-90deg, #bedaf8, #ffffff) 10 10;
+    background: linear-gradient(-39deg, #bdd9f8 0%, #cde0f4 100%);
+    min-height: 100%;
+    .header {
+        height: 80px;
+        line-height: 80px;
+        padding: 0 30px;
+        background: linear-gradient(90deg, #2B72F1 0%, #659FEF 100%);
+        position: relative;
+        text-align: center;
+        font-size: 26px;
+        color: #fff;
+        .title{
+            font-size: 26px;
+            margin-right: 40px;
+        }
+        .el-icon-s-home{
+            font-size: 30px;
+        }
+        .back { 
+            position: absolute;
+            width: 160px;
+            height: 60px;
+            top: 10px;
+            line-height: 60px;
+            text-align: center;
+            background: #5598F8;
+            box-shadow: 0px 14px 0px 0px rgba(106, 159, 231, 0.31);
+            border-radius: 30px;
+    
+            img {
+                width: 23px;
+                margin-right: 10px;
+            }
+    
+        }
+    }
+
+    .consult-wrap{
+        padding: 30px 25px 0 30px;
+        &::after{
+            content: '';
+            clear: both;
+            display: block;
+        }
+        .right{
+            float: right;
+            .people{
+                width: 280px;
+                margin-right: 20px;
+                height: 790px;
+                overflow-y: auto;
+                .item{
+                    height: 148px;
+                    overflow: hidden;
+                    border-radius: 10px;
+                    position: relative;
+                    margin-bottom: 15px;
+                    .detail{
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        height: 35px;
+                        width: 100%;
+                        border-radius: 0px 0px 10px 10px;
+                        background: rgba(0, 0, 0, 0.35);
+                        font-size: 22px;
+                        color: #fff;
+                        padding: 0 10px;
+                        img{
+                            margin-left: 10px;
+                        }
+                    }
+                }
+            }
+            .worker{
+                width: 255px;
+                .title{
+                    height: 60px;
+                    text-align: center;
+                    line-height: 60px;
+                    font-size: 26px;
+                    background-color: #498af0;
+                    border-radius: 10px 10px 0px 0px;
+                    color: #fff;
+                    margin-left: 0;
+                }
+                .wrap{
+                    background: #fff;
+                    padding: 10px;
+                    .el-collapse-item__header{
+                        position: relative;
+                        padding-left: 25px;
+                        i{
+                            position: absolute;
+                            left: 0;
+                        }
+                    }
+                    .el-collapse,.el-collapse-item__wrap,.el-collapse-item__header{
+                        border-bottom: none;
+                        border-top: none;
+                        font-size: 22px;
+                    }
+                    .el-collapse-item__content{
+                        padding-bottom: 0;
+                    }
+                    .item{
+                        font-size: 22px;
+                        color: #373737;
+                        height: 48px;
+                        line-height: 48px;
+                        margin-bottom: 15px;
+                        padding: 0 10px;
+                        img{
+                            margin-right: 10px;
+                        }
+                        .status{
+                            font-size: 18px;
+                            width: 68px;
+                            height: 25px;
+                            line-height: 25px;
+                            text-align: center;
+                            border-radius: 13px;                            
+                        }
+                        &.off{
+                            .status{
+                                background-color: #d4dce2;
+                                color: #526471;
+                            }
+                            
+                        }
+                        &.on{
+                            border-radius: 8px;
+	                        border: solid 1px #498af0;
+                            .status{
+                                background-color: #ccddfa;
+                                color: #498af0;
+                            }
+                            
+                        }
+                        &.busy{
+                            .status{
+                                background-color: #fecfc0;
+                                color: #e54310;
+                            }
+                            
+                        }
+                    }
+                    .work-content{
+                        height: 670px;
+                        overflow-y: auto;
+                    }
+                }
+            }
+        }
+    }
+}
+.share-coupon {
+    position: fixed;
+    left: 30px;
+    right: 30px;
+    bottom: 0;
+    height: 160px;
+    background: #fff;
+    box-shadow: 1px 7px 0px 0px rgba(213, 238, 251, 0.31);
+    border-radius: 20px 20px 0px 0px;
+
+    .item {
+        font-size: 26px;
+        line-height: 28px;
+        color: #2f2f2f;
+        text-align: center;
+        width: 150px;
+
+        img {
+            margin-bottom: 15px;
+        }
+    }
+
+    .btn {
+        width: 201px;
+        height: 71px;
+        border-radius: 35px;
+        font-size: 22px;
+        letter-spacing: 1px;
+        line-height: 71px;
+        text-align: center;
+        color: #fff;
+        margin: 0 10px;
+    }
+
+    .help {
+        background-image: linear-gradient(90deg,
+                #6d93e8 0%,
+                #76b0fe 100%);
+        box-shadow: 0px 7px 0px 0px rgba(106, 159, 231, 0.31);
+    }
+
+    .handle {
+        background-image: linear-gradient(90deg,
+                #ff7f4f 0%,
+                #fe9652 100%);
+        box-shadow: 0px 7px 0px 0px rgba(254, 150, 82, 0.31);
+    }
+}

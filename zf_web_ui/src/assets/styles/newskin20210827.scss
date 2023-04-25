@@ -1,0 +1,263 @@
+// //按钮 - primary
+// .el-button--primary {
+//   color: #fff !important;
+//   background: #2e7dff !important;
+//   border-color: #2e7dff !important;
+// }
+
+// //switch选择按钮
+// .el-switch.is-checked .el-switch__core {
+//   border-color: #1890ff !important;
+//   background-color: #1890ff !important;
+// }
+
+// //左侧边栏 欢迎页 页签
+// .sidebar-container .submenu-title-noDropdown.is-active {
+//   color: #fff !important;
+//   background-color: inherit !important;
+//   background-image: url("../../assets/image/home/sidebar-outer-active.png");
+//   background-repeat: no-repeat;
+//   background-size: 100% 100%;
+//   position: relative;
+
+//   :before {
+//     position: absolute;
+//     content: "";
+//     width: 3px;
+//     height: 66px;
+//     background: #35FFBF;
+//     left: 0;
+//     top: 0;
+//   }
+// }
+
+// //左侧边栏  其他页签
+// .sidebar-container {
+//   .is-active > .el-submenu__title {
+//     color: #fff !important;
+//     background-color: inherit !important;
+//     background-image: url("../../assets/image/home/sidebar-outer-active.png");
+//     background-repeat: no-repeat;
+//     background-size: 100% 100%;
+//     position: relative;
+//   }
+
+//   .is-active > .el-submenu__title:before {
+//     position: absolute;
+//     content: "";
+//     width: 3px;
+//     height: 66px;
+//     background: #35FFBF;
+//     left: 0;
+//     top: 0;
+//   }
+// }
+// //侧边栏头部logo区域
+// .sidebar-logo-container {
+//   background: #034436 !important;
+// }
+
+
+// //头部导航栏
+// .navbar1 {
+//   background: linear-gradient(
+//       0deg, #f1f3f7, #e2e7ec 15%, #fff) !important;
+//   border-bottom: 1px solid #c5ccda;
+// }
+
+// //头部搜索组件
+// .header-search {
+//   margin-top: 2px;
+
+//   .el-input__inner {
+//     background: #0000 !important;
+//   }
+// }
+
+
+// //右边业务页的背景
+// .hasTagsView .app-main {
+//   background: #f2f6f7;
+// }
+
+// //右边业务页的上方业务内容区的表单
+// .app-right .el-form, .app-container .el-form {
+//   height: auto !important;
+//   margin-bottom: 10px;
+//   background-color: #fff;
+//   padding: 0 10px;
+//   border-radius: 5px;
+// }
+
+// //右边业务页的上方业务内容区的表单的表单项
+// .app-container .el-form-item {
+//   margin-bottom: 0;
+//   padding: 10px 0;
+// }
+
+
+
+// //右边业务页的上方业务内容区的表单项标签字体粗细
+// .el-form--inline .el-form-item__label {
+//   font-weight: 400;
+// }
+
+// //右边业务页的上方业务内容区的表单项背景
+// .el-input--small .el-input__inner, .el-input__inner, .vue-treeselect__control {
+//   background-color: #fff !important;
+// }
+
+
+// //分页组件背景
+// .pagination-container {
+//   background: inherit !important;
+// }
+
+// .el-pagination.is-background .el-pager li:not(.disabled).active {
+//   background-color: #1890FF !important;
+//   color: #FFF !important;
+// }
+
+
+// //表格罗马纹 单数
+// .el-table tr:nth-of-type(odd) {
+//   background-color: #edf0f5 !important;
+// }
+
+// //表格罗马纹 双数
+// .el-table tr:nth-of-type(2n) {
+//   background-color: #f2f6f7 !important;
+// }
+
+// //表头
+// .el-table .el-table__fixed-header-wrapper th, .el-table .el-table__header-wrapper th {
+//   background-color: #e0e6f0;
+//   padding: 12px 0;
+//   border: none;
+//   font-size: 14px;
+//   font-weight: 400;
+//   color: #2a344c;
+// }
+
+// //表格上鼠标悬停
+// .el-table__body tr:hover > td {
+//   background-color: #D7E5FF !important;
+// }
+
+// //表格里的操作栏 链接按钮
+// .el-table .fixed-width .el-button--mini {
+//   color: #0e54ff;
+//   font-size: 14px;
+// }
+
+// //主内容区 业务页 梯形页签
+// .tags-view-container {
+//   background: #fff url(../image/tags-bg.png) no-repeat top !important;
+//   background-size: 100% 100% !important;
+//   height: 38px !important;
+
+//   .tags-view-wrapper {
+//     .tags-view-item {
+//       padding: 0 6px !important;
+//       margin: 8px 10px 0 5px !important;
+//       background-color: #DEE6E1 !important;
+//       z-index: 9;
+//       color: #7583a5;
+//       height: 30px !important;
+//       line-height: 30px !important;
+
+//       .left-triangle {
+//         position: absolute;
+//         left: -17.9px;
+//         top: 0;
+//         background: url(../image/left-tags-bg.png) no-repeat 50%;
+//         background-size: 100% 100%;
+//         width: 18px;
+//         height: 30px;
+//       }
+//       .right-triangle {
+//         position: absolute;
+//         right: -17.8px;
+//         top: 0;
+//         background: url(../image/right-tags-bg.png) no-repeat 50%;
+//         background-size: 100% 100%;
+//         width: 18px;
+//         height: 30px;
+//       }
+
+//       &.active {
+//         background-color: rgba(26, 48, 43, .7) !important;
+//         z-index: 10 !important;
+
+//         .left-triangle {
+//           background: url(../image/left-tags-bg-active.png) no-repeat 50%;
+//         }
+//         .right-triangle {
+//           background: url(../image/right-tags-bg-active.png) no-repeat 50%;
+//         }
+//       }
+
+//       &:first-child {
+//         margin-left: 30px !important;
+//         //background-color: inherit !important;
+//         // background: url(../image/first-tags-bg.png) no-repeat 100% !important;
+//         background-size: 100% 100%;
+//         width: auto;
+//         padding: 0 10px 0 5px !important;
+//         margin-right: 10px !important;
+//         //box-sizing: border-box;
+//       }
+//       // &:first-child.active {
+//       //   background: url(../image/first-tags-bg-active.png) no-repeat 100% 100% !important;
+//       //   //background-color: rgba(0, 0, 0, 0);
+//       // }
+//     }
+//   }
+// }
+
+// .mR20{
+//   margin-right: 20px;
+// }
+// .dialog-table table tr td:nth-child(2n+1){
+//   padding-right: 20px;
+//   font-size: 14px;
+// }
+// .dialog-table table tr td:nth-child(2n){
+//   padding:5px 20px;
+//   // font-size: 14px;
+// }
+// .wid100{
+//   width:100% !important;
+// }
+// .smallInput{
+//   display: inline-block;
+//   height: 30px !important;
+//   // border: 1px solid #000 !important;
+// }
+
+// .dialog-table  .el-input-group{
+//   width: 80%;
+//   margin-top: -5px;
+//   margin-bottom: 10px;
+//   // margin-left: 10px;
+// }
+// .dialog-footer{
+//   margin-top: 5px;
+// }
+// .mT20{
+//   margin-top: 20px;
+// }
+// .dialog-table{
+//   margin: 10px auto 10px;
+// }
+// .el-table .fixed-width .el-button--mini{
+//   font-size: 12px;
+// }
+// .el-table .fixed-width .iconfont{
+//   font-size: 12px;
+//   margin-right: 3px;
+// }
+// .el-dialog__body .iconfont{
+//   font-size: 12px;
+//   margin-right: 3px;
+// }

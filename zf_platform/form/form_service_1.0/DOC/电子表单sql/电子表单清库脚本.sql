@@ -1,0 +1,16 @@
+delete from t_form_authorize;
+delete from t_form_column;
+delete from t_form_component;
+delete from t_form_datasource;
+delete from t_form_design;
+delete from t_form_main;
+delete from t_form_member;
+delete from t_form_module;
+delete from t_form_object;
+delete from t_form_report;
+delete from t_form_report_log;
+delete from t_form_template;
+delete from t_form_atta;
+delete from t_form_object_extand;
+delete from t_form_table;
+delete from t_docx_template;

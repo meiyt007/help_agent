@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>签字确认</title>
+  <link href="./css/style.css" rel="stylesheet">
+  <link href="./css/style-screen-1920.css" rel="stylesheet">
+  <link href="./css/style-screen-1920-extend.css" rel="stylesheet">
+  <!-- import css -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+  <style>
+    .main-content .sign-content {
+      margin-top: 55px;
+    }
+
+    .main-content .sign-content .sign-box {
+      height: 40px;
+      line-height: 40px;
+      padding: 0px 20px;
+      box-sizing: border-box;
+      font-size: 16px;
+      color: #20216d;
+      font-weight: bold;
+    }
+
+    .main-content .sign-content .sign-box>img {
+      display: block;
+      margin: auto;
+      width: 180px;
+      height: 40px;
+      border: none;
+    }
+
+    .main-content .sign-content .sign-box.fontWeightNormal {
+      font-weight: normal;
+    }
+
+    .main-content .sign-content .sign-box:nth-child(odd) {
+      background-color: #d6d6e9;
+    }
+
+    .main-content .sign-content .sign-box.sign-box-fr {
+      text-align: right;
+      font-weight: normal;
+      font-size: 14px;
+      color: #20216d;
+    }
+
+
+
+    .main-content .countPadding {
+      padding: 10px;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    .main-content .countPadding .table-row {
+      border: 1px solid #c0c5d2;
+      width: 100%;
+    }
+
+    .main-content .countPadding .table-row tr th,
+    .main-content .countPadding .table-row tr td {
+      border: 1px solid #c0c5d2;
+      padding: 10px;
+    }
+
+    .main-content .countPadding .table-row tr th {
+      font-size: 14px;
+      color: #1f2047;
+      background-color: #c8d0e8;
+    }
+
+    .main-content .countPadding .table-row tr td {
+      color: #20216d;
+      font-size: 16px;
+      background-color: #edf0f5;
+    }
+
+    .main-content .countPadding .title {
+      font-size: 16px;
+      color: #4743f2;
+      font-weight: normal;
+      padding: 0;
+      margin-top: 0px;
+    }
+
+    .main-content .main-fr .countPadding {
+      height: calc(100% - 450px);
+      overflow: auto;
+    }
+
+    .main-content {
+      position: relative;
+    }
+
+    .main-content .main-fr {
+      height: 535px;
+      /* overflow-y: auto; */
+      /* overflow-x: hidden; */
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding-top: 0;
+      position: relative;
+      right: 0px;
+      top: 0px;
+      padding-bottom: 0;
+    }
+
+    .main-content .main-fr p.title {
+      width: 100%;
+      height: 55px;
+      line-height: 55px;
+      background: #0A0BA1;
+      opacity: 0.98;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+    }
+
+    .main-content .main-fr::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .main-content .main-fr::-webkit-scrollbar-track {
+      background-color: #babcda;
+    }
+
+    .main-content .main-fr::-webkit-scrollbar-thumb {
+      border-radius: 20px;
+      background-color: #8e8eb3;
+    }
+
+    .footer-bg {
+      background-color: #1f1f42;
+      height: 120px;
+      width: 1024px;
+    }
+  </style>
+  <div class="content content-enlarge" id="vue_det">
+    <header v-if="!is1920" v-cloak>
+      <img src="./img/hall-name.png">
+    </header>
+    <div class="main clearfix">
+      <div class="main-content">
+        <div class="main-fl" v-if="!is1920" v-cloak>
+          <img class="portrait" src="./img/portrait.png">
+          <ul class="info">
+            <li><span v-cloak>姓名：{{userName}}</span></li>
+            <!-- <li><span>部门：{{organName}}</span></li> -->
+            <li><span>工号：089757</span></li>
+          </ul>
+          <p class="teleNum">咨询电话：0553-2626578</p>
+        </div>
+        <div class="main-fr main-scroll content-enlarge__main-fr">
+          <p class="title">申请人签名确认</p>
+          <div class="sign-content">
+            <div class="sign-box">本单位(人)申请办理{{projectName}}，本申请人和签字人承诺提交的材料文件和填报的信息</div>
+            <div class="sign-box">真实有效，并承担相应的法律责任。</div>
+            <div class="sign-box fontWeightNormal">签字人（签字）：</div>
+            <div class="sign-box sign-box-img" style="width: 320px;height: 200px">
+              <img style="width: 320px;height: 200px" :src="signImage">
+            </div>
+            <div class="sign-box sign-box-fr">当前时间：{{date}}</div>
+          </div>
+          <div class="cont countPadding">
+            <h3 class="title">提交材料如下：</h3>
+            <table class="table-row">
+              <colgroup>
+                <col width="100%">
+              </colgroup>
+              <tbody>
+                <tr v-for="(material,index) in sxServiceMaterialList">
+                  <td v-cloak>{{ index + 1 }}、{{ material.materialName}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>2 0 2 1 @ 上 海 卓 繁 信 息 技 术 股 份 有 限 公 司 沪 I C P 备 2 0 2 1 0 0 4 4 6 9 号 - 1</footer>
+    <span id="tips" class="tips" style="display:none;margin-left: 90px;background-color: #78e278"></span>
+  </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="../pbpj/js/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+  let app = new Vue({
+    el: '#vue_det',
+    data: {
+      userName: "",
+      organName: "",
+      sxServiceMaterialList: [],
+      projectName: "",
+      timer: null,
+      date: "",
+      signImage: "",
+      interval: null,
+      url: "",
+      proxyUrl: "",
+    },
+    computed: {
+      is1920() {
+        return screen.width === 1920;
+      }
+    },
+    mounted() {
+      this.getTime();
+      this.getCaseInfo();//需要触发的函数
+    },
+    beforeDestroy() {
+      if (this.timer) {
+        clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+      }
+    },
+    methods: {
+      getTime: function () {
+        this.timer = setInterval(() => {
+          this.date = this.dateFormat("YYYY-mm-dd HH:MM:SS", new Date())
+        }, 1000);
+      },
+      getCaseInfo: function () {
+        var content = this.getURLParameter("jsonObject");
+        var obj = JSON.parse(content);
+        this.userName = obj.userName;
+        this.organName = obj.organName;
+        this.sxServiceMaterialList = obj.sxServiceMaterialList;
+        this.projectName = obj.projectName;
+        this.proxyUrl = obj.proxyUrl;
+        var imageData = obj.imageUrl.split(obj.fastdfsUrl);
+        this.signImage = this.proxyUrl + imageData[1];
+
+        this.$nextTick(() => {
+          if (this.is1920) {
+            const dom = document.querySelector('.sign-content');
+            const cont = document.querySelector('.cont.countPadding');
+            cont.style.height = `calc(100% - 90px - ${dom.offsetHeight}px)`;
+          }
+        })
+      },
+      getURLParameter: function (name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+      },
+      dateFormat: function (fmt, date) {
+        let ret;
+        const opt = {
+          "Y+": date.getFullYear().toString(),        // 年
+          "m+": (date.getMonth() + 1).toString(),     // 月
+          "d+": date.getDate().toString(),            // 日
+          "H+": date.getHours().toString(),           // 时
+          "M+": date.getMinutes().toString(),         // 分
+          "S+": date.getSeconds().toString()          // 秒
+          // 有其他格式化字符需求可以继续添加，必须转化成字符串
+        };
+        for (let k in opt) {
+          ret = new RegExp("(" + k + ")").exec(fmt);
+          if (ret) {
+            fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+          };
+        };
+        return fmt;
+      },
+      //获取签名图片
+      getSignImage() {
+        let url = 'http://127.0.0.1:29999/HWPenSign/HWGetSign';
+        axios.get(url, {
+          // params: {
+          // }
+        }).then((res) => {
+          if (data.msgID == 0) {
+            if (data.message != null) {
+              this.signImage = data.message;
+              clearInterval(this.interval);
+            }
+
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
+      },
+    }
+  })
+</script>
+
+</html>

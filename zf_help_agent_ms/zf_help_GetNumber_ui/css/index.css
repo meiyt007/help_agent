@@ -1,0 +1,432 @@
+html {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+html body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+html body #app {
+  width: 100%;
+  height: 100%;
+}
+
+html body #app .content-body {
+  width: 100%;
+  height: 100%;
+  padding: 0 5vw;
+  box-sizing: border-box;
+  background: #F9F9FA;
+  box-shadow: 0px 0px 27px 0px rgba(84, 85, 85, 0.36);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+}
+
+html body #app .content-body .toBack {
+  position: absolute;
+  top: 100px;
+  right: 100px;
+  font-size: 48px;
+  height: 48px;
+  line-height: 48px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+html body #app .content-body .toBack img {
+  margin-right: 5px;
+  width: 80px;
+}
+
+html body #app .content-body .toBack:hover {
+  opacity: 0.8;
+}
+
+html body #app .content-body .item-block {
+  width: 21%;
+  height: 48%;
+  background: #FFFFFF;
+  border: 1px solid #F2F3F5;
+  box-shadow: 0px 10px 32px 0px #E1E5EB;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+html body #app .content-body .item-block:nth-child(1) .content {
+  background: linear-gradient(-28deg, #10C38E 0%, #6EF3FF 100%);
+  border-radius: 10px 10px 0px 0px;
+}
+
+html body #app .content-body .item-block:nth-child(2) .content {
+  background: linear-gradient(-28deg, #F19533 0%, #FFD88C 100%);
+  border-radius: 10px 10px 0px 0px;
+}
+
+html body #app .content-body .item-block:nth-child(3) .content {
+  background: linear-gradient(-28deg, #3379f1 0%, #6eb2ff 100%);
+  border-radius: 10px 10px 0px 0px;
+}
+html body #app .content-body .item-block:nth-child(4) .content {
+  background: linear-gradient(-28deg, #E54242 0%, #FA93AF 100%);
+  border-radius: 10px 10px 0px 0px;
+}
+
+html body #app .content-body .item-block .content {
+  width: 100%;
+  height: calc(100% - 86px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html body #app .content-body .item-block .content img {
+  width: 8.6429rem;
+}
+
+html body #app .content-body .item-block .footer {
+  width: 100%;
+  height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4286rem;
+  font-family: Source Han Sans CN;
+  font-weight: 900;
+  color: #404040;
+}
+
+html body #app .content-body .active {
+  border: none;
+  box-shadow: 0px 11px 56px 0 #367CF2;
+}
+
+html body #app .content-body .active .content {
+  background: linear-gradient(-28deg, #3379F1 0%, #6EB2FF 100%);
+  border-radius: 10px 10px 0px 0px;
+}
+
+html body #app .chooseTypeDialog {
+  width: 80%;
+  height: 80vh;
+  border-radius: 10px;
+  margin-top: 10vh !important;
+  background: #F9F9FA;
+}
+
+html body #app .errDialog {
+  width: 40%;
+  height: auto;
+  border-radius: 10px;
+  margin-top: 10vh !important;
+  background: #F9F9FA;
+}
+
+html body #app .chooseTypeDialog .el-dialog__header {
+  padding: 0 15px;
+  margin: 0;
+  height: 45px;
+  background: linear-gradient(90deg, #2B72F1 0%, #659FEF 100%);
+  border-radius: 10px 10px 0px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+html body #app .chooseTypeDialog .el-dialog__header .el-dialog__title {
+  font-size: 1.857rem;
+  font-family: Source Han Sans CN;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+html body #app .chooseTypeDialog .el-dialog__header .el-dialog__headerbtn {
+  position: unset;
+}
+
+html body #app .chooseTypeDialog .el-dialog__header .el-dialog__headerbtn i {
+  color: #fff;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body {
+  height: calc(100% - 200px);
+}
+html body #app .errDialog .el-dialog__body {
+  font-size: 22px;
+}
+html body #app .chooseTypeDialog .el-dialog__body .content .options {
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .options p {
+  padding: 0;
+  margin: 0;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .options .optionsTitle {
+  font-size: 1.4429rem;
+  padding-left: 12px;
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  color: #333333;
+  height: 2.1429rem;
+  background: rgba(233, 237, 247, 0.34);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .options .formArea {
+  margin-top: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .options .formArea .baseFillInfo {
+  width: 70%;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .options .formArea .scanCode {
+  width: 70%;
+  text-align: right;
+  font-size: 1rem;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #367BF1;
+  cursor: pointer;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .options .itemsList {
+  width: 100%;
+  height: auto;
+  margin-top: 13px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .options .itemsList .item {
+  /*width: 134px;*/
+  width: 200px;
+  /*height: 2.7143rem;*/
+  height: 3.7143rem;
+  margin-right: 42px;
+  margin-bottom: 13px;
+  background: #FFFFFF;
+  border: 1px solid #E6E8ED;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #353535;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .options .itemsList .active {
+  background: #3A7DF0;
+  color: #fff;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .appointList {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .appointList .items {
+  width: 100%;
+  height: 113px;
+  background: #FFFFFF;
+  border-radius: 20px;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .appointList .items .left {
+  width: 66px;
+  height: 113px;
+  background: #5995EF;
+  border-radius: 20px 0px 0px 20px;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox {
+  width: 100%;
+  height: 113px;
+  margin-bottom: 16px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  display: flex;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .el-checkbox__input {
+  width: 66px;
+  background: #E7EAEF;
+  border: 1px solid #DCDFE6;
+  border-radius: 20px 0px 0px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .el-checkbox__input .el-checkbox__inner {
+  width: 20px;
+  height: 20px;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .el-checkbox__label {
+  width: calc(100% - 66px);
+  padding: 20px 30px 25px 20px;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .el-checkbox__label .right {
+  width: 100%;
+  height: 100%;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .el-checkbox__label .right .items {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .el-checkbox__label .right .items:nth-last-child(1) p:nth-last-child(1) span {
+  color: #3177F1;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .el-checkbox__label .right .items .name {
+  font-size: 1.7143rem;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #353535;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .el-checkbox__label .right .items p {
+  padding: 0;
+  margin: 0;
+  font-size: 1.2857rem;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #999999;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .el-checkbox__label .right .items p span {
+  color: #353535;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .is-focus .el-checkbox__input {
+  border-color: #DCDFE6 !important;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .is-checked {
+  background: #5995EF;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .is-checked .el-checkbox__inner {
+  background-color: #fff;
+}
+
+html body #app .chooseTypeDialog .el-dialog__body .content .el-checkbox-group .el-checkbox .is-checked .el-checkbox__inner:after {
+  border-color: #3177f1;
+  left: 7px;
+  top: 4px;
+}
+
+html body #app .chooseTypeDialog .el-dialog__footer div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html body #app .chooseTypeDialog .el-dialog__footer div p {
+  margin: 0;
+  padding: 11px 42px;
+  background: #FFFFFF;
+  border: 1px solid #0977FF;
+  border-radius: 5px;
+  font-size: 1.6rem;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #6890E7;
+  cursor: pointer;
+}
+
+html body #app .chooseTypeDialog .el-dialog__footer div p:nth-child(2) {
+  background: linear-gradient(90deg, #2B72F1 0%, #659FEF 100%);
+  border: none;
+  color: #fff;
+  margin-left: 26px;
+}
+
+html body #app .chooseTypeDialog .contentTips {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html body #app .chooseTypeDialog .contentTips .tipsArea {
+  width: auto;
+  height: auto;
+  padding: 47px 37px;
+  background: #FFFFFF;
+  border: 1px solid #F2F3F5;
+  box-shadow: 0px 10px 32px 0px #E1E5EB;
+  border-radius: 10px;
+}
+
+html body #app .chooseTypeDialog .contentTips .tipsArea .items {
+  width: auto;
+  height: 30px;
+  font-size: 1.4286rem;
+  margin-bottom: 27px;
+  font-family: Source Han Sans CN;
+  font-weight: 400;
+  color: #367BF1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+html body #app .chooseTypeDialog .contentTips .tipsArea .items:nth-last-child(1) {
+  margin-bottom: 0;
+}
+
+html body #app .chooseTypeDialog .contentTips .tipsArea .items p {
+  padding: 0;
+  margin: 0;
+  width: 23px;
+  height: 23px;
+  line-height: 23px;
+  text-align: center;
+  border-radius: 50%;
+  background: #3479F1;
+  font-size: 1.4286rem;
+  font-family: Source Han Sans CN;
+  font-weight: 500;
+  color: #FFFFFF;
+  margin-right: 8px;
+}

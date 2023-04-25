@@ -1,0 +1,104 @@
+api:
+  param:
+    validate: true
+server:
+  port: 8002
+spring:
+  application:
+    name: settings-service-provider
+  #时间格式的统一处理
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  jta:
+    log-dir: "d:/logs/"
+  redis:
+    host: 172.21.176.204
+    port: 13302
+    timeout: 60000
+    database: 9
+    password: ZhuoFan888!@#
+    lettuce:
+      shutdown-timeout: 100
+  shardingsphere:
+    datasource:
+      names: ds0
+      ds0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://172.21.176.204:13301/hp_platform_v1.4?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: Zfsoft888
+        initialSize: 1
+        minIdle: 1
+        maxActive: 10
+        maxWait: 10000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        testWhileIdle: true
+        testOnBorrow: true
+        testOnReturn: true
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        defaultAutoCommit: true
+        validationQuery: "select 1"
+        filters: "stat"
+    props:
+      sql.show: false
+    sharding:
+      tables:
+        t_sys_dict:
+          actual-data-nodes: "ds0.t_sys_dict"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sys_config:
+          actual-data-nodes: "ds0.t_sys_config"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+mybatis:
+  mapper-locations:
+    - classpath:com/zfsoft/microservice/settings/dbaccess/mapper/*.xml
+mapper:
+  identity: MYSQL
+  not-empty: false
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql;pageNum=pageNum;pageSize=pageSize;
+logging:
+  level:
+    com.zfsoft.microservice.platform.dbaccess.dao: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+redis:
+  cache:
+    timeout: 360
+debug: true
+
+log:
+  extend:
+    fields: true
+
+#jasypt加密时的salt值
+jasypt:
+  encryptor:
+    password: zfsoft888
+
+com:
+  zfsoft:
+    query:
+      special:
+        # 需转义字符 默认 %,_
+        characters: "%,_"
+        # 转义开关 默认开启
+        characters-escape: true

@@ -1,0 +1,36 @@
+drop procedure  if exists drop_foreign_key;
+DELIMITER $$
+CREATE DEFINER=CURRENT_USER PROCEDURE `drop_foreign_key`()
+BEGIN
+	 DECLARE done int;
+	DECLARE tablename VARCHAR (100);
+	DECLARE CONSTRAINTNAME VARCHAR (100);
+	DECLARE QUERY1  VARCHAR(1000);
+	DECLARE
+		drop_loop CURSOR FOR SELECT
+		table_name,
+		constraint_name 
+	FROM
+		information_schema.table_constraints 
+	WHERE
+		table_schema = DATABASE () 
+		AND constraint_type = 'FOREIGN KEY';
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; 
+	OPEN drop_loop;
+	LOOP_DROP:LOOP 
+	     FETCH drop_loop INTO tablename,CONSTRAINTNAME;
+			 if done =1  then 
+				LEAVE LOOP_DROP;
+			END IF;
+	set QUERY1 = CONCAT( 'ALTER TABLE ', tablename, ' DROP FOREIGN KEY ', CONSTRAINTNAME, ';' );
+	set @query=QUERY1;
+	PREPARE stmt 
+	FROM
+		@query;
+	EXECUTE stmt;
+	set done =0;
+	DEALLOCATE PREPARE stmt;
+	END LOOP LOOP_DROP;
+END $$
+DELIMITER;
+call drop_foreign_key;

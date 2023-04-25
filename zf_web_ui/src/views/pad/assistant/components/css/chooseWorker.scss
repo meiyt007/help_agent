@@ -1,0 +1,169 @@
+.depart-container{
+    height:100%;
+    .content{
+        height: calc(100% - 50px);
+        overflow: auto;
+    }
+}
+.dialog-footer {
+    justify-content: center !important;
+    display: flex;
+    p {
+        &:nth-child(1) {
+            cursor: pointer;
+            padding: 0 3.75rem;
+            width: auto;
+            height: 5.1667rem;
+            background: #ffffff;
+            border: 1px solid #4988f2;
+            box-shadow: 0px 0px 1.5rem 0px rgb(40 107 198 / 31%);
+            border-radius: 2.5833rem;
+            font-size: 1.8333rem;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: #2473ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 2.1875rem;
+        }
+
+        &:nth-child(2) {
+            cursor: pointer;
+            padding: 0 3.75rem;
+            width: auto;
+            height: 5.1667rem;
+            background: #ffffff;
+            border: 1px solid #4988f2;
+            box-shadow: 0px 0px 1.5rem 0px rgb(40 107 198 / 31%);
+            border-radius: 2.5833rem;
+            font-size: 1.8333rem;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: #2473ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 2.1875rem;
+            color: #ffffff !important;
+            background: linear-gradient(90deg, #2473ff 0%, #56b1fd 100%) !important;
+            box-shadow: 0px 0px 1.5rem 0px rgb(40 107 198 / 31%) !important;
+        }
+    }
+}
+
+.workers{
+    text-align: left;
+    .item{
+        width: calc((100% - 4.4118rem)/4);
+        margin-right: 1.4706rem;
+        box-shadow: -0.3529rem 0.2353rem 0rem 0rem rgba(213, 238, 251, 0.31);
+    	border-radius: 0.2941rem;
+	    border: solid 0.0588rem #94bdfd;
+        padding: 1.1765rem 1.1765rem 4.7059rem 1.1765rem;
+        position: relative;
+        margin-bottom: 1.7647rem;
+        float: left;
+        .name{
+            font-size: 1.4118rem;
+            line-height: 1.4118rem;
+            margin-bottom: 1.1765rem;
+            letter-spacing: 0.0588rem;
+        	color: #373737;
+            font-weight: bold;
+        }
+        .num{
+            width: 90%;
+            height: 1.5294rem;
+            line-height: 1.5294rem;
+            padding-left: 1.1765rem;
+            margin-left: -1.1765rem;
+            background-color: #f5f7fb;
+            border-radius: 0rem 0.5882rem 0.5882rem 0rem;
+            font-size: 0.9412rem;
+            letter-spacing: 0.0588rem;
+            color: #8e8e8e;
+            margin-bottom: 1.7647rem;
+        }
+        .phone,.remark{
+            line-height: 1.4706rem;
+            &>span:nth-child(1){
+                font-size: 1.0588rem;
+                color: #999999;
+                display: inline-block;
+                min-width: 2.6471rem;
+            }
+            &>span:nth-child(2){
+                font-size: 1.0588rem;
+                color: #373737;
+            }
+        }
+        .remark{
+            margin-top: 0.5882rem;
+        }
+        .btn{
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2.9412rem;
+            line-height: 2.9412rem;
+            background-color: #e8f1ff;
+            border-radius: 0rem 0rem 0.2941rem 0.2941rem;
+            font-size: 1.1765rem;
+            color: #4a7ae6;
+            text-align: center;
+        }
+    }
+
+    &>div:nth-child(4n){
+        margin-right: 0;
+    }
+}
+
+.video-container{
+    background-image: url('@/assets/images/pad/video/bg.png');
+    background-size:  100% 100%;
+
+    .head{
+        padding-top: 11.1765rem;
+     
+        margin-bottom: 2.6471rem;
+        .head-img{
+            width: 13.2353rem;
+        }
+        .signal{
+            width: 3.5294rem;
+            margin-left: -1.7647rem;
+        }
+    }
+    .name{
+        font-size: 2.1176rem;
+        line-height: 2.1176rem;
+        color: #fff;
+        margin-bottom: 2.9412rem;
+    }
+    .status{
+        font-size: 2.1176rem;
+        line-height: 2.1176rem;
+        color: #576981;
+        margin-bottom: 11.7647rem;
+    }
+    .btn {
+        color: #96accd;
+        font-size: 1.8824rem;
+        line-height: 1.8824rem;
+        padding:  0 2.9412rem;
+        align-items: baseline;
+        img{
+            width: 6.2941rem;
+        }   
+        .microphone img{
+            width: 3.2941rem;
+	        height: 4.4706rem;
+        } 
+        div{
+            margin-top: 2.0588rem;
+        }
+    }
+}

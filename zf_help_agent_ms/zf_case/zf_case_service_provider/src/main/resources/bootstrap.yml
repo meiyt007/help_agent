@@ -1,0 +1,865 @@
+nacos:
+  server:
+    group: PLATFORM-01
+    online:
+      username: zfnacos
+      password: Zfsoft888
+      host: 172.21.176.204:13303  #黄埔线上环境
+      namespace: b23b2636-1723-48f1-b0ca-0a5a22d80767
+    prod:
+      username: nacos
+      password: nacos
+      host: 122.112.225.220:8848 #合肥环境
+      namespace: b23b2636-1723-48f1-b0ca-0a5a22d80767
+    dev:
+      username: nacos
+      password: nacos
+      host: 127.0.0.1:8848
+      namespace: b23b2636-1723-48f1-b0ca-0a5a22d80767
+spring:
+  application:
+    name: zf-case-service-provider
+#    name: zf-case-service-provider-ht
+  cloud:
+    sentinel:
+      transport:
+        dashboard: ${sentinel.server.${spring.profiles.active}.host}
+      eager: true
+    nacos:
+      config:
+        server-addr: ${nacos.server.${spring.profiles.active}.host}
+        username: ${nacos.server.${spring.profiles.active}.username}
+        password: ${nacos.server.${spring.profiles.active}.password}
+        file-extension: yaml
+        group: ${nacos.server.group}
+        namespace: ${nacos.server.${spring.profiles.active}.namespace}
+      discovery:
+        server-addr: ${nacos.server.${spring.profiles.active}.host}
+        group: ${nacos.server.group}
+        namespace: ${nacos.server.${spring.profiles.active}.namespace}
+        username: ${nacos.server.${spring.profiles.active}.username}
+        password: ${nacos.server.${spring.profiles.active}.password}
+  profiles:
+    active: 'dev'
+  shardingsphere:
+    sharding:
+      tables:
+        t_ql_case:
+          actual-data-nodes: "ds0.t_ql_case"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ql_case_applay:
+          actual-data-nodes: "ds0.t_ql_case_applay"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ql_case_ext:
+          actual-data-nodes: "ds0.t_ql_case_ext"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ql_case_link_result:
+          actual-data-nodes: "ds0.t_ql_case_link_result"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ql_case_material:
+          actual-data-nodes: "ds0.t_ql_case_material"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ql_case_material_atta:
+          actual-data-nodes: "ds0.t_ql_case_material_atta"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ql_case_title_value_relation:
+          actual-data-nodes: "ds0.t_ql_case_title_value_relation"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sys_atta:
+          actual-data-nodes: "ds0.t_sys_atta"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sys_dict:
+          actual-data-nodes: "ds0.t_sys_dict"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_case_return:
+          actual-data-nodes: "ds0.t_case_return"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_sign:
+          actual-data-nodes: "ds0.t_sx_sign"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_sys_dict:
+          actual-data-nodes: "ds0.t_sx_sys_dict"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_sys_atta:
+          actual-data-nodes: "ds0.t_sx_sys_atta"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_directory:
+          actual-data-nodes: "ds0.t_sx_directory"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_type:
+          actual-data-nodes: "ds0.t_sx_service_type"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_accept_condition:
+          actual-data-nodes: "ds0.t_sx_accept_condition"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_handle_location:
+          actual-data-nodes: "ds0.t_sx_handle_location"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_charge:
+          actual-data-nodes: "ds0.t_sx_service_charge"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_charge_param:
+          actual-data-nodes: "ds0.t_sx_service_charge_param"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_extend:
+          actual-data-nodes: "ds0.t_sx_service_extend"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_link:
+          actual-data-nodes: "ds0.t_sx_service_link"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_link_special:
+          actual-data-nodes: "ds0.t_sx_service_link_special"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_location:
+          actual-data-nodes: "ds0.t_sx_service_location"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service:
+          actual-data-nodes: "ds0.t_sx_service"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_material:
+          actual-data-nodes: "ds0.t_sx_service_material"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_question:
+          actual-data-nodes: "ds0.t_sx_service_question"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_mate_opt_rel:
+          actual-data-nodes: "ds0.t_sx_service_mate_opt_rel"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_service_material:
+          actual-data-nodes: "ds0.t_service_material"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_service_option_rel:
+          actual-data-nodes: "ds0.t_service_option_rel"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_option_title:
+          actual-data-nodes: "ds0.t_sx_service_option_title"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_option_val:
+          actual-data-nodes: "ds0.t_sx_service_option_val"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_situation:
+          actual-data-nodes: "ds0.t_sx_service_situation"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_situation_option:
+          actual-data-nodes: "ds0.t_sx_service_situation_option"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_sx_result_elms_config:
+          actual-data-nodes: "ds0.t_sx_result_elms_config"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_sx_field_type:
+          actual-data-nodes: "ds0.t_sx_field_type"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_sx_fill_field:
+          actual-data-nodes: "ds0.t_sx_fill_field"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_sx_fill_label:
+          actual-data-nodes: "ds0.t_sx_fill_label"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_repeat_field_config:
+          actual-data-nodes: "ds0.t_repeat_field_config"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_form_info:
+          actual-data-nodes: "ds0.t_sx_form_info"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_precheck:
+          actual-data-nodes: "ds0.t_sx_service_precheck"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_option_field:
+          actual-data-nodes: "ds0.t_sx_option_field"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_option_field_val:
+          actual-data-nodes: "ds0.t_sx_option_field_val"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_material_form_template:
+          actual-data-nodes: "ds0.t_sx_material_form_template"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        #雪花算法生成的ID
+        t_sx_conditional_rules:
+          actual-data-nodes: "ds0.t_sx_conditional_rules"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_record_msg:
+          actual-data-nodes: "ds0.t_sx_record_msg"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_material_sign_person:
+          actual-data-nodes: "ds0.t_material_sign_person"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ahs_terminal_info:
+          actual-data-nodes: "ds0.t_ahs_terminal_info"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ahs_point_info:
+          actual-data-nodes: "ds0.t_ahs_point_info"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sys_config:
+          actual-data-nodes: "ds0.t_sys_config"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        # kkfan begin
+        t_sys_area_site:
+          actual-data-nodes: "ds0.t_sys_area_site"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sys_site_district_relation:
+          actual-data-nodes: "ds0.t_sys_site_district_relation"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_human_evidence_device_mgt:
+          actual-data-nodes: "ds0.t_human_evidence_device_mgt"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_entity_window_manage:
+          actual-data-nodes: "ds0.t_entity_window_manage"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_zsk_dict:
+          actual-data-nodes: "ds0.t_zsk_dict"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        # kkfan end
+        #xm
+        t_pbpj_manage:
+          actual-data-nodes: "ds0.t_pbpj_manage"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_pbpj_user:
+          actual-data-nodes: "ds0.t_pbpj_user"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_show_information:
+          actual-data-nodes: "ds0.t_show_information"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_docu_template:
+          actual-data-nodes: "ds0.t_sx_docu_template"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_advisory_registration:
+          actual-data-nodes: "ds0.t_advisory_registration"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_notepad:
+          actual-data-nodes: "ds0.t_notepad"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_material_category:
+          actual-data-nodes: "ds0.t_material_category"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_material_catalog:
+          actual-data-nodes: "ds0.t_material_catalog"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_material_catalog_element:
+          actual-data-nodes: "ds0.t_material_catalog_element"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_fa_model_template:
+          actual-data-nodes: "ds0.t_fa_model_template"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_fa_model_template_block:
+          actual-data-nodes: "ds0.t_fa_model_template_block"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_fa_model_template_pic:
+          actual-data-nodes: "ds0.t_fa_model_template_pic"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_after_advisory:
+          actual-data-nodes: "ds0.t_after_advisory"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_dishonest_person:
+          actual-data-nodes: "ds0.t_dishonest_person"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_dishonest_record:
+          actual-data-nodes: "ds0.t_dishonest_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_material_catalog_relation:
+          actual-data-nodes: "ds0.t_material_catalog_relation"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_worker_honor:
+          actual-data-nodes: "ds0.t_worker_honor"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_evaluation_standard:
+          actual-data-nodes: "ds0.t_evaluation_standard"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_evaluation_option:
+          actual-data-nodes: "ds0.t_evaluation_option"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_case_sign_record:
+          actual-data-nodes: "ds0.t_case_sign_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_virtual_business_record:
+          actual-data-nodes: "ds0.t_virtual_business_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_witness_comparison:
+          actual-data-nodes: "ds0.t_witness_comparison"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_reguser_info:
+          actual-data-nodes: "ds0.t_reguser_info"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_save_call_record:
+          actual-data-nodes: "ds0.t_save_call_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_card_catalogue:
+          actual-data-nodes: "ds0.t_card_catalogue"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_card_catalogue_element:
+          actual-data-nodes: "ds0.t_card_catalogue_element"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_knowledge_base:
+          actual-data-nodes: "ds0.t_knowledge_base"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_inter_api:
+          actual-data-nodes: "ds0.t_inter_api"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_inter_api_response:
+          actual-data-nodes: "ds0.t_inter_api_response"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sso_legal_user:
+          actual-data-nodes: "ds0.t_sso_legal_user"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sso_nature_user:
+          actual-data-nodes: "ds0.t_sso_nature_user"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ahs_person_auth_info:
+          actual-data-nodes: "ds0.t_ahs_person_auth_info"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_material_bill:
+          actual-data-nodes: "ds0.t_sx_material_bill"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_sx_material_elms_config:
+          actual-data-nodes: "ds0.t_sx_material_elms_config"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_option_title:
+          actual-data-nodes: "ds0.t_option_title"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_option_val:
+          actual-data-nodes: "ds0.t_option_val"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_option_service:
+          actual-data-nodes: "ds0.t_option_service"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_option_material:
+          actual-data-nodes: "ds0.t_option_material"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_service_registrar:
+          actual-data-nodes: "ds0.t_sx_service_registrar"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_fa_model_rule_validation:
+          actual-data-nodes: "ds0.t_fa_model_rule_validation"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_examine_point_carding:
+          actual-data-nodes: "ds0.t_examine_point_carding"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ahs_sample_pic_info:
+          actual-data-nodes: "ds0.t_ahs_sample_pic_info"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_service_site_authorize:
+          actual-data-nodes: "ds0.t_service_site_authorize"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_case_material_out_of_stock:
+          actual-data-nodes: "ds0.t_case_material_out_of_stock"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_internet_audit_record:
+          actual-data-nodes: "ds0.t_internet_audit_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_case_rqhb:
+          actual-data-nodes: "ds0.t_case_rqhb"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_license_issued:
+          actual-data-nodes: "ds0.t_license_issued"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ser_form:
+          actual-data-nodes: "ds0.t_ser_form"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_case_form:
+          actual-data-nodes: "ds0.t_case_form"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_inform_promise:
+          actual-data-nodes: "ds0.t_inform_promise"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ql_case_correction:
+          actual-data-nodes: "ds0.t_ql_case_correction"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ql_correction_material:
+          actual-data-nodes: "ds0.t_ql_correction_material"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_case_license_manage:
+          actual-data-nodes: "ds0.t_case_license_manage"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ahs_stamp_record:
+          actual-data-nodes: "ds0.t_ahs_stamp_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ahs_ocr_record:
+          actual-data-nodes: "ds0.t_ahs_ocr_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        emotion_recognition_record:
+          actual-data-nodes: "ds0.emotion_recognition_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        handle_service_star:
+          actual-data-nodes: "ds0.handle_service_star"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_fa_material_pic_ocr_result:
+          actual-data-nodes: "ds0.t_fa_material_pic_ocr_result"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_classify_rec:
+          actual-data-nodes: "ds0.t_classify_rec"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_data_set_material_img_rec:
+          actual-data-nodes: "ds0.t_data_set_material_img_rec"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_data_set_zip_rec:
+          actual-data-nodes: "ds0.t_data_set_zip_rec"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_audit_result:
+          actual-data-nodes: "ds0.t_audit_result"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_factor_lable:
+          actual-data-nodes: "ds0.t_sx_factor_lable"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_sx_factor_element:
+          actual-data-nodes: "ds0.t_sx_factor_element"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_case_material_out_of_stock_record:
+          actual-data-nodes: "ds0.t_case_material_out_of_stock_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_field_rel_config:
+          actual-data-nodes: "ds0.t_form_field_rel_config"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_signature_flow_record:
+          actual-data-nodes: "ds0.t_signature_flow_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        #  雪花算法   ha
+        t_ha_user_question:
+          actual-data-nodes: "ds0.t_ha_user_question"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_work_turn_record:
+          actual-data-nodes: "ds0.t_ha_work_turn_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_message:
+          actual-data-nodes: "ds0.t_ha_message"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_work_service:
+          actual-data-nodes: "ds0.t_ha_work_service"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+
+        t_ha_user_resource:
+          actual-data-nodes: "ds0.t_ha_user_resource"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_masses_nucleic:
+          actual-data-nodes: "ds0.t_ha_masses_nucleic"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_appointment:
+          actual-data-nodes: "ds0.t_ha_appointment"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_work_queue:
+          actual-data-nodes: "ds0.t_ha_work_queue"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_user_service:
+          actual-data-nodes: "ds0.t_ha_user_service"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_help_work_user:
+          actual-data-nodes: "ds0.t_ha_help_work_user"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_user_online:
+          actual-data-nodes: "ds0.t_ha_user_online"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_work_user_group:
+          actual-data-nodes: "ds0.t_ha_work_user_group"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_banner:
+          actual-data-nodes: "ds0.t_ha_banner"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_visit:
+          actual-data-nodes: "ds0.t_ha_visit"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_eval_item:
+          actual-data-nodes: "ds0.t_ha_eval_item"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_eval_result:
+          actual-data-nodes: "ds0.t_ha_eval_result"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_eval_result_item:
+          actual-data-nodes: "ds0.t_ha_eval_result_item"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_service_common_problem:
+          actual-data-nodes: "ds0.t_ha_service_common_problem"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_work_user_schedule:
+          actual-data-nodes: "ds0.t_ha_work_user_schedule"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_take_catalogue:
+          actual-data-nodes: "ds0.t_ha_take_catalogue"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_plus_project:
+          actual-data-nodes: "ds0.t_ha_plus_project"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_performance_regulartime_record:
+          actual-data-nodes: "ds0.t_ha_performance_regulartime_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_performance_plustime_record:
+          actual-data-nodes: "ds0.t_ha_performance_plustime_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_akey_review_records:
+          actual-data-nodes: "ds0.t_ha_akey_review_records"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_file_knowledge_base:
+          actual-data-nodes: "ds0.t_ha_file_knowledge_base"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_desk:
+          actual-data-nodes: "ds0.t_ha_desk"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_desk_dep:
+          actual-data-nodes: "ds0.t_ha_desk_dep"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_video_consultant:
+          actual-data-nodes: "ds0.t_ha_video_consultant"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_sms:
+          actual-data-nodes: "ds0.t_ha_sms"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_work_user_group_split:
+          actual-data-nodes: "ds0.t_ha_work_user_group_split"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_work_login_location:
+          actual-data-nodes: "ds0.t_ha_work_login_location"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_video_room:
+          actual-data-nodes: "ds0.t_ha_video_room"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_video_access:
+          actual-data-nodes: "ds0.t_ha_video_access"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_video_chat_record:
+          actual-data-nodes: "ds0.t_ha_video_chat_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_policy_base:
+          actual-data-nodes: "ds0.t_ha_policy_base"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_xd_service:
+          actual-data-nodes: "ds0.t_xd_service"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_performance_phone_record:
+          actual-data-nodes: "ds0.t_ha_performance_phone_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_video_cloud_record:
+          actual-data-nodes: "ds0.t_ha_video_cloud_record"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_ha_case_express:
+          actual-data-nodes: "ds0.t_ha_case_express"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE

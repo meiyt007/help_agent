@@ -1,0 +1,81 @@
+#sentinel:
+#  server:
+#    dev:
+#      host: 172.168.249.3:8718
+nacos:
+  server:
+    group: PLATFORM-01
+    online:
+      username: zfnacos
+      password: Zfsoft888
+      host: 172.21.176.204:13303  #黄埔线上环境
+      namespace: b23b2636-1723-48f1-b0ca-0a5a22d80767
+    prod:
+      username: nacos
+      password: nacos
+      host: 122.112.225.220:8848 #合肥环境
+      namespace: b23b2636-1723-48f1-b0ca-0a5a22d80767
+    dev:
+      username: nacos
+      password: nacos
+      host: 127.0.0.1:8848
+      namespace: b23b2636-1723-48f1-b0ca-0a5a22d80767
+spring:
+  application:
+    name: platform-gateway
+  cloud:
+#    sentinel:
+#      transport:
+#        dashboard: ${sentinel.server.${spring.profiles.active}.host}
+#      eager: true
+#      datasource:
+#        # 名称随意
+#        flow:
+#          nacos:
+#            server-addr: ${nacos.server.${spring.profiles.active}.host}
+#            dataId: ${spring.application.name}-flow-rules
+#            groupId: SENTINEL_GROUP
+#            # 规则类型，取值见：
+#            # org.springframework.cloud.alibaba.sentinel.datasource.RuleType
+#            rule-type: flow
+#        degrade:
+#          nacos:
+#            server-addr: ${nacos.server.${spring.profiles.active}.host}
+#            dataId: ${spring.application.name}-degrade-rules
+#            groupId: SENTINEL_GROUP
+#            rule-type: degrade
+#        system:
+#          nacos:
+#            server-addr: ${nacos.server.${spring.profiles.active}.host}
+#            dataId: ${spring.application.name}-system-rules
+#            groupId: SENTINEL_GROUP
+#            rule-type: system
+#        authority:
+#          nacos:
+#            server-addr: ${nacos.server.${spring.profiles.active}.host}
+#            dataId: ${spring.application.name}-authority-rules
+#            groupId: SENTINEL_GROUP
+#            rule-type: authority
+#        param-flow:
+#          nacos:
+#            server-addr: ${nacos.server.${spring.profiles.active}.host}
+#            dataId: ${spring.application.name}-param-flow-rules
+#            groupId: SENTINEL_GROUP
+#            rule-type: param-flow
+    nacos:
+      config:
+        server-addr: ${nacos.server.${spring.profiles.active}.host}
+        username: ${nacos.server.${spring.profiles.active}.username}
+        password: ${nacos.server.${spring.profiles.active}.password}
+        file-extension: yml
+        group: ${nacos.server.group}
+        namespace: ${nacos.server.${spring.profiles.active}.namespace}
+      discovery:
+        server-addr: ${nacos.server.${spring.profiles.active}.host}
+        group: ${nacos.server.group}
+        namespace: ${nacos.server.${spring.profiles.active}.namespace}
+        username: ${nacos.server.${spring.profiles.active}.username}
+        password: ${nacos.server.${spring.profiles.active}.password}
+  profiles:
+    active: 'dev'
+

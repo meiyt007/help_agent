@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.cases.dbaccess.dao.SysDictMapper">
+
+    <resultMap type="com.zfsoft.cases.dbaccess.data.DbSysDict" id="TSysDictMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="code" column="CODE" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="parentOid" column="PARENT_OID" jdbcType="VARCHAR"/>
+        <result property="memo" column="MEMO" jdbcType="VARCHAR"/>
+        <result property="path" column="PATH" jdbcType="VARCHAR"/>
+        <result property="isAble" column="IS_ABLE" jdbcType="INTEGER"/>
+        <result property="isDelete" column="IS_DELETE" jdbcType="INTEGER"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="sort" column="SORT" jdbcType="INTEGER"/>
+        <result property="createUserOid" column="CREATE_USER_OID" jdbcType="VARCHAR"/>
+        <result property="phonetic" column="PHONETIC" jdbcType="VARCHAR"/>
+        <result property="abbreviation" column="ABBREVIATION" jdbcType="VARCHAR"/>
+        <result property="nationCode" column="NATION_CODE" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TSysDictMap">
+        select
+          ID, CODE, NAME, PARENT_OID, MEMO, PATH, IS_ABLE, IS_DELETE, CREATE_DATE, SORT, CREATE_USER_OID, PHONETIC, ABBREVIATION, NATION_CODE
+        from t_sys_dict
+        where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TSysDictMap">
+        select
+          ID, CODE, NAME, PARENT_OID, MEMO, PATH, IS_ABLE, IS_DELETE, CREATE_DATE, SORT, CREATE_USER_OID, PHONETIC, ABBREVIATION, NATION_CODE
+        from t_sys_dict
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TSysDictMap">
+        select
+        ID, CODE, NAME, PARENT_OID, MEMO, PATH, IS_ABLE, IS_DELETE, CREATE_DATE, SORT, CREATE_USER_OID, PHONETIC,
+        ABBREVIATION, NATION_CODE
+        from t_sys_dict
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and CODE = #{code}
+            </if>
+            <if test="name != null and name != ''">
+                and NAME = #{name}
+            </if>
+            <if test="parentOid != null and parentOid != ''">
+                and PARENT_OID = #{parentOid}
+            </if>
+            <if test="memo != null and memo != ''">
+                and MEMO = #{memo}
+            </if>
+            <if test="path != null and path != ''">
+                and PATH = #{path}
+            </if>
+            <if test="isAble != null">
+                and IS_ABLE = #{isAble}
+            </if>
+            <if test="isDelete != null">
+                and IS_DELETE = #{isDelete}
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="sort != null">
+                and SORT = #{sort}
+            </if>
+            <if test="createUserOid != null and createUserOid != ''">
+                and CREATE_USER_OID = #{createUserOid}
+            </if>
+            <if test="phonetic != null and phonetic != ''">
+                and PHONETIC = #{phonetic}
+            </if>
+            <if test="abbreviation != null and abbreviation != ''">
+                and ABBREVIATION = #{abbreviation}
+            </if>
+            <if test="nationCode != null and nationCode != ''">
+                and NATION_CODE = #{nationCode}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbSysDict">
+        insert into t_sys_dict(CODE, NAME, PARENT_OID, MEMO, PATH, IS_ABLE, IS_DELETE, CREATE_DATE, SORT, CREATE_USER_OID, PHONETIC, ABBREVIATION, NATION_CODE)
+        values (#{code}, #{name}, #{parentOid}, #{memo}, #{path}, #{isAble}, #{isDelete}, #{createDate}, #{sort}, #{createUserOid}, #{phonetic}, #{abbreviation}, #{nationCode})
+    </insert>
+<!--
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbSysDict">
+        insert into t_sys_dict(CODE, NAME, PARENT_OID, MEMO, PATH, IS_ABLE, IS_DELETE, CREATE_DATE,
+        SORT, CREATE_USER_OID, PHONETIC, ABBREVIATION, NATION_CODE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.code}, #{entity.name}, #{entity.parentOid}, #{entity.memo}, #{entity.path}, #{entity.isAble},
+            #{entity.isDelete}, #{entity.createDate}, #{entity.sort}, #{entity.createUserOid}, #{entity.phonetic},
+            #{entity.abbreviation}, #{entity.nationCode})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbSysDict">
+        insert into t_sys_dict(CODE, NAME, PARENT_OID, MEMO, PATH, IS_ABLE, IS_DELETE, CREATE_DATE,
+        SORT, CREATE_USER_OID, PHONETIC, ABBREVIATION, NATION_CODE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.code}, #{entity.name}, #{entity.parentOid}, #{entity.memo}, #{entity.path}, #{entity.isAble},
+            #{entity.isDelete}, #{entity.createDate}, #{entity.sort}, #{entity.createUserOid}, #{entity.phonetic},
+            #{entity.abbreviation}, #{entity.nationCode})
+        </foreach>
+        on duplicate key update
+        CODE = values(CODE) , NAME = values(NAME) , PARENT_OID = values(PARENT_OID) , MEMO = values(MEMO) , PATH =
+        values(PATH) , IS_ABLE = values(IS_ABLE) , IS_DELETE = values(IS_DELETE) , CREATE_DATE = values(CREATE_DATE) ,
+        SORT = values(SORT) , CREATE_USER_OID = values(CREATE_USER_OID) , PHONETIC = values(PHONETIC) , ABBREVIATION =
+        values(ABBREVIATION) , NATION_CODE = values(NATION_CODE)
+    </insert>
+-->
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.zfsoft.cases.dbaccess.data.DbSysDict">
+        update t_sys_dict
+        <set>
+            <if test="code != null and code != ''">
+                CODE = #{code},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name},
+            </if>
+            <if test="parentOid != null and parentOid != ''">
+                PARENT_OID = #{parentOid},
+            </if>
+            <if test="memo != null and memo != ''">
+                MEMO = #{memo},
+            </if>
+            <if test="path != null and path != ''">
+                PATH = #{path},
+            </if>
+            <if test="isAble != null">
+                IS_ABLE = #{isAble},
+            </if>
+            <if test="isDelete != null">
+                IS_DELETE = #{isDelete},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="sort != null">
+                SORT = #{sort},
+            </if>
+            <if test="createUserOid != null and createUserOid != ''">
+                CREATE_USER_OID = #{createUserOid},
+            </if>
+            <if test="phonetic != null and phonetic != ''">
+                PHONETIC = #{phonetic},
+            </if>
+            <if test="abbreviation != null and abbreviation != ''">
+                ABBREVIATION = #{abbreviation},
+            </if>
+            <if test="nationCode != null and nationCode != ''">
+                NATION_CODE = #{nationCode},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t_sys_dict where ID = #{id}
+    </delete>
+
+</mapper>

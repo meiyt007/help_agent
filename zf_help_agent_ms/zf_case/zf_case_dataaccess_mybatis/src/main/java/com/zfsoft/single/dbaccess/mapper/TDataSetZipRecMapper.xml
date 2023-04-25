@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.single.dbaccess.dao.TDataSetZipRecMapper">
+
+    <resultMap id="BaseResultMap" type="com.zfsoft.single.dbaccess.data.TDataSetZipRec">
+        <!--@Table t_data_set_zip_rec-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="serviceIds" column="service_ids" jdbcType="VARCHAR"/>
+        <result property="zipFileLocation" column="zip_file_location" jdbcType="VARCHAR"/>
+        <result property="packingTime" column="packing_time" jdbcType="TIMESTAMP"/>
+        <result property="publishTime" column="publish_time" jdbcType="TIMESTAMP"/>
+        <result property="deleteStatus" column="delete_status" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="isPublish" column="is_publish" jdbcType="INTEGER"/>
+        <result property="publishExplain" column="publish_explain" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, service_ids, zip_file_location, packing_time, publish_time, delete_status, create_by, is_publish, publish_explain
+        from t_data_set_zip_rec
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, service_ids, zip_file_location, packing_time, publish_time, delete_status, create_by, is_publish, publish_explain
+        from t_data_set_zip_rec
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        id, service_ids, zip_file_location, packing_time, publish_time, delete_status, create_by, is_publish, publish_explain
+        from t_data_set_zip_rec
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="serviceIds != null and serviceIds != ''">
+                and service_ids = #{serviceIds}
+            </if>
+            <if test="zipFileLocation != null and zipFileLocation != ''">
+                and zip_file_location = #{zipFileLocation}
+            </if>
+            <if test="packingTime != null">
+                and packing_time = #{packingTime}
+            </if>
+            <if test="publishTime != null">
+                and publish_time = #{publishTime}
+            </if>
+            <if test="deleteStatus != null">
+                and delete_status = #{deleteStatus}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{createBy}
+            </if>
+            <if test="isPublish != null">
+                and is_publish = #{isPublish}
+            </if>
+            <if test="publishExplain != null and publishExplain != ''">
+                and publish_explain = #{publishExplain}
+            </if>
+        </where>
+        order by  packing_time  desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into t_data_set_zip_rec(service_ids, zip_file_location, packing_time, publish_time, delete_status, create_by, is_publish, publish_explain)
+        values (#{serviceIds}, #{zipFileLocation}, #{packingTime}, #{publishTime}, #{deleteStatus}, #{createBy}, #{isPublish}, #{publishExplain})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_data_set_zip_rec
+        <set>
+            <if test="serviceIds != null and serviceIds != ''">
+                service_ids = #{serviceIds},
+            </if>
+            <if test="zipFileLocation != null and zipFileLocation != ''">
+                zip_file_location = #{zipFileLocation},
+            </if>
+            <if test="packingTime != null">
+                packing_time = #{packingTime},
+            </if>
+            <if test="publishTime != null">
+                publish_time = #{publishTime},
+            </if>
+            <if test="deleteStatus != null">
+                delete_status = #{deleteStatus},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy},
+            </if>
+            <if test="isPublish != null">
+                is_publish = #{isPublish},
+            </if>
+            <if test="publishExplain != null and publishExplain != ''">
+                publish_explain = #{publishExplain},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t_data_set_zip_rec where id = #{id}
+    </delete>
+
+</mapper>

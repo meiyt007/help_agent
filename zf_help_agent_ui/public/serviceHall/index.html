@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>叫号信息</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style-screen-1920.css">
+</head>
+
+<body>
+  <div class="content content2">
+    <header>
+      <img src="./img/hall-name.png">
+    </header>
+    <div class="clearfix vue_det_index" id="vue_det">
+      <div class="index-fl">
+        <div class="title">正 在 办 理</div>
+        <div v-cloak class="num clearfix">
+          <span v-for="(item,index) in currentPersonNum" :key="index">{{item}}</span>
+        </div>
+        <div class="window">{{winndowInfo}}</div>
+      </div>
+      <div class="index-fr">
+        <div class="wait-staff">
+          <div class="title">等 候 人 数</div>
+          <div class="num" v-cloak>{{waitNum}}</div>
+        </div>
+      </div>
+    </div>
+    <footer>2 0 2 1 @ 上 海 卓 繁 信 息 技 术 股 份 有 限 公 司 沪 I C P 备 2 0 2 1 0 0 4 4 6 9 号 - 1</footer>
+  </div>
+  <script src="../pbpj/js/vue.min.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#vue_det',
+      data: {
+        currentPersonNum: '',
+        waitNum: '',
+        winndowInfo: '',
+      },
+      mounted: function () {
+        this.getCaseInfo();//需要触发的函数
+      },
+      methods: {
+        getCaseInfo: function () {
+          var content = this.getURLParameter("jsonObject");
+          var obj = JSON.parse(content);
+          console.log(obj);
+          this.waitNum = obj.waitNum;
+          this.currentPersonNum = obj.currentPersonNum;
+          this.winndowInfo = obj.winndowInfo;
+        },
+        getURLParameter: function (name) {
+          return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+        },
+      }
+    })
+  </script>
+</body>
+
+</html>

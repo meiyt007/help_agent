@@ -1,0 +1,98 @@
+sentinel:
+  server:
+    dev:
+      host: 172.168.249.3:8718
+    test:
+      host: 172.168.249.3:8718
+    lijun:
+      host: 127.0.0.1:8718
+    zktest:
+      host: 172.168.249.3:8718
+    kk:
+      host: 172.168.250.6:10003
+nacos:
+  server:
+    group: PLATFORM-01
+    dev:
+      host: 172.168.251.67:8848
+#      namespace: 3f996559-68a0-4b08-913b-d8ffc753c3bf
+      namespace: 1a3d8a0d-5a7e-46f6-904f-6daec2cdc0c9
+    test:
+      host: 172.168.249.3:8848
+      namespace: 3f996559-68a0-4b08-913b-d8ffc753c3bf
+    lijun:
+      host: 127.0.0.1:8848
+      namespace: c05c327d-9d2c-4358-aede-77e822560fe6
+    examine:
+      host: 172.168.251.67:8848
+      namespace: 36d10134-6e1e-4ae6-959c-f6adc6194850
+
+    zktest:
+      host: 172.168.249.1:10001
+      namespace: 2747e872-580e-4205-a0c0-cf91766b8b64
+    kk:
+      host: 172.168.250.6:10003
+      namespace: f5ee42e6-f7ec-4cac-a2da-7bcc2a2c9bd2
+spring:
+  application:
+    name: workflow-service-provider
+  cloud:
+    sentinel:
+      transport:
+        dashboard: ${sentinel.server.${spring.profiles.active}.host}
+        eager: true
+      datasource:
+        gateway:
+          nacos:
+            server-addr: ${nacos.server.${spring.profiles.active}.host}
+            dataId: ${spring.application.name}-gateway-rules
+            groupId: SENTINEL_GROUP
+            # 规则类型，取值见：
+            # org.springframework.cloud.alibaba.sentinel.datasource.RuleType
+            rule-type: flow
+        # 名称随意
+        flow:
+          nacos:
+            server-addr: ${nacos.server.${spring.profiles.active}.host}
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
+            # 规则类型，取值见：
+            # org.springframework.cloud.alibaba.sentinel.datasource.RuleType
+            rule-type: flow
+        degrade:
+          nacos:
+            server-addr: ${nacos.server.${spring.profiles.active}.host}
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: SENTINEL_GROUP
+            rule-type: degrade
+        system:
+          nacos:
+            server-addr: ${nacos.server.${spring.profiles.active}.host}
+            dataId: ${spring.application.name}-system-rules
+            groupId: SENTINEL_GROUP
+            rule-type: system
+        authority:
+          nacos:
+            server-addr: ${nacos.server.${spring.profiles.active}.host}
+            dataId: ${spring.application.name}-authority-rules
+            groupId: SENTINEL_GROUP
+            rule-type: authority
+        param-flow:
+          nacos:
+            server-addr: ${nacos.server.${spring.profiles.active}.host}
+            dataId: ${spring.application.name}-param-flow-rules
+            groupId: SENTINEL_GROUP
+            rule-type: param-flow
+    nacos:
+      config:
+        server-addr: ${nacos.server.${spring.profiles.active}.host}
+        file-extension: yaml
+        group: ${nacos.server.group}
+        namespace: ${nacos.server.${spring.profiles.active}.namespace}
+      discovery:
+        server-addr: ${nacos.server.${spring.profiles.active}.host}
+        group: ${nacos.server.group}
+        namespace: ${nacos.server.${spring.profiles.active}.namespace}
+  profiles:
+    active: 'dev'
+

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.cases.dbaccess.dao.QlCaseMaterialAttaMapper">
+
+    <resultMap type="com.zfsoft.cases.dbaccess.data.DbQlCaseMaterialAtta" id="QlCaseMaterialAttaMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="materialAttaOid" column="MATERIAL_ATTA_OID" jdbcType="VARCHAR"/>
+        <result property="caseMaterialOid" column="CASE_MATERIAL_OID" jdbcType="VARCHAR"/>
+        <result property="attaOid" column="ATTA_OID" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="materialCatalogOid" column="MATERIAL_CATALOG_OID" jdbcType="VARCHAR"/>
+        <result property="refinedMaterialOid" column="REFINED_MATERIAL_OID" jdbcType="VARCHAR"/>
+        <result property="modifyBeforeAttaOid" column="MODIFY_BEFORE_ATTA_OID" jdbcType="VARCHAR"/>
+        <result property="modifyDate" column="MODIFY_DATE" jdbcType="TIMESTAMP"  />
+        <result property="serialNumber" column="SERIAL_NUMBER" jdbcType="INTEGER" />
+        <result property="signaturePdfUrl" column="SIGNATURE_PDF_URL" jdbcType="VARCHAR" />
+        <result property="templatePdfUrl" column="TEMPLATE_PDF_URL" jdbcType="VARCHAR" />
+        <result property="autoType" column="AUTO_TYPE" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="QlCaseMaterialAttaMap">
+        select
+          ID, MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID, CREATE_DATE, MATERIAL_CATALOG_OID,REFINED_MATERIAL_OID,
+          MODIFY_BEFORE_ATTA_OID,MODIFY_DATE,SERIAL_NUMBER,SIGNATURE_PDF_URL,TEMPLATE_PDF_URL, AUTO_TYPE
+        from t_ql_case_material_atta
+        where ID = #{id}
+    </select>
+
+    <!--根据目录材料查询一条数据-->
+    <select id="queryQlCaseMaterialAttaByCatalogOid" resultMap="QlCaseMaterialAttaMap">
+        select
+          ID, MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID, CREATE_DATE, MATERIAL_CATALOG_OID,REFINED_MATERIAL_OID,
+          MODIFY_BEFORE_ATTA_OID,MODIFY_DATE,SERIAL_NUMBER,SIGNATURE_PDF_URL,TEMPLATE_PDF_URL, AUTO_TYPE
+        from t_ql_case_material_atta
+        where CASE_MATERIAL_OID = #{caseMaterialOid} and MATERIAL_CATALOG_OID = #{materialCatalogOid}
+    </select>
+
+    <!--业务主键查询一条-->
+    <select id="getSelectoneByCaseMaterialOid" resultMap="QlCaseMaterialAttaMap">
+        select
+          ID, MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID, CREATE_DATE, MATERIAL_CATALOG_OID,REFINED_MATERIAL_OID,
+          MODIFY_BEFORE_ATTA_OID,MODIFY_DATE,SERIAL_NUMBER,SIGNATURE_PDF_URL,TEMPLATE_PDF_URL,AUTO_TYPE
+        from t_ql_case_material_atta
+        where  ATTA_OID = #{attaOid} and  CASE_MATERIAL_OID = #{caseMaterialOid}
+    </select>
+
+    <!--业务主键查询附件材料信息-->
+    <select id="queryQlCaseMaterialByOid" resultMap="QlCaseMaterialAttaMap">
+        select
+          ID, MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID, CREATE_DATE, MATERIAL_CATALOG_OID,REFINED_MATERIAL_OID,
+          MODIFY_BEFORE_ATTA_OID,MODIFY_DATE,SERIAL_NUMBER,SIGNATURE_PDF_URL,TEMPLATE_PDF_URL,AUTO_TYPE
+        from t_ql_case_material_atta
+        where MATERIAL_ATTA_OID = #{materialAttaOid}
+    </select>
+
+    <!--办件材料业务主键查询附件材料信息-->
+    <select id="queryQlCaseMaterialAttaByCaseMaterialOid" resultMap="QlCaseMaterialAttaMap">
+        select
+          ID, MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID, CREATE_DATE, MATERIAL_CATALOG_OID,REFINED_MATERIAL_OID,
+          MODIFY_BEFORE_ATTA_OID,MODIFY_DATE,SERIAL_NUMBER,SIGNATURE_PDF_URL,TEMPLATE_PDF_URL,AUTO_TYPE
+        from t_ql_case_material_atta
+        where CASE_MATERIAL_OID = #{caseMaterialOid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="QlCaseMaterialAttaMap">
+        select
+          ID, MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID, CREATE_DATE, MATERIAL_CATALOG_OID,REFINED_MATERIAL_OID,
+          MODIFY_BEFORE_ATTA_OID,MODIFY_DATE,SERIAL_NUMBER,SIGNATURE_PDF_URL,TEMPLATE_PDF_URL
+        from t_ql_case_material_atta
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="QlCaseMaterialAttaMap">
+        select
+        ID, MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID, CREATE_DATE, MATERIAL_CATALOG_OID,REFINED_MATERIAL_OID,
+        MODIFY_BEFORE_ATTA_OID,MODIFY_DATE,SERIAL_NUMBER,SIGNATURE_PDF_URL,TEMPLATE_PDF_URL,AUTO_TYPE
+        from t_ql_case_material_atta
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="materialAttaOid != null and materialAttaOid != ''">
+                and MATERIAL_ATTA_OID = #{materialAttaOid}
+            </if>
+            <if test="caseMaterialOid != null and caseMaterialOid != ''">
+                and CASE_MATERIAL_OID = #{caseMaterialOid}
+            </if>
+            <if test="attaOid != null and attaOid != ''">
+                and ATTA_OID = #{attaOid}
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="materialCatalogOid != null">
+                and MATERIAL_CATALOG_OID = #{materialCatalogOid}
+            </if>
+            <if test="refinedMaterialOid != null">
+                and REFINED_MATERIAL_OID = #{refinedMaterialOid}
+            </if>
+            <if test="modifyBeforeAttaOid != null">
+                and MODIFY_BEFORE_ATTA_OID = #{modifyBeforeAttaOid}
+            </if>
+            <if test="serialNumber != null">
+                and SERIAL_NUMBER = #{serialNumber}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseMaterialAtta">
+        insert into t_ql_case_material_atta(MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID, CREATE_DATE,MATERIAL_CATALOG_OID,
+        REFINED_MATERIAL_OID,MODIFY_BEFORE_ATTA_OID,MODIFY_DATE,SERIAL_NUMBER,SIGNATURE_PDF_URL,TEMPLATE_PDF_URL,AUTO_TYPE)
+        values (#{materialAttaOid}, #{caseMaterialOid}, #{attaOid}, #{createDate}, #{materialCatalogOid}, #{refinedMaterialOid},
+        #{modifyBeforeAttaOid}, #{modifyDate}, #{serialNumber}, #{signaturePdfUrl}, #{templatePdfUrl}, #{autoType})
+    </insert>
+
+   <!-- <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseMaterialAtta">
+        insert into t_ql_case_material_atta(MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID,
+        CREATE_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.materialAttaOid}, #{entity.caseMaterialOid}, #{entity.attaOid}, #{entity.createDate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseMaterialAtta">
+        insert into t_ql_case_material_atta(MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID,
+        CREATE_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.materialAttaOid}, #{entity.caseMaterialOid}, #{entity.attaOid}, #{entity.createDate})
+        </foreach>
+        on duplicate key update
+        MATERIAL_ATTA_OID = values(MATERIAL_ATTA_OID) , CASE_MATERIAL_OID = values(CASE_MATERIAL_OID) , ATTA_OID =
+        values(ATTA_OID) , CREATE_DATE = values(CREATE_DATE)
+    </insert>
+-->
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseMaterialAtta">
+        update t_ql_case_material_atta
+        <set>
+            <if test="materialAttaOid != null and materialAttaOid != ''">
+                MATERIAL_ATTA_OID = #{materialAttaOid},
+            </if>
+            <if test="caseMaterialOid != null and caseMaterialOid != ''">
+                CASE_MATERIAL_OID = #{caseMaterialOid},
+            </if>
+            <if test="attaOid != null and attaOid != ''">
+                ATTA_OID = #{attaOid},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="materialCatalogOid != null">
+                MATERIAL_CATALOG_OID = #{materialCatalogOid},
+            </if>
+            <if test="refinedMaterialOid != null">
+                REFINED_MATERIAL_OID = #{refinedMaterialOid},
+            </if>
+            <if test="modifyBeforeAttaOid != null">
+                MODIFY_BEFORE_ATTA_OID = #{modifyBeforeAttaOid}
+            </if>
+            <if test="modifyDate != null">
+                MODIFY_DATE = #{modifyDate}
+            </if>
+            <if test="serialNumber != null">
+                SERIAL_NUMBER = #{serialNumber}
+            </if>
+            <if test="signaturePdfUrl != null">
+                SIGNATURE_PDF_URL = #{signaturePdfUrl}
+            </if>
+            <if test="templatePdfUrl != null">
+                TEMPLATE_PDF_URL = #{templatePdfUrl}
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+
+
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t_ql_case_material_atta where ID = #{id}
+    </delete>
+
+
+
+    <!--根据办件材料业务主键删除办件附件-->
+    <delete id="deleteByCaseMaterialOid">
+        delete from t_ql_case_material_atta where CASE_MATERIAL_OID = #{caseMaterialOid}
+    </delete>
+
+   <!-- 根据材料id和附件id查询附件关联表-->
+    <select id="queryQlCaseMaterialAttaByCatalogOidAndAttaOid" resultMap="QlCaseMaterialAttaMap">
+        select
+            ID, MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID, CREATE_DATE, MATERIAL_CATALOG_OID,REFINED_MATERIAL_OID,
+            MODIFY_BEFORE_ATTA_OID,MODIFY_DATE,SERIAL_NUMBER,SIGNATURE_PDF_URL,TEMPLATE_PDF_URL,AUTO_TYPE
+        from t_ql_case_material_atta
+        where CASE_MATERIAL_OID = #{caseMaterialOid} and ATTA_OID = #{attaOid}
+    </select>
+
+    <!--通过业务主键删除-->
+    <delete id="deleteByOid">
+        delete from t_ql_case_material_atta where MATERIAL_ATTA_OID = #{materialAttaOid}
+    </delete>
+
+    <!--办件材料业务主键查询附件材料信息-->
+    <select id="queryQlCaseMaterialAttaByRefinedMaterialOid" resultMap="QlCaseMaterialAttaMap">
+        select
+            ID, MATERIAL_ATTA_OID, CASE_MATERIAL_OID, ATTA_OID, CREATE_DATE, MATERIAL_CATALOG_OID,REFINED_MATERIAL_OID,
+            MODIFY_BEFORE_ATTA_OID,MODIFY_DATE,SERIAL_NUMBER,SIGNATURE_PDF_URL,TEMPLATE_PDF_URL,AUTO_TYPE
+        from t_ql_case_material_atta
+        where REFINED_MATERIAL_OID = #{refinedMaterialOid} and CASE_MATERIAL_OID = #{caseMaterialOid}
+    </select>
+
+
+
+</mapper>

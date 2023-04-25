@@ -1,0 +1,55 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<base href="http://61.187.187.196:8082/manager/" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="renderer" content="webkit">
+	<title>通用基础技术平台</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="http://61.187.187.196:8082/manager/css/tabs/style.css">
+	<link rel="stylesheet" href="http://61.187.187.196:8082/manager/css/tabs/font-awesome.css">
+	<link rel="stylesheet" href="http://61.187.187.196:8082/manager/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://61.187.187.196:8082/manager/css/iconfont.css">
+	<link rel="stylesheet" href="http://61.187.187.196:8082/manager/css/style.css">
+	<link rel="stylesheet" href="http://61.187.187.196:8082/manager/css/index.css">
+	<link rel="stylesheet" href="http://61.187.187.196:8082/manager/css/font-awesome.min.css">
+	<script src="http://61.187.187.196:8082/manager/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+			var bgMask = window.top.document.getElementById("fullMaskDiv");
+			if (bgMask) {
+				bgMask.style.display = "none";
+			}
+		}
+	</script>
+</head>
+
+
+
+
+
+
+<body style="background: #fff">
+<div id="errorMessageDiv" style="display: none"></div>
+	<div class="wrongPage_content">
+		<div class="wrongPage_img">
+			<img src="images/404.png">
+		</div>
+		
+			
+			
+			<div class="wrongPage_title">404</div>
+					<div class="wrongPage_info">服务器无法找到所请求的页面</div>
+            
+		
+	</div>
+</body>
+<script>
+	console.log($($('<div/>').html($('#errorMessageDiv').html()).text()));
+</script>
+</html>

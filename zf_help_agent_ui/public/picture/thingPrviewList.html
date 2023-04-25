@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<meta name="renderer" content="webkit">
+		<title>预览</title>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/custom.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery.imageLabel.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script type="text/javascript">
+
+
+		</script>
+		<link rel="stylesheet" href="css/jquery.imageLabel.min.css">
+		<link rel="stylesheet" href="css/custom.css">
+
+	</head>
+	<body>
+	<!--	<input type="hidden" id="imgUrl" value='//172.168.252.57:8080/sxgov/ImageShowServlet?fileOid=' />-->
+		<div class="scyd" id="scyd">
+		</div>
+	<div class="prev" title="上一张" onclick="prev()">
+			<img src="../picture/img/left.png" />
+		</div>
+		<div class="next" title="下一张" onclick="next()">
+			<img src="../picture/img/right.png" />
+		</div>
+		<div class="count-num">
+			<div>共<span id="countNum">0</span>页，第<span id="curNum">0</span>页</div>
+		</div>
+
+  <script src="js/jquery-3.5.1.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/jquery.imageLabel.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/zDialog.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../common.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+      var VUE_APP_BASE_API=commonUrl.VUE_APP_BASE_API;
+      //var VUE_APP_ZC_ROUTE_PATH=commonUrl.VUE_APP_ZC_ROUTE_PATH;
+      var VUE_APP_ZC_ROUTE_PATH="";
+     //var VUE_APP_BASE_API='/dev-api';
+     //var VUE_APP_ZC_ROUTE_PATH='/dzcpt-lss/zc';
+    // var VUE_APP_ZC_ROUTE_PATH="http://172.168.252.43:9090/zc";
+      //获取参数
+      function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+      }
+      var  materiaOid = getURLParameter("materiaOid");
+      var  sampleInfoOid = getURLParameter("sampleInfoOid");
+      var comboDirectoryOid=getURLParameter("comboDirectoryOid");
+
+    /*  var attaOid='f4deeaff58a44e289ab81469a8da2827';
+      var ahsSamplePicInfoOid='7b6b76a59cee43979f69c7f17ca73cd1';
+*/
+      var imgUrlinfo="";
+     //初始化加载数据
+     var GLOBAL_DATA = [];
+     var GLOBAL_CUR_NUM = 0;
+
+			$(function() {
+        getZcUrl();
+        function getZcUrl(){
+          var code="ZC_ROUTE_URL"
+          if(comboDirectoryOid && (comboDirectoryOid!='null') && (comboDirectoryOid!='undefined') ){
+            code="ONTHING_SERVICE_URL"
+          }else{
+            code="DSXBL_URL";
+          }
+          var urlImg = VUE_APP_BASE_API+'/settings/security/config/getSysConfigByCode';
+          var dataimg = {
+            "code": code,
+          }
+          $.ajax({
+            url: urlImg, //请求地址
+            type: "get", //请求方式
+            data:dataimg,
+            dataType:'json',
+            success: function(data) { //成功回调
+              VUE_APP_ZC_ROUTE_PATH=data.data.value;
+              //这个设置一定要在imageLabel 初始化后面
+              $('.imageLabel-box').css("width", "80%");
+              getAhsSamplePicInfoList();
+            },
+            fail: function(data) {
+              console.log('fail')
+            }
+          });
+        }
+
+
+
+       /* //这个设置一定要在imageLabel 初始化后面
+        $('.imageLabel-box').css("width", "80%");
+          getAhsSamplePicInfoList();*/
+			});
+
+     function getAhsSamplePicInfoList(){
+       var url="";
+       if(comboDirectoryOid && (comboDirectoryOid!='null') && (comboDirectoryOid!='undefined') ){
+         url = VUE_APP_ZC_ROUTE_PATH+"/comboExaminePointCarding/getComboAhsSamplePicInfoListNew";
+       }else{
+          url = VUE_APP_ZC_ROUTE_PATH+"/examinePointCarding/queryAhsSamplePicInfoList";
+       }
+       var data = {
+         "materiaOid":materiaOid,
+         "sampleInfoOid":sampleInfoOid,
+         "comboDirectoryOid":comboDirectoryOid,
+       }
+       $.post( url, data, function(data) {
+         var ahsSamplePicInfoList=data.data.ahsSamplePicInfoList;
+         //console.log(JSON.stringify(ahsSamplePicInfoList))
+         GLOBAL_DATA = ahsSamplePicInfoList;
+         initData();
+       })
+     }
+
+     var initData = function() {
+       var item = GLOBAL_DATA[GLOBAL_CUR_NUM];
+       var imgUrlinfo = item.comparePicFile;
+       var epcList = item.examinePointCardingList;
+       loadData(imgUrlinfo, epcList);
+       loadPageData();
+     }
+
+     var loadData = function(imgUrlinfo, epcList) {
+       /*alert(imgUrlinfo)*/
+       //拼接附件的路径
+       var imgUrl =imgUrlinfo;
+       window.c = imageLabel({
+         img: imgUrl,
+         shade: false,
+         preview: true,
+         showBut: false,
+         only: false,
+         editPop: false,
+         data: epcList
+       });
+       $('.imageLabel-box').css("width", "80%");
+       loadRightEpcData(epcList);
+     }
+			//加载右侧的审查要点数据
+			var loadRightEpcData = function(epcList) {
+				//操作之前先清空
+				$('#scyd').html('');
+				//加载 右侧的审查数据
+				var htmlStr = '<div class="scyd-info">审查要点说明</div>';
+				if (epcList && epcList.length > 0) {
+					htmlStr += '<div class="scyd-data" id="scydData">';
+
+					for (var i = 0; i < epcList.length; i++) {
+						var item = epcList[i];
+						htmlStr +=
+							`<div class="scyd-data-item">
+					<div class="scyd-data-title">审查要点<span style="color:#ff0000;margin-left:3px;font-weight: bold;">` +
+							item.name + `</span>:</div>
+					<div class="scyd-data-content">
+						<div class="scyd-data-view">` + item.examineInfo +
+							`</div>
+					</div>
+				</div>`;
+					}
+					htmlStr += `</div>`;
+
+				} else {
+					htmlStr +=
+						`<div class="scyd-no-data" id="scydNoData">
+						<div><img src="img/no-message.png"/></div>
+						<div class="noDate"></div>
+					   </div>`;
+				}
+				$('#scyd').append(htmlStr);
+			}
+			//上一页
+			var prev = function() {
+				if (GLOBAL_CUR_NUM === 0) {
+					//提示已经是第一页
+					alert("已经是第一张图片!");
+				} else {
+					GLOBAL_CUR_NUM = GLOBAL_CUR_NUM - 1;
+					var item = GLOBAL_DATA[GLOBAL_CUR_NUM];
+          var imgUrlinfo = item.comparePicFile;
+          var epcList = item.examinePointCardingList;
+          loadData(imgUrlinfo, epcList);
+					loadPageData();
+				}
+			}
+			//下一页
+			var next = function() {
+				if (GLOBAL_CUR_NUM === GLOBAL_DATA.length - 1) {
+          //Dialog.typeAlert("已经是最后一张图片!")
+					alert("已经是最后一张图片!");
+				} else {
+					GLOBAL_CUR_NUM = GLOBAL_CUR_NUM + 1;
+					var item = GLOBAL_DATA[GLOBAL_CUR_NUM];
+          var imgUrlinfo = item.comparePicFile;
+          var epcList = item.examinePointCardingList;
+          loadData(imgUrlinfo, epcList);
+					loadPageData();
+				}
+			}
+     //加载翻页的数据
+     var loadPageData = function() {
+       $("#countNum").text(GLOBAL_DATA.length);
+       $("#curNum").text(GLOBAL_CUR_NUM + 1);
+     }
+		</script>
+	</body>
+</html>

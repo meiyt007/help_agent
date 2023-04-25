@@ -1,0 +1,182 @@
+// cover some element-ui styles
+
+.el-breadcrumb__inner,
+.el-breadcrumb__inner a {
+  font-weight: 400 !important;
+}
+
+.el-upload {
+  input[type="file"] {
+    display: none !important;
+  }
+}
+
+.el-upload__input {
+  display: none;
+}
+
+.cell {
+  .el-tag {
+    margin-right: 0px;
+  }
+}
+
+.small-padding {
+  .cell {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+.fixed-width {
+  .el-button--mini {
+    padding: 7px 10px;
+    width: 60px;
+  }
+}
+
+.status-col {
+  .cell {
+    padding: 0 10px;
+    text-align: center;
+
+    .el-tag {
+      margin-right: 0px;
+    }
+  }
+}
+
+// to fixed https://github.com/ElemeFE/element/issues/2461
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+  background: #ffffff;
+  // fix: 54px border头部存在白边
+  border-radius: 10px !important;
+  overflow: hidden;
+  box-shadow: 0px 0px 24px 0px rgba(97, 135, 169, 0.76) !important;
+
+  .el-dialog__body {
+    height: calc(100% - 46px);
+    overflow-y: auto;
+    padding: 10px;
+  }
+
+  .el-dialog__header {
+    padding: 15px 0px 15px 24px;
+    height: 46px;
+    background: url(~@/assets/image/dialog-bg.png) no-repeat center top;
+    // background: repeating-linear-gradient(-45deg, #3d4853 10%, #38414c 11%);
+    background-size: 101% 100%;
+    .el-dialog__title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #ffffff;
+      user-select: none;
+    }
+
+    .el-dialog__headerbtn {
+      height: inherit;
+      width: 70px;
+      background: #2e363e;
+      border-radius: 0px 10px 0px 0px;
+      top: 0;
+      right: 0;
+
+      i {
+        color: #fff;
+      }
+    }
+  }
+}
+.preview-dialog{
+   .el-dialog__body {
+    height: calc(100% - 46px);
+    overflow: hidden;
+    padding: 0!important;
+  }
+}
+// refine element ui upload
+.upload-container {
+  .el-upload {
+    width: 100%;
+
+    .el-upload-dragger {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+// dropdown
+.el-dropdown-menu {
+  a {
+    display: block;
+  }
+}
+
+// fix date-picker ui bug in filter-item
+.el-range-editor.el-input__inner {
+  display: inline-flex !important;
+}
+
+// to fix el-date-picker css style
+.el-range-separator {
+  box-sizing: content-box;
+}
+
+.el-image-viewer__btn.el-image-viewer__close {
+  i {
+    color: #fff;
+  }
+}
+
+.el-tabs__nav-wrap.is-top {
+  background: rgba(184, 211, 255, 0.19);
+  border: 1px solid #ffffff;
+  border-radius: 5px 5px 0px 0px;
+  &::after {
+    background-color: #fff;
+  }
+  .el-tabs__nav-scroll {
+    // padding: 0 30px;
+    .el-tabs__active-bar.is-top {
+      background-color: rgba(46, 125, 255, 1);
+      height: 3px;
+      display: none;
+    }
+
+    .el-tabs__item.is-top {
+      padding: 0 20px;
+      &.is-active {
+        font-weight: bold;
+        color: #2e7dff;
+        background-image: linear-gradient(to top, #b8d3ff 10%, rgba(184, 211, 255, 0.19) 40%, transparent);
+        position: relative;
+        background-size: 100% 94%;
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: 3px;
+          height: 3px;
+          width: 100%;
+          background-color: rgba(46, 125, 255, 1);
+        }
+      }
+    }
+  }
+}
+
+// 滚动条一直显示
+.el-scrollbar__bar.is-vertical,
+.el-scrollbar__bar.is-horizontal {
+  opacity: 1;
+}
+
+.el-input-number--medium {
+  line-height: 30px !important;
+}

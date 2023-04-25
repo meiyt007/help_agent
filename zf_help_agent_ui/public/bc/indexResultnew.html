@@ -1,0 +1,349 @@
+<html style="height:100%;overflow-y:hidden;">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="images/zflogo.ico" type="image/x-icon" />
+  <meta name="renderer" content="webkit">
+  <title>一业一证模板制作</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <link rel="stylesheet" href="css/licPrint/iconfont/iconfont.css">
+  <script src="js/licPrint/jquery/1.11.3/jquery.min.js"></script>
+  <script src="css/licPrint/bootstrap/js/bootstrap.min.js"></script>
+  <link href="css/licPrint/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="css/licPrint/bootstrap/css/layoutit.css" rel="stylesheet" type="text/css" />
+  <!--标尺  -->
+  <link rel="stylesheet" href="js/licPrint/jqueryui-ruler/css/jquery.ui.ruler.css">
+  <!--弹框  -->
+  <script type="text/javascript" src="js/licPrint/artDialog/dist/dialog-plus.js"></script>
+  <link rel="stylesheet" href="js/licPrint/zDialog/zDialog.css">
+  <script src="js/licPrint/zDialog/zDialog.js"></script>
+  <!-- 滚动条 -->
+  <script type="text/javascript" src="js/licPrint/jquery.nicescroll.js"></script>
+  <!-- ztree start -->
+  <link rel="stylesheet" href="js/licPrint/zTree_v3/css/metroStyle/metroStyle.css" type="text/css">
+  <script type="text/javascript" src="js/licPrint/zTree_v3/js/jquery.ztree.core.js"></script>
+
+  <script src="../common.js" type="text/javascript" charset="utf-8"></script>
+  <!-- ztree end -->
+  <!--弹框  -->
+  <!-- 		<script src="js/fa/dialog-plus.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css" href="css/zDialog.css"/> -->
+  <!-- 布局工具 http://www.bootcss.com/p/layoutit/ -->
+
+  <script type="text/javascript">
+    var VUE_APP_BASE_API=commonUrl.VUE_APP_BASE_API;
+    //var VUE_APP_ZC_ROUTE_PATH=commonUrl.VUE_APP_ZC_ROUTE_PATH;
+    var VUE_APP_ZC_ROUTE_PATH="";
+    var VUE_APP_ZC_INDUSTRY_ROUTE_PATH ="";
+    //var VUE_APP_BASE_API='/dev-api';
+    //var VUE_APP_ZC_ROUTE_PATH='/dzcpt-lss/zc';
+    //var VUE_APP_ZC_ROUTE_PATH="http://172.168.252.43:9090/zc";
+    //获取参数
+    function getURLParameter(name) {
+      return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+    }
+    var  faModelTemplateOid = getURLParameter("faModelTemplateOid");
+    var materialCatalogOid=getURLParameter("materialCatalogOid");
+    var viewOrEdit=getURLParameter("viewOrEdit");
+    var fromJsp = {};
+    fromJsp.ctxPath = VUE_APP_ZC_ROUTE_PATH;
+    fromJsp.cataOid = '';
+    fromJsp.materialCataName = '';
+    fromJsp.blockColorClass = 'color3';
+    fromJsp.baseImgFilePath = '';
+    fromJsp.fileOid = '';
+    fromJsp.templateVersion = '';
+    fromJsp.versionTemplateList = '';
+    fromJsp.bigCataOid = '';
+    fromJsp.templateOid = '';
+    fromJsp.templateStr ='';
+    fromJsp.guideType = '';
+    var setting = {
+      check: {
+        enable: true
+      },
+      data: {
+        simpleData: {
+          enable: true
+        }
+      }
+    };
+
+  </script>  <!-- 布局工具 http://www.bootcss.com/p/layoutit/ -->
+</head>
+<body class="edit" oncontextmenu="window.event.returnValue=false;return false;">
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <a class="brand" style="cursor: default;color:#000;">打印模板制作工具</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav" id="menu-layoutit">
+          <li>
+            <div class="btn-group">
+              <button id="uploadBtn" class="btn btn-warning"><i class="icon-upload icon-white"></i>上传底图
+              </button>
+            </div>
+            <div class="btn-group batch-btn">
+              <button id="leftAlignBtn" title="左对齐" class="btn btn-success"><span class="iconfont icon-zuoduiqi" style="font-size: 19px;margin-left: -3px;"></span></button>
+              <button id="centerAlignBtn" title="左右居中对齐" class="btn btn-success"><span class="iconfont icon-chuizhijuzhongduiqi" style="font-size: 19px;margin-left: -3px;"></span></button>
+              <button id="rightAlignBtn" title="右对齐" class="btn btn-success"><span class="iconfont icon-youduiqi" style="font-size: 19px;margin-left: -3px;"></span></button>
+            </div>
+            <div class="btn-group batch-btn">
+              <button id="topAlignBtn" title="上对齐" class="btn btn-success"><span class="iconfont icon-shangduiqi" style="font-size: 19px;margin-left: -3px;"></span></button>
+              <button id="verticalAlignBtn" title="上下居中对齐" class="btn btn-success"><span class="iconfont icon-shuipingjuzhongduiqi" style="font-size: 19px;margin-left: -3px;"></span></button>
+              <button id="bottomAlignBtn" title="下对齐" class="btn btn-success"><span class="iconfont icon-xiaduiqi" style="font-size: 19px;margin-left: -3px;"></span></button>
+            </div>
+            <div class="btn-group batch-btn">
+              <button id="copyHtBtn" title="等宽" class="btn btn-success"><span class="iconfont icon-denggaofenbu"></span></button>
+              <button id="copyWdBtn" title="等高" class="btn btn-success"><span class="iconfont icon-dengkuanfenbu"></span></button>
+            </div>
+            <div class="btn-group batch-btn-his">
+              <button id="lastBtn" title="上一步" class="btn btn-success"><span class="iconfont icon-fanhuishangyibu-" style="font-size: 19px;margin-left: -3px;"></span></button>
+              <button id="nextBtn" title="下一步" class="btn btn-success"><span class="iconfont icon-fanhuixiayibu-" style="font-size: 19px;margin-left: -3px;"></span></button>
+            </div>
+            <div class="btn-group">
+              <button id="autoAlignBtn" class="btn btn-info"><i class="icon-magnet icon-white"></i>智能对齐</button>
+            </div>
+            <div class="btn-group">
+              <button id="clearBtn" class="btn btn-primary"><i class="icon-trash icon-white"></i>清空
+              </button>
+              <button id="saveBtn" class="btn btn-primary"><i
+                class="icon-refresh icon-white"></i>暂存
+              </button>
+              <button id="previewBtn" class="btn btn-primary"><i
+                class="icon-eye-open icon-white"></i>预览
+              </button>
+              <button id="submitBtn" class="btn btn-primary"><i
+                class="icon-ok icon-white"></i>发布
+              </button>
+            </div>
+            <div class="btn-group">
+              <button id="printSetBtn" class="btn btn-info"><i class="icon-print icon-white"></i>打印设置</button>
+            </div>
+            <div class="btn-group" style="float: right;">
+              <button id="helpBtn" class="btn btn-link"><i class="icon-question-sign"></i>帮助
+              </button>
+            </div>
+            <div class="btn-group" style="display: none;">
+              <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-wrench"></i>区块颜色切换
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu menu1">
+                <li><a class="s_color_3" b-class="color3"><span></span>红色</a></li>
+                <li class="divider"></li>
+                <li><a class="s_color_4" b-class="color4"><span></span>蓝色</a></li>
+                <li class="divider"></li>
+                <li><a class="s_color_1" b-class="color1"><span></span>绿色</a></li>
+                <li class="divider"></li>
+                <li><a class="s_color_2" b-class="color2"><span></span>紫色</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="sidebar-nav">
+        <div class="accordion-group" style="margin: 1px 3px;-webkit-border-radius: 0;border-radius: 0;-moz-border-radius: 0;">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" href="#my_collapse">
+              底图信息
+            </a>
+          </div>
+          <div id="my_collapse" class="accordion-body collapse ">
+            <div class="accordion-inner">
+              <span class="label label-info">底图实际尺寸：</span><br/>
+              <span class="label label-warning" id="real_w">-</span> * <span class="label label-warning"
+                                                                             id="real_h">-</span><br/>
+              <span class="label label-info">底图Dpi信息：</span><br/>
+              <span class="label label-warning" id="dpi_w">-</span> / <span class="label label-warning" id="dpi_h">-</span><br/>
+              <span class="label label-info">底图物理尺寸：</span><br/>
+              <nobr>
+                <span class="label label-warning" id="physics_w">-</span> * <span class="label label-warning"
+                                                                                  id="physics_h">-</span></nobr><br/>
+              <span class="label label-info">当前面板尺寸：</span><br/>
+              <span class="label label-warning" id="panel_w">-</span> * <span class="label label-warning"
+                                                                              id="panel_h">-</span><br/>
+              <span class="label label-info">展示比例：</span><br/>
+              <span class="label label-warning" id="show_rate">-</span><br/>
+              <span class="label label-info">当前鼠标位置：</span><br/>
+              <span class="label label-warning" id="show_x">-</span> , <span class="label label-warning"
+                                                                             id="show_y">-</span>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group" style="margin: 1px 3px;min-height: 90%;-webkit-border-radius: 0;border-radius: 0;-moz-border-radius: 0;">
+          <ul id="block_tree" class="ztree"></ul>
+        </div>
+      </div>
+      <div id="scroll_div" class="scroll_div">
+        <div id="panel" class="panel ui-sortable">
+          <div class="guide" id="guide-v"></div>
+          <div class="guide" id="guide-h"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="block_html_template" style="display:none">
+  <div id="{block_id}" class="block {color}">
+    <div id="{block_id}_resize" class="resize" style="display:none;">&nbsp;</div>
+  </div>
+</div>
+<!-- Modal -->
+<div id="block_edit_html_template" style="display:none">
+  <table class="table table-bordered" b_id="{block_id}">
+    <tbody>
+    <tr>
+      <td style="min-width: 200px;">
+        <span id="{block_id}_md"></span>
+        <button id="{block_id}_sel_md" class="btn btn-mini btn-primary" type="button">
+          选择目录元素
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <select id="{block_id}_font_family" s_k="font-family" style="margin-bottom: 0px;width: 110px;">
+          <option style="font-family: 黑体!important;" value="黑体" selected="selected">黑体</option>
+          <option style="font-family: 微软雅黑!important;" value="微软雅黑">微软雅黑</option>
+          <option style="font-family: 宋体!important;" value="宋体">宋体</option>
+          <option style="font-family: 楷体!important;" value="楷体">楷体</option>
+          <option style="font-family: 仿宋!important;" value="仿宋">仿宋</option>
+          <option style="font-family: 新宋体!important;" value="新宋体">新宋体</option>
+          <option style="font-family: Arial!important;" value="Arial">Arial</option>
+          <option style="font-family: Courier New!important;" value="Courier New">Courier New</option>
+          <option style="font-family: Times New Roman!important;" value="Times New Roman">Times New Roman</option>
+        </select>
+        <select id="{block_id}_font_size" s_k="font-size" style="margin-bottom: 0px;width: 90px;">
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="btn-group css-btn-group1">
+          <button id="{block_id}_bold" s_k="font-weight" s_v="bold" title="加粗" class="btn"><i class="icon-bold"></i></button>
+          <button id="{block_id}_italic" s_k="font-style" s_v="italic" title="斜体" class="btn"><i class="icon-italic"></i></button>
+        </div>
+        <div class="btn-group css-btn-group2">
+          <button id="{block_id}_align_left" s_k="text-align" s_v="left" title="左对齐" class="btn active"><i class="icon-align-left"></i></button>
+          <button id="{block_id}_align_center" s_k="text-align" s_v="center" title="居中对齐" class="btn"><i class="icon-align-center"></i></button>
+          <button id="{block_id}_align_right" s_k="text-align" s_v="right" title="右对齐" class="btn"><i class="icon-align-right"></i></button>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label class="checkbox" style="margin-bottom: 0px;">
+          <input id="{block_id}_overflow_wrap" s_k="overflow-wrap" s_v="break-word" type="checkbox" checked/> 自动换行
+        </label>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div id="{block_id}_sel_panel" class="sel-panel hide">
+    <i class="icon-remove icon-red close-panel"
+       style="font-size: 18px;position: absolute;top:2px;right: 4px;cursor: pointer;" title="删除"></i>
+    <ul id="{block_id}_md_list" class="md-list">
+    </ul>
+  </div>
+  <button type="button" class="btn btn-warning jq_selecter" onclick="canselBlockEdit('{block_id}')">
+    取消
+  </button>
+  <button type="button" class="btn btn-primary jq_selecter" onclick="saveBlockInfo('{block_id}')">
+    保存
+  </button>
+</div>
+<script>
+  // 生成字号下拉框
+  $(function(){
+    var $sel = $('#block_edit_html_template select:eq(1)');
+    for (var i = 5; i < 60; i++){
+      $sel.append('<option value="' + i + 'pt"' +(i == 14? ' selected="selected"' : '')+ '>' + i + 'pt</option>');
+    }
+  });
+</script>
+<!-- 选择已有模板 -->
+<div id="ver_sel_html_template" style="display:none">
+  <div>
+    <div id="{div_id}" class="container" style="height: 400px; overflow: hidden; margin-bottom: 50px;">
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+          <th width="5%">序号</th>
+          <th width="15%">模板编号</th>
+          <th>模板名称</th>
+          <th width="10%">版本号</th>
+          <th width="18%">修改时间</th>
+          <th width="10%">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <div style="background-color:#f3f6f9;height:45px;width:100%;position:absolute;bottom:0;left:0;border-top:1px solid #ccc;text-align:right;">
+      <button onclick="business.unUseTemplate();" type="button" class="btn btn-primary"
+              style="margin-top:8px;margin-right:20px;">不使用已有模板
+      </button>
+    </div>
+  </div>
+</div>
+<!-- 切换目录 -->
+<div id="cata_sw_html_template" style="display:none">
+  <div>
+    <div id="{div_id}" class="container-fluid">
+      <div class="row-fluid">
+        <div class="span12">
+          <blockquote style="margin:10px 5px;">
+            <p style="text-align:left;font-size:14px;">
+              当前正在配置<span class="label label-info">{materialCataName}</span>的识别模板，点击下方目录子项，可切换到对应目录子项进行该目录子项的识别模板配置。
+            </p>
+            <p style="text-align:left;font-size:14px;">
+              当前模板发布成功！如需继续配置此目录下的其他模板请在下面列表中选择对应目录子项名称，否则请关闭！
+            </p>
+          </blockquote>
+          <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th width="10%" style="text-align:center">序号</th>
+              <th>目录子项名称</th>
+              <th width="20%" style="text-align:center">状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="js/licPrint/util.js"></script>
+<script src="js/licPrint/block.js"></script>
+<script src="js/licPrint/core.js"></script>
+<script src="js/licPrint/myztree.js"></script>
+<script src="js/licPrint/business.js"></script>
+
+
+<!--<script src="js/licPrint/coreResult.js"></script>
+<script src="js/licPrint/myztreeResult.js"></script>-->
+<!-- 右键菜单start -->
+<script src="js/licPrint/contextjs/js/context.js"></script>
+<!-- 右键菜单end -->
+<!-- 标尺start -->
+<script src="js/licPrint/jqueryui-ruler/js/jquery-ui.min.js"></script>
+<script src="js/licPrint/jqueryui-ruler/js/jquery.ui.ruler.js"></script>
+<!-- 标尺end -->
+<script src="js/licPrint/my.draggable.js"></script>
+</body>
+</html>

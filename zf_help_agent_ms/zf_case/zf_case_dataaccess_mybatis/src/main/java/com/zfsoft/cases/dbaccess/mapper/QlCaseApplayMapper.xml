@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.cases.dbaccess.dao.QlCaseApplayMapper">
+
+    <resultMap type="com.zfsoft.cases.dbaccess.data.DbQlCaseApplay" id="QlCaseApplayMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="caseOid" column="CASE_OID" jdbcType="VARCHAR"/>
+        <result property="applyNumber" column="APPLY_NUMBER" jdbcType="INTEGER"/>
+        <result property="applyUserName" column="APPLY_USER_NAME" jdbcType="VARCHAR"/>
+        <result property="applyUserType" column="APPLY_USER_TYPE" jdbcType="VARCHAR"/>
+        <result property="credentialType" column="CREDENTIAL_TYPE" jdbcType="VARCHAR"/>
+        <result property="credentialNumber" column="CREDENTIAL_NUMBER" jdbcType="VARCHAR"/>
+        <result property="applyUserAddress" column="APPLY_USER_ADDRESS" jdbcType="VARCHAR"/>
+        <result property="applyUserTel" column="APPLY_USER_TEL" jdbcType="VARCHAR"/>
+        <result property="applyUserPhone" column="APPLY_USER_PHONE" jdbcType="VARCHAR"/>
+        <result property="applyPostCode" column="APPLY_POST_CODE" jdbcType="VARCHAR"/>
+        <result property="legalPersonName" column="LEGAL_PERSON_NAME" jdbcType="VARCHAR"/>
+        <result property="addresseeName" column="ADDRESSEE_NAME" jdbcType="VARCHAR"/>
+        <result property="addresseePostCode" column="ADDRESSEE_POST_CODE" jdbcType="VARCHAR"/>
+        <result property="addresseePhone" column="ADDRESSEE_PHONE" jdbcType="VARCHAR"/>
+        <result property="addresseeTel" column="ADDRESSEE_TEL" jdbcType="VARCHAR"/>
+        <result property="addresseeAddress" column="ADDRESSEE_ADDRESS" jdbcType="VARCHAR"/>
+        <result property="chooseAddress" column="CHOOSE_ADDRESS" jdbcType="VARCHAR"/>
+        <result property="addresseeDetailAddress" column="ADDRESSEE_DETAIL_ADDRESS" jdbcType="VARCHAR"/>
+        <result property="contactUserName" column="CONTACT_USER_NAME" jdbcType="VARCHAR"/>
+        <result property="contactCredentialNumber" column="CONTACT_CREDENTIAL_NUMBER" jdbcType="VARCHAR"/>
+        <result property="contactUserPhone" column="CONTACT_USER_PHONE" jdbcType="VARCHAR"/>
+        <result property="contactUserTel" column="CONTACT_USER_TEL" jdbcType="VARCHAR"/>
+        <result property="contactEmail" column="CONTACT_EMAIL" jdbcType="VARCHAR"/>
+        <result property="contactRemark" column="CONTACT_REMARK" jdbcType="VARCHAR"/>
+        <result property="bussVenueDistrictOid" column="BUSS_VENUE_DISTRICT_OID" jdbcType="VARCHAR"/>
+        <result property="specificLocation" column="SPECIFIC_LOCATION" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="modifyDate" column="MODIFY_DATE" jdbcType="TIMESTAMP"  />
+        <result property="applyNumberLimit" column="APPLY_NUMBER_LIMIT" jdbcType="VARCHAR"/>
+        <result property="netUserId" column="NET_USER_ID" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="QlCaseApplayMap">
+        select
+          ID, CASE_OID, APPLY_NUMBER, APPLY_USER_NAME, APPLY_USER_TYPE, CREDENTIAL_TYPE, CREDENTIAL_NUMBER, APPLY_USER_ADDRESS,
+          APPLY_USER_TEL, APPLY_USER_PHONE, APPLY_POST_CODE, LEGAL_PERSON_NAME, ADDRESSEE_NAME, ADDRESSEE_POST_CODE,
+          ADDRESSEE_PHONE, ADDRESSEE_TEL, ADDRESSEE_ADDRESS, ADDRESSEE_ADDRESS,CONTACT_USER_NAME, CONTACT_CREDENTIAL_NUMBER,
+          CONTACT_USER_PHONE, CONTACT_USER_TEL, CONTACT_EMAIL, CONTACT_REMARK, BUSS_VENUE_DISTRICT_OID, SPECIFIC_LOCATION,
+          CREATE_DATE, MODIFY_DATE,APPLY_NUMBER_LIMIT,NET_USER_ID,CHOOSE_ADDRESS
+        from t_ql_case_applay
+        where ID = #{id}
+    </select>
+
+    <!--根据办件业务编号查询办件申请信息-->
+    <select id="queryQlCaseApplayByCaseOid" parameterType="String" resultMap="QlCaseApplayMap">
+        select
+        ID, CASE_OID, APPLY_NUMBER, APPLY_USER_NAME, APPLY_USER_TYPE, CREDENTIAL_TYPE, CREDENTIAL_NUMBER, APPLY_USER_ADDRESS,
+        APPLY_USER_TEL, APPLY_USER_PHONE, APPLY_POST_CODE,LEGAL_PERSON_NAME, ADDRESSEE_NAME, ADDRESSEE_POST_CODE, ADDRESSEE_PHONE,
+        ADDRESSEE_TEL, ADDRESSEE_ADDRESS, ADDRESSEE_DETAIL_ADDRESS,CONTACT_USER_NAME, CONTACT_CREDENTIAL_NUMBER,
+        CONTACT_USER_PHONE, CONTACT_USER_TEL, CONTACT_EMAIL, CONTACT_REMARK, BUSS_VENUE_DISTRICT_OID, SPECIFIC_LOCATION,
+        CREATE_DATE, MODIFY_DATE,APPLY_NUMBER_LIMIT,NET_USER_ID,CHOOSE_ADDRESS
+        from t_ql_case_applay
+        where CASE_OID = #{caseOid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="QlCaseApplayMap">
+        select
+        ID, CASE_OID, APPLY_NUMBER, APPLY_USER_NAME, APPLY_USER_TYPE, CREDENTIAL_TYPE, CREDENTIAL_NUMBER, APPLY_USER_ADDRESS,
+        APPLY_USER_TEL, APPLY_USER_PHONE, APPLY_POST_CODE, LEGAL_PERSON_NAME, ADDRESSEE_NAME, ADDRESSEE_POST_CODE, ADDRESSEE_PHONE,
+        ADDRESSEE_TEL, ADDRESSEE_ADDRESS, ADDRESSEE_DETAIL_ADDRESS,CONTACT_USER_NAME, CONTACT_CREDENTIAL_NUMBER, CONTACT_USER_PHONE,
+        CONTACT_USER_TEL, CONTACT_EMAIL, CONTACT_REMARK, BUSS_VENUE_DISTRICT_OID, SPECIFIC_LOCATION, CREATE_DATE, MODIFY_DATE,
+        APPLY_NUMBER_LIMIT,NET_USER_ID,CHOOSE_ADDRESS
+        from t_ql_case_applay
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="QlCaseApplayMap">
+        select
+        ID, CASE_OID, APPLY_NUMBER, APPLY_USER_NAME, APPLY_USER_TYPE, CREDENTIAL_TYPE, CREDENTIAL_NUMBER, APPLY_USER_ADDRESS,
+        APPLY_USER_TEL,APPLY_USER_PHONE, APPLY_POST_CODE, LEGAL_PERSON_NAME, ADDRESSEE_NAME, ADDRESSEE_POST_CODE, ADDRESSEE_PHONE,
+        ADDRESSEE_TEL, ADDRESSEE_ADDRESS, ADDRESSEE_DETAIL_ADDRESS,CONTACT_USER_NAME, CONTACT_CREDENTIAL_NUMBER,CONTACT_USER_PHONE,
+        CONTACT_USER_TEL, CONTACT_EMAIL, CONTACT_REMARK, BUSS_VENUE_DISTRICT_OID, SPECIFIC_LOCATION, CREATE_DATE, MODIFY_DATE,
+        APPLY_NUMBER_LIMIT,NET_USER_ID,CHOOSE_ADDRESS
+        from t_ql_case_applay
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="caseOid != null and caseOid != ''">
+                and CASE_OID = #{caseOid}
+            </if>
+            <if test="applyNumber != null">
+                and APPLY_NUMBER = #{applyNumber}
+            </if>
+            <if test="applyUserName != null and applyUserName != ''">
+                and APPLY_USER_NAME = #{applyUserName}
+            </if>
+            <if test="applyUserType != null and applyUserType != ''">
+                and APPLY_USER_TYPE = #{applyUserType}
+            </if>
+            <if test="credentialType != null and credentialType != ''">
+                and CREDENTIAL_TYPE = #{credentialType}
+            </if>
+            <if test="credentialNumber != null and credentialNumber != ''">
+                and CREDENTIAL_NUMBER = #{credentialNumber}
+            </if>
+            <if test="applyUserAddress != null and applyUserAddress != ''">
+                and APPLY_USER_ADDRESS = #{applyUserAddress}
+            </if>
+            <if test="applyUserTel != null and applyUserTel != ''">
+                and APPLY_USER_TEL = #{applyUserTel}
+            </if>
+            <if test="applyUserPhone != null and applyUserPhone != ''">
+                and APPLY_USER_PHONE = #{applyUserPhone}
+            </if>
+            <if test="applyPostCode != null and applyPostCode != ''">
+                and APPLY_POST_CODE = #{applyPostCode}
+            </if>
+            <if test="legalPersonName != null and legalPersonName != ''">
+                and LEGAL_PERSON_NAME = #{legalPersonName}
+            </if>
+            <if test="addresseeName != null and addresseeName != ''">
+                and ADDRESSEE_NAME = #{addresseeName}
+            </if>
+            <if test="addresseePostCode != null and addresseePostCode != ''">
+                and ADDRESSEE_POST_CODE = #{addresseePostCode}
+            </if>
+            <if test="addresseePhone != null and addresseePhone != ''">
+                and ADDRESSEE_PHONE = #{addresseePhone}
+            </if>
+            <if test="addresseeTel != null and addresseeTel != ''">
+                and ADDRESSEE_TEL = #{addresseeTel}
+            </if>
+            <if test="addresseeAddress != null and addresseeAddress != ''">
+                and ADDRESSEE_ADDRESS = #{addresseeAddress}
+            </if>
+            <if test="chooseAddress != null">
+                and CHOOSE_ADDRESS = #{chooseAddress}
+            </if>
+            <if test="addresseeDetailAddress != null and addresseeDetailAddress != ''">
+                and ADDRESSEE_DETAIL_ADDRESS = #{addresseeDetailAddress}
+            </if>
+            <if test="contactUserName != null and contactUserName != ''">
+                and CONTACT_USER_NAME = #{contactUserName}
+            </if>
+            <if test="contactCredentialNumber != null and contactCredentialNumber != ''">
+                and CONTACT_CREDENTIAL_NUMBER = #{contactCredentialNumber}
+            </if>
+            <if test="contactUserPhone != null and contactUserPhone != ''">
+                and CONTACT_USER_PHONE = #{contactUserPhone}
+            </if>
+            <if test="contactUserTel != null and contactUserTel != ''">
+                and CONTACT_USER_TEL = #{contactUserTel}
+            </if>
+            <if test="contactEmail != null and contactEmail != ''">
+                and CONTACT_EMAIL = #{contactEmail}
+            </if>
+            <if test="contactRemark != null and contactRemark != ''">
+                and CONTACT_REMARK = #{contactRemark}
+            </if>
+            <if test="bussVenueDistrictOid != null and bussVenueDistrictOid != ''">
+                and BUSS_VENUE_DISTRICT_OID = #{bussVenueDistrictOid}
+            </if>
+            <if test="specificLocation != null and specificLocation != ''">
+                and SPECIFIC_LOCATION = #{specificLocation}
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="modifyDate != null">
+                and MODIFY_DATE = #{modifyDate}
+            </if>
+
+        </where>
+    </select>
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryQlCaseApplayByApplyUserNameAndCredentialNumber" resultMap="QlCaseApplayMap">
+        select
+        ID, CASE_OID, APPLY_NUMBER, APPLY_USER_NAME, APPLY_USER_TYPE, CREDENTIAL_TYPE, CREDENTIAL_NUMBER, APPLY_USER_ADDRESS,
+        APPLY_USER_TEL,APPLY_USER_PHONE, APPLY_POST_CODE, LEGAL_PERSON_NAME, ADDRESSEE_NAME, ADDRESSEE_POST_CODE, ADDRESSEE_PHONE,
+        ADDRESSEE_TEL, ADDRESSEE_ADDRESS, ADDRESSEE_DETAIL_ADDRESS,CONTACT_USER_NAME, CONTACT_CREDENTIAL_NUMBER,CONTACT_USER_PHONE,
+        CONTACT_USER_TEL, CONTACT_EMAIL, CONTACT_REMARK, BUSS_VENUE_DISTRICT_OID, SPECIFIC_LOCATION, CREATE_DATE, MODIFY_DATE,
+        APPLY_NUMBER_LIMIT,NET_USER_ID,CHOOSE_ADDRESS
+        from t_ql_case_applay
+        <where>
+            <if test="applyUserName != null and applyUserName != ''">
+                or APPLY_USER_NAME = #{applyUserName}
+            </if>
+            <if test="credentialNumber != null and credentialNumber != ''">
+                or CREDENTIAL_NUMBER = #{credentialNumber}
+            </if>
+        </where>
+    </select>
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.cases.dbaccess.data.DbQlCaseApplay">
+        insert into t_ql_case_applay(CASE_OID, APPLY_NUMBER, APPLY_USER_NAME, APPLY_USER_TYPE, CREDENTIAL_TYPE, CREDENTIAL_NUMBER,
+          APPLY_USER_ADDRESS, APPLY_USER_TEL, APPLY_USER_PHONE, APPLY_POST_CODE, LEGAL_PERSON_NAME, ADDRESSEE_NAME, ADDRESSEE_POST_CODE,
+          ADDRESSEE_PHONE, ADDRESSEE_TEL, ADDRESSEE_ADDRESS, ADDRESSEE_DETAIL_ADDRESS,CONTACT_USER_NAME, CONTACT_CREDENTIAL_NUMBER,
+          CONTACT_USER_PHONE, CONTACT_USER_TEL,CONTACT_EMAIL, CONTACT_REMARK, BUSS_VENUE_DISTRICT_OID, SPECIFIC_LOCATION,
+          CREATE_DATE, MODIFY_DATE, APPLY_NUMBER_LIMIT, NET_USER_ID,CHOOSE_ADDRESS)
+        values (#{caseOid}, #{applyNumber}, #{applyUserName}, #{applyUserType}, #{credentialType},
+         #{credentialNumber},#{applyUserAddress}, #{applyUserTel}, #{applyUserPhone}, #{applyPostCode}, #{legalPersonName},
+         #{addresseeName}, #{addresseePostCode}, #{addresseePhone}, #{addresseeTel}, #{addresseeAddress},
+         #{addresseeDetailAddress},#{contactUserName},#{contactCredentialNumber},#{contactUserPhone},#{contactUserTel},
+         #{contactEmail},#{contactRemark}, #{bussVenueDistrictOid},#{specificLocation}, #{createDate}, #{modifyDate},
+         #{applyNumberLimit}, #{netUserId},#{chooseAddress})
+    </insert>
+
+   <!-- <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t_ql_case_applay(CASE_OID, APPLY_NUMBER, APPLY_USER_NAME, APPLY_USER_TYPE,
+        CREDENTIAL_TYPE, CREDENTIAL_NUMBER, APPLY_USER_TEL, APPLY_USER_PHONE, LEGAL_PERSON_NAME, ADDRESSEE_NAME,
+        ADDRESSEE_PHONE, ADDRESSEE_ADDRESS, BUSS_VENUE_DISTRICT_OID, SPECIFIC_LOCATION, CREATE_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.caseOid}, #{entity.applyNumber}, #{entity.applyUserName}, #{entity.applyUserType},
+            #{entity.credentialType}, #{entity.credentialNumber}, #{entity.applyUserTel}, #{entity.applyUserPhone},
+            #{entity.legalPersonName}, #{entity.addresseeName}, #{entity.addresseePhone}, #{entity.addresseeAddress},
+            #{entity.bussVenueDistrictOid}, #{entity.specificLocation}, #{entity.createDate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t_ql_case_applay(CASE_OID, APPLY_NUMBER, APPLY_USER_NAME, APPLY_USER_TYPE,
+        CREDENTIAL_TYPE, CREDENTIAL_NUMBER, APPLY_USER_TEL, APPLY_USER_PHONE, LEGAL_PERSON_NAME, ADDRESSEE_NAME,
+        ADDRESSEE_PHONE, ADDRESSEE_ADDRESS, BUSS_VENUE_DISTRICT_OID, SPECIFIC_LOCATION, CREATE_DATE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.caseOid}, #{entity.applyNumber}, #{entity.applyUserName}, #{entity.applyUserType},
+            #{entity.credentialType}, #{entity.credentialNumber}, #{entity.applyUserTel}, #{entity.applyUserPhone},
+            #{entity.legalPersonName}, #{entity.addresseeName}, #{entity.addresseePhone}, #{entity.addresseeAddress},
+            #{entity.bussVenueDistrictOid}, #{entity.specificLocation}, #{entity.createDate})
+        </foreach>
+        on duplicate key update
+        CASE_OID = values(CASE_OID) , APPLY_NUMBER = values(APPLY_NUMBER) , APPLY_USER_NAME = values(APPLY_USER_NAME) ,
+        APPLY_USER_TYPE = values(APPLY_USER_TYPE) , CREDENTIAL_TYPE = values(CREDENTIAL_TYPE) , CREDENTIAL_NUMBER =
+        values(CREDENTIAL_NUMBER) , APPLY_USER_TEL = values(APPLY_USER_TEL) , APPLY_USER_PHONE =
+        values(APPLY_USER_PHONE) , LEGAL_PERSON_NAME = values(LEGAL_PERSON_NAME) , ADDRESSEE_NAME =
+        values(ADDRESSEE_NAME) , ADDRESSEE_PHONE = values(ADDRESSEE_PHONE) , ADDRESSEE_ADDRESS =
+        values(ADDRESSEE_ADDRESS) , BUSS_VENUE_DISTRICT_OID = values(BUSS_VENUE_DISTRICT_OID) , SPECIFIC_LOCATION =
+        values(SPECIFIC_LOCATION) , CREATE_DATE = values(CREATE_DATE)
+    </insert>-->
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_ql_case_applay
+        <set>
+            <if test="caseOid != null and caseOid != ''">
+                 CASE_OID = #{caseOid},
+            </if>
+            <if test="applyNumber != null">
+                 APPLY_NUMBER = #{applyNumber},
+            </if>
+            <if test="applyNumberLimit != null and applyNumberLimit != ''">
+                APPLY_NUMBER_LIMIT = #{applyNumberLimit},
+            </if>
+            <if test="applyUserName != null and applyUserName != ''">
+                 APPLY_USER_NAME = #{applyUserName},
+            </if>
+            <if test="applyUserType != null and applyUserType != ''">
+                 APPLY_USER_TYPE = #{applyUserType},
+            </if>
+            <if test="credentialType != null and credentialType != ''">
+                 CREDENTIAL_TYPE = #{credentialType},
+            </if>
+            <if test="credentialNumber != null and credentialNumber != ''">
+                 CREDENTIAL_NUMBER = #{credentialNumber},
+            </if>
+                 APPLY_USER_ADDRESS = #{applyUserAddress},
+                 APPLY_USER_TEL = #{applyUserTel},
+            <if test="applyUserPhone != null and applyUserPhone != ''">
+                 APPLY_USER_PHONE = #{applyUserPhone},
+            </if>
+            <if test="applyPostCode != null and applyPostCode != ''">
+                 APPLY_POST_CODE = #{applyPostCode},
+            </if>
+            <if test="legalPersonName != null and legalPersonName != ''">
+                 LEGAL_PERSON_NAME = #{legalPersonName},
+            </if>
+            <if test="addresseeName != null and addresseeName != ''">
+                 ADDRESSEE_NAME = #{addresseeName},
+            </if>
+            <if test="addresseePostCode != null and addresseePostCode != ''">
+                 ADDRESSEE_POST_CODE = #{addresseePostCode},
+            </if>
+            <if test="addresseePhone != null and addresseePhone != ''">
+                 ADDRESSEE_PHONE = #{addresseePhone},
+            </if>
+                 ADDRESSEE_TEL = #{addresseeTel},
+            <if test="addresseeAddress != null and addresseeAddress != ''">
+                 ADDRESSEE_ADDRESS = #{addresseeAddress},
+            </if>
+            <if test="chooseAddress != null and chooseAddress != ''">
+                CHOOSE_ADDRESS = #{chooseAddress},
+            </if>
+            <if test="addresseeDetailAddress != null and addresseeDetailAddress != ''">
+                 ADDRESSEE_DETAIL_ADDRESS = #{addresseeDetailAddress},
+            </if>
+            <if test="bussVenueDistrictOid != null and bussVenueDistrictOid != ''">
+                 BUSS_VENUE_DISTRICT_OID = #{bussVenueDistrictOid},
+            </if>
+            <if test="specificLocation != null and specificLocation != ''">
+                 SPECIFIC_LOCATION = #{specificLocation},
+            </if>
+            <if test="contactUserName != null and contactUserName != ''">
+                CONTACT_USER_NAME = #{contactUserName},
+            </if>
+            <if test="contactCredentialNumber != null and contactCredentialNumber != ''">
+                CONTACT_CREDENTIAL_NUMBER = #{contactCredentialNumber},
+            </if>
+            <if test="contactUserPhone != null and contactUserPhone != ''">
+                CONTACT_USER_PHONE = #{contactUserPhone},
+            </if>
+                CONTACT_USER_TEL = #{contactUserTel},
+                CONTACT_EMAIL = #{contactEmail},
+                CONTACT_REMARK = #{contactRemark},
+            <if test="createDate != null">
+                 CREATE_DATE = #{createDate},
+            </if>
+            <if test="modifyDate != null">
+                 MODIFY_DATE = #{modifyDate},
+            </if>
+            <if test="netUserId != null">
+                NET_USER_ID = #{netUserId},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t_ql_case_applay where ID = #{id}
+    </delete>
+
+    <select id="selectByName" resultMap="QlCaseApplayMap" >
+        select
+            ID,APPLY_USER_NAME,CREDENTIAL_TYPE,CREDENTIAL_NUMBER
+        from t_ql_case_applay a
+        <where>
+            <if test="applyUserName != null">
+                a.APPLY_USER_NAME like concat('%', #{applyUserName}, '%')
+            </if>
+        </where>
+        group by a.APPLY_USER_NAME
+
+    </select>
+
+</mapper>

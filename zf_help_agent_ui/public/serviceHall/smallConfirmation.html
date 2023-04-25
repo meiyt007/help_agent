@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>办件信息</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style-screen-1920.css">
+  <link rel="stylesheet" href="./css/style-screen-1920-extend.css">
+</head>
+
+<body>
+  <div class="content content-enlarge" id="vue_det">
+    <header v-if="!is1920" v-cloak>
+      <img src="./img/hall-name.png">
+    </header>
+    <div class="main clearfix">
+      <div class="main-fl" v-if="!is1920">
+        <img class="portrait" src="./img/portrait.png">
+        <ul class="info">
+          <li><span v-cloak>姓名：{{userName}}</span></li>
+          <!-- <li><span>部门：{{organName}}</span></li> -->
+          <li><span>工号：089757</span></li>
+        </ul>
+        <p class="teleNum">咨询电话：0553-2626578</p>
+      </div>
+      <div class="main-fr content-enlarge__main-fr">
+        <p class="title">办件信息确认</p>
+        <div class="cont flex-column">
+          <div class="confirm-table">
+            <table class="table-row" border="0" cellspacing="0" cellpadding="0">
+              <colgroup>
+                <col width="22%">
+                <col width="28%">
+                <col width="22%">
+                <col width="28%">
+              </colgroup>
+              <tbody>
+                <tr>
+                <tr>
+                  <td>申请项目名称:</td>
+                  <td colspan="3" v-cloak>{{caseContent.applyProjectName}}</td>
+                </tr>
+                <tr>
+                  <td>申请人/单位名称:</td>
+                  <td v-cloak>{{caseContent.applyUserName}}</td>
+                  <td>申请人手机:</td>
+                  <td v-cloak>{{caseContent.applyUserPhone}}</td>
+                </tr>
+                <tr>
+                  <td>证件类型:</td>
+                  <td v-cloak>{{caseContent.credentialName}}</td>
+                  <td>证件号:</td>
+                  <td v-cloak>{{caseContent.credentialNumber}}</td>
+                </tr>
+                <tr>
+                  <td>邮政编码:</td>
+                  <td v-cloak>{{caseContent.applyPostCode}}</td>
+                  <td><span v-if="cegisterType == 0">通讯地址:</span></td>
+                  <td><span v-if="cegisterType == 0" v-cloak>{{caseContent.applyUserAddress}}</span></td>
+                </tr>
+                <tr>
+                  <td>代理人:</td>
+                  <td v-cloak>{{caseContent.contactUserName}}</td>
+                  <td>代理人证件号:</td>
+                  <td v-cloak>{{caseContent.contactCredentialNumber}}</td>
+                </tr>
+                <tr>
+                  <td>代理人手机号:</td>
+                  <td v-cloak>{{caseContent.contactUserPhone}}</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="confirm">
+            <button ref="confirm" type="button" @click="pushCallInfo('1')">信息正确</button>
+            <button ref="cancel" type="button" @click="pushCallInfo('0')">信息有误</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>2 0 2 1 @ 上 海 卓 繁 信 息 技 术 股 份 有 限 公 司 沪 I C P 备 2 0 2 1 0 0 4 4 6 9 号 - 1</footer>
+    <span class="tips" style="display:none;margin-left: 90px;background-color: #78e278" id="tips"></span>
+    <div class="timeend">
+      <img src="./img/timeend-icon.png" width="24px" height="24px" alt="">
+      <span class="time" v-cloak>{{time}}</span>
+      <span>秒后将为您自动确认信息</span>
+    </div>
+  </div>
+</body>
+<!--<script src="./js/jquery.min.js"></script>-->
+<script src="../pbpj/js/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  var app = new Vue({
+    el: '#vue_det',
+    data: {
+      userName: "",
+      organName: "",
+      userOid: "",
+      caseContent: {},
+      time: 30,
+      countTime: "",
+      URL_PRE: "",
+      cegisterType: 0,
+      smallspeech: 'N',
+      speechAddress: ''
+    },
+    computed: {
+      is1920() {
+        return screen.width === 1920;
+      }
+    },
+    mounted: function () {
+      this.getCaseInfo();//需要触发的函数
+      this.countDown();
+    },
+    methods: {
+      getCaseInfo: function () {
+        var content = this.getURLParameter("jsonObject");
+        var obj = JSON.parse(content);
+        console.log(obj);
+        this.userName = obj.userName;
+        this.organName = obj.organName;
+        this.userOid = obj.userOid;
+        this.caseContent = obj.content;
+        this.smallUrl = obj.smallUrl;
+        this.cegisterType = obj.cegisterType;
+        try {
+          this.time = obj.xxqrTime || 30;
+        } catch (error) {
+          this.time = 30;
+        }
+        // this.countTime=setInterval(this.countDown,1000);
+        this.smallspeech = obj.smallspeech;
+        this.speechAddress = obj.speechAddress;
+        if (this.smallspeech == 'Y') {
+          this.getAudioSpeech();
+        }
+      },
+      getURLParameter: function (name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+      },
+      pushCallInfo(result) {
+        if (result == '1') {
+          this.$refs.confirm.classList.add('btn-click');
+          this.$refs.cancel.classList.remove('btn-click');
+        } else {
+          this.$refs.cancel.classList.add('btn-click');
+          this.$refs.confirm.classList.remove('btn-click');
+        }
+        // clearInterval(this.countTime);
+        axios.get('/case-api/smallScreen/pushCallBackInfo', { params: { 'userOid': this.userOid, 'returnFlag': result } }).then((res) => {
+          if (res) {
+            if (res.data == true) {
+              //推送首页
+              //this.openWelcome();
+            }
+          }
+        }).catch((error) => {
+        });
+      },
+      //倒计时
+      countDown() {
+        this.countTime = setInterval(() => {
+          this.time--;
+          if (this.time < 0) {
+            clearInterval(this.countTime);
+            this.countTime = null;
+            this.time = 0;
+          }
+        }, 1000);
+      },
+      //查询综窗小屏播报语音
+      getAudioSpeech() {
+        axios.get('/zc-api/guidSpeech/selectByGuidSpeechCode', { params: { 'guidSpeechCode': 'single_case_confirm' } }).then((res) => {
+          if (res && res.data) {
+            console.log(JSON.stringify(res + "-----------"))
+            if (res.data.data.speechUrl) {
+              this.aotuAudioSpeech(res.data.data.speechUrl);
+            }
+          }
+        }).catch((error) => {
+        });
+      },
+      aotuAudioSpeech(data) {
+        axios.get(this.speechAddress + '/audio/Play', { params: { 'PlayUrl': data } }).then((res) => {
+          if (res) {
+            console.log("返回值：" + JSON.stringify(res));
+          }
+        }).catch((error) => {
+        });
+      },
+    }
+  })
+</script>
+
+</html>

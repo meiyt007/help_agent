@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.superwindow.dbaccess.dao.DbPbpjHistoryManageMapper">
+
+    <resultMap type="com.zfsoft.superwindow.dbaccess.data.DbPbpjHistoryManage" id="PbpjHistoryManageMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="runCode" column="RUN_CODE" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="ip" column="IP" jdbcType="VARCHAR"/>
+        <result property="status" column="STATUS" jdbcType="INTEGER"/>
+        <result property="userCode" column="USER_CODE" jdbcType="VARCHAR"/>
+        <result property="userName" column="USER_NAME" jdbcType="VARCHAR"/>
+        <result property="dateTime" column="DATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="IS_DELETE" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PbpjHistoryManageMap">
+        select
+          ID, RUN_CODE, NAME, IP, STATUS, USER_CODE, USER_NAME, DATE_TIME, REMARK, IS_DELETE
+        from t_pbpj_history_manage
+        where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PbpjHistoryManageMap">
+        select
+          ID, RUN_CODE, NAME, IP, STATUS, USER_CODE, USER_NAME, DATE_TIME, REMARK, IS_DELETE
+        from t_pbpj_history_manage
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="PbpjHistoryManageMap">
+        select
+        ID, RUN_CODE, NAME, IP, STATUS, USER_CODE, USER_NAME, DATE_TIME, REMARK, IS_DELETE
+        from t_pbpj_history_manage
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="runCode != null and runCode != ''">
+                and RUN_CODE = #{runCode}
+            </if>
+            <if test="name != null and name != ''">
+                and NAME = #{name}
+            </if>
+            <if test="ip != null and ip != ''">
+                and IP = #{ip}
+            </if>
+            <if test="status != null">
+                and STATUS = #{status}
+            </if>
+            <if test="userCode != null and userCode != ''">
+                and USER_CODE = #{userCode}
+            </if>
+            <if test="userName != null and userName != ''">
+                and USER_NAME = #{userName}
+            </if>
+            <if test="dateTime != null">
+                and DATE_TIME = #{dateTime}
+            </if>
+            <if test="remark != null and remark != ''">
+                and REMARK = #{remark}
+            </if>
+            <if test="isDelete != null">
+                and IS_DELETE = #{isDelete}
+            </if>
+        </where>
+    </select>
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" keyColumn="ID"  useGeneratedKeys="true" parameterType="com.zfsoft.superwindow.dbaccess.data.DbPbpjHistoryManage">
+        insert into t_pbpj_history_manage(RUN_CODE, NAME, IP, STATUS, USER_CODE, USER_NAME, DATE_TIME, REMARK, IS_DELETE)
+        values (#{runCode}, #{name}, #{ip}, #{status}, #{userCode}, #{userName}, #{dateTime}, #{remark}, #{isDelete})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" keyColumn="ID"  useGeneratedKeys="true" parameterType="com.zfsoft.superwindow.dbaccess.data.DbPbpjHistoryManage">
+        insert into t_pbpj_history_manage(RUN_CODE, NAME, IP, STATUS, USER_CODE, USER_NAME,
+        DATE_TIME, REMARK, IS_DELETE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.runCode}, #{entity.name}, #{entity.ip}, #{entity.status}, #{entity.userCode}, #{entity.userName},
+            #{entity.dateTime}, #{entity.remark}, #{entity.isDelete})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true" parameterType="com.zfsoft.superwindow.dbaccess.data.DbPbpjHistoryManage">
+        insert into t_pbpj_history_manage(RUN_CODE, NAME, IP, STATUS, USER_CODE, USER_NAME,
+        DATE_TIME, REMARK, IS_DELETE)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.runCode}, #{entity.name}, #{entity.ip}, #{entity.status}, #{entity.userCode}, #{entity.userName},
+            #{entity.dateTime}, #{entity.remark}, #{entity.isDelete})
+        </foreach>
+        on duplicate key update
+        RUN_CODE = values(RUN_CODE) , NAME = values(NAME) , IP = values(IP) , STATUS = values(STATUS) , USER_CODE =
+        values(USER_CODE) , USER_NAME = values(USER_NAME) , DATE_TIME = values(DATE_TIME) , REMARK = values(REMARK) ,
+        IS_DELETE = values(IS_DELETE)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.zfsoft.superwindow.dbaccess.data.DbPbpjHistoryManage">
+        update t_pbpj_history_manage
+        <set>
+            <if test="runCode != null and runCode != ''">
+                RUN_CODE = #{runCode},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name},
+            </if>
+            <if test="ip != null and ip != ''">
+                IP = #{ip},
+            </if>
+            <if test="status != null">
+                STATUS = #{status},
+            </if>
+            <if test="userCode != null and userCode != ''">
+                USER_CODE = #{userCode},
+            </if>
+            <if test="userName != null and userName != ''">
+                USER_NAME = #{userName},
+            </if>
+            <if test="dateTime != null">
+                DATE_TIME = #{dateTime},
+            </if>
+            <if test="remark != null and remark != ''">
+                REMARK = #{remark},
+            </if>
+            <if test="isDelete != null">
+                IS_DELETE = #{isDelete},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t_pbpj_history_manage where ID = #{id}
+    </delete>
+
+</mapper>

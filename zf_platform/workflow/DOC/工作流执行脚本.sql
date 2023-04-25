@@ -1,0 +1,21 @@
+ALTER TABLE `t_workflow_buss_flow_step`
+MODIFY COLUMN `HANDLE_USER_NAMES` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '办理人员名称集合 : 办理人员名称集合，使用“,”分割',
+MODIFY COLUMN `HANDLE_POST_NAMES` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '办理岗位名称 : 办理岗位名称集合，使用“,”分割',
+ADD COLUMN `HANDLE_ORGAN_OIDS` varchar(2000) NULL COMMENT '办理组织机构 : 办理组织机构集合，使用“,”分割' ,
+ADD COLUMN `HANDLE_ROLE_OIDS` varchar(2000) NULL COMMENT '办理角色 : 办理角色集合，使用“,”分割',
+ADD COLUMN `HANDLE_ORGAN_NAMES` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '办理组织机构名称 : 办理组织机构名称集合，使用“,”分割' ,
+ADD COLUMN `HANDLE_ROLE_NAMES` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '办理角色名称 : 办理角色名称集合，使用“,”分割';
+
+DROP TABLE IF EXISTS PRO_ACCEPT_EXAMPLE;
+CREATE TABLE PRO_ACCEPT_EXAMPLE(
+    ID BIGINT(20) NOT NULL   COMMENT '主键' ,
+    ACCEPT_OID VARCHAR(32)    COMMENT '业务主键' ,
+    PROJECT_NO VARCHAR(200)    COMMENT '办件编号' ,
+    PROJECT_NAME VARCHAR(200)    COMMENT '项目名称' ,
+    INFO_OID VARCHAR(32)    COMMENT '流程模型标识' ,
+    PROCESS_INSTANCE_ID VARCHAR(200)    COMMENT '流程实例标识' ,
+    APPLYER_NAME VARCHAR(200)    COMMENT '申请人' ,
+    CREATE_DATE DATETIME    COMMENT '创建时间' ,
+    IS_DELETE INT(1)    COMMENT '删除状态' ,
+    PRIMARY KEY (ID)
+)  COMMENT = '项目受理实例';

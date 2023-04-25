@@ -1,0 +1,75 @@
+// 溢出处理
+@mixin util-overflow() {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+// 全体元素居中处理
+@mixin util-vertail() {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+// 单元素居中处理
+@mixin util-center-vertail() {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+//垂直居中
+@mixin util-middle-vertail() {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+//边框阴影
+@mixin box-shadow() {
+    box-shadow: inset 0 0 15px rgba(0, 210, 255, 1), 0 0 6px 3px rgba(27, 31, 255, 0.75);
+}
+//超出隐藏
+@mixin overflow-ellipsis() {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+// 多行溢出处理 只兼容谷歌、webkit内核
+@mixin overflow-rows($i) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $i;
+    -webkit-box-orient: vertical;
+}
+@mixin util-change-scrollbar($barColor: #2453bf, $outerColor: rgba(36, 83, 191, 0.2)) {
+    &::-webkit-scrollbar {
+        width: 8px;
+        border-radius: 4px;
+        display: initial;
+    }
+
+    /*定义滚动条轨道 内阴影+圆角*/
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /*定义滑块 内阴影+圆角*/
+    &::-webkit-scrollbar-thumb {
+        background: $barColor;
+        opacity: 0.5;
+        border-radius: 4px;
+    }
+}
+
+@mixin marginLeft($i) {
+    margin-left: $i * 30px;
+}

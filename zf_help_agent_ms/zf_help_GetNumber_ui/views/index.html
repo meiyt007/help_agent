@@ -1,0 +1,1093 @@
+<!--
+ * @Author: haoxinguo haoxinguo@zhuofansoft.com
+ * @Date: 2022-09-08 14:46:46
+ * @LastEditors: haoxinguo haoxinguo@zhuofansoft.com
+ * @LastEditTime: 2022-10-17 17:24:04
+ * @FilePath: \helpGet Number\views\index.html
+ * @Description: 取号页面
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>帮办取号</title>
+  <script type="text/javascript" src="../js/browser.min.js"></script>
+
+  <link rel="stylesheet" href="../css/index.css" />
+  <link rel="stylesheet" href="../js/element-ui/index.css" />
+  <link rel="stylesheet" href="../css/change.css">
+<!--  <script type="text/javascript" src="../js/browser-polyfill.min.js"></script>-->
+  <script src="../js/io_v2_polyfill.js"></script>
+  <script src="../js/vue.min.js"></script>
+  <script src="../js/element-ui/index.js"></script>
+  <!-- <script src="../js/element-ui/index.js"></script> -->
+  <style type="text/css">
+    .input .el-form-item__error{
+      font-size: 20px;
+    }
+    .input {
+      margin-bottom: 60px;
+    }
+  </style>
+</head>
+
+<body>
+<!--  <input id="input" type="text" nsarame="">-->
+  <OBJECT ID=PrintStatus style="display:none" CLASSID="clsid:044F0BF3-9131-4692-A8FF-DF374BA183F7"
+    codebase="./MsPrintax.ocx#version=2,0,0,0" width=100 height=100 align=center hspace=0 vspace=0>
+  </OBJECT>
+  <div id="app">
+    <div class="content-body">
+      <div class="item-block" @click="operate('1')" :class="operateIndex==='1'?'active':''">
+        <div class="content">
+          <img src="../images/scanCodeActive.png" alt="" />
+        </div>
+        <div class="footer">扫码取号</div>
+      </div>
+      <div class="item-block" @click="operate('2')">
+        <div class="content">
+          <img src="../images/ordinaryActive.png" alt="" />
+        </div>
+        <div class="footer">预约取号</div>
+      </div>
+      <div class="item-block" @click="operate('3')">
+        <div class="content">
+          <img src="../images/appointmentActive.png" alt="" />
+        </div>
+        <div class="footer">普通取号</div>
+      </div>
+      <div class="item-block" @click="operate('4')">
+        <div class="content">
+          <img style="width: 7rem;" src="../images/phone.png" alt="" />
+        </div>
+        <div class="footer">手机取号</div>
+      </div>
+
+
+
+      <div class="toBack"  @click="goBack"><img src="../images/toBack.png" alt=""><span>返回首页</span></div>
+    </div>
+    <el-dialog title="选择分组和帮办类型" :visible.sync="chooseTypeDialog" custom-class="chooseTypeDialog">
+      <div class="content" style="height:100%;overflow: auto;">
+        <div class="options">
+          <p class="optionsTitle">选择业务分组：</p>
+          <div class="itemsList">
+            <p class="item" v-for="(item,index) in businessGrouping" :class="chooseGroupId===item.groupId?'active':''"
+              @click="chooseGroup(item)">
+              {{item.name}}
+            </p>
+          </div>
+        </div>
+        <div class="options">
+          <p class="optionsTitle">选择帮代办类型：</p>
+          <div class="itemsList">
+            <p class="item" v-for="(item,index) in assistantTypeList" @click="chooseAssistant(item)"
+              :class="chooseAssistantId===item.assistantId?'active':''">
+              {{item.name}}
+            </p>
+          </div>
+        </div>
+        <div class="options">
+          <p class="optionsTitle">选择分配类型：</p>
+          <!-- <div style=" width:100%; height: 400px;position:relative;overflow:auto"> -->
+            <div>
+            <div class="itemsList" style="width: auto;margin-top: 5px;float:left;">
+              <p style="margin-bottom: 5px" class="item" :class="showWorkUser===false?'active':''"
+                @click="chooseGroupUserRandom('')">
+                随机取号
+              </p>
+              <p style="margin-bottom: 5px" class="item" :class="showWorkUser===true?'active':''"
+                 @click="chooseGroupStatus('')">
+                指定取号
+              </p>
+            </div>
+            <div  v-if="showWorkUser" >
+              <div class="itemsList" v-for="(item,index) in chooseGroupUsers" v-if="index%5===0"
+                style="margin-top: 5px;">
+                <p style="margin-bottom: 5px" class="item" v-for="(item2,index2) in chooseGroupUsers"
+                  v-if="index2>=index&&index2<index+5" :class="chooseuserId===item2.workUserId?'active':''"
+                  @click="chooseGroupUser(item2.workUserId)">
+                  {{item2.workUserName}}({{item2.waitNum+item2.serviceIngNum}})
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div slot="footer">
+        <p @click="chooseTypeDialog=false">取消</p>
+        <p @click="nextStpe">
+          {{operateIndex==='1'?'扫描办事人随申码':'确认'}}
+        </p>
+      </div>
+    </el-dialog>
+    <el-dialog title="温馨提示" :visible.sync="showError" custom-class="chooseTypeDialog errDialog">
+      <div class="content">
+        <!--      设置span可以换行-->
+        <span style="white-space:pre-wrap;">{{ this.errorMessage }}</span>
+      </div>
+    </el-dialog>
+    <el-dialog title="扫描办事人二维码" :visible.sync="showScanQRCode" custom-class="chooseTypeDialog">
+      <div class="contentTips">
+        <div class="tipsArea">
+          <div class="items">
+            <p>1</p>
+            请提示办事人打开随申办app
+          </div>
+          <div class="items">
+            <p>2</p>
+            在随申办首页点击“随申码”
+          </div>
+          <div class="items">
+            <p>3</p>
+            使用扫码枪扫瞄办事人“随申码”，获取办事人信息
+          </div>
+          <div class="items">
+            <p>4</p>
+            如果失败，请重新扫码
+          </div>
+        </div>
+      </div>
+    </el-dialog>
+    <el-dialog :title="userInfoTitle" :visible.sync="showUserInfo" custom-class="chooseTypeDialog" v-loading="loadingGetNumb">
+      <div class="content">
+        <div class="options">
+          <p class="optionsTitle">{{userInfoTips}}</p>
+          <div class="formArea">
+            <div class="key-wrap">
+              <el-form :model="userInfo" class="baseFillInfo" :rules="userInfoRules" ref="baseFillInfo"
+                label-width="16.85rem"  style="font-weight:bold">
+                <el-form-item v-if="operateIndex!=='4'" class="input" prop="name">
+                  <span slot="label">
+                    <span style="font-size:1.8429rem"><strong>办事人姓名：</strong>      </span>
+                  </span>
+                  <el-input v-if="operateIndex==='3'" @focus="toType('name')"  style="font-size:1.8429rem" v-model="userInfo.name"></el-input>
+                  <el-input v-if="operateIndex!=='3'" style="font-size:1.8429rem" v-model="userInfo.name" :disabled="edit"></el-input>
+                </el-form-item>
+                <el-form-item v-if="operateIndex!=='4'"  class="input" label="办事人身份证号：" prop="cardNo">
+                  <span slot="label">
+                    <span style="font-size:1.8429rem"><strong>办事人身份证号：</strong>      </span>
+                  </span>
+                  <el-input @focus="toType('cardNo')" style="font-size:1.8429rem" v-model="userInfo.cardNo"></el-input>
+                </el-form-item>
+                <el-form-item  class="input" label="办事人手机号：" prop="phone">
+                  <span slot="label">
+                    <span style="font-size:1.8429rem"><strong>办事人手机号：</strong>      </span>
+                  </span>
+                  <!--                v-on:click.native="handleClick"-->
+                  <el-input @focus="toType('phone')" style="font-size:1.8429rem" v-model="userInfo.phone" ></el-input>
+                </el-form-item>
+              </el-form>
+              <div class="key-content">
+                <div class="flex">
+                  <div class="item" @click="add('1')">1</div>
+                  <div class="item" @click="add('2')">2</div>
+                  <div class="item" @click="add('3')">3</div>
+                </div>
+                <div class="flex">
+                  <div class="item" @click="add('4')">4</div>
+                  <div class="item" @click="add('5')">5</div>
+                  <div class="item" @click="add('6')">6</div>
+                </div>
+                <div class="flex">
+                  <div class="item" @click="add('7')">7</div>
+                  <div class="item" @click="add('8')">8</div>
+                  <div class="item" @click="add('9')">9</div>
+                </div>
+                <div class="flex">
+                  <div class="item zero" @click="add('0')">0</div>
+                  <div class="item text"  @click="add('delete')">删除</div>
+                  <div class="item text"  @click="add('cancel')">清空</div>
+                </div>
+
+              </div>
+            </div>
+            <p class="scanCode" v-if="operateIndex==='2'" @click="toScanCode">
+              办事人扫码录入
+            </p>
+          </div>
+        </div>
+      </div>
+      <div slot="footer">
+        <p @click="showUserInfo=false">取消</p>
+        <p @click="getNumber">取号</p>
+      </div>
+    </el-dialog>
+    <el-dialog title="预约信息" :visible.sync="showAppointmentInfor" custom-class="chooseTypeDialog">
+      <div class="content">
+        <el-checkbox-group v-model="checkList">
+          <!--            <div v-for="item of appointmentList" :key="item">-->
+          <el-checkbox v-for="(item, index) in appointmentList" :key="index"
+            :label="item.id+':'+item.appointmentWorkUserId" @change="ListChange" >
+            <div class="right">
+              <div class="items">
+                <p class="name">{{ item.name }}</p>
+                <p>预约时间：<span>{{ item.appointmentTime }}</span></p>
+              </div>
+              <div class="items">
+                <p>预约手机：<span>{{ item.phone }}</span></p>
+                <p>预约帮办人员：<span>{{ item.groupName }} - {{ item.workUserName }}</span></p>
+              </div>
+            </div>
+          </el-checkbox>
+        </el-checkbox-group>
+      </div>
+      <div slot="footer">
+        <p @click="showAppointmentInfor=false">取消</p>
+        <p @click="getNumber">取号</p>
+      </div>
+    </el-dialog>
+
+
+
+  </div>
+
+</body>
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/url-search-params-polyfill.js"></script>
+<script src="../js/self-mac-tools-Debug.js"></script>
+<script src="../js/polyfill.min.js"></script>
+
+<script src="../js/vue.min.js"></script>
+<script src="../js/com_axios_dist_axios.js"></script>
+<!-- import JavaScript -->
+<script src="../js/element-ui/index.js"></script>
+<script src="../js/qs.js"></script>
+<script src="../js/checkUtils.js"></script>
+<!--<link rel="stylesheet" type="text/css" href="../css/virtualkeyboard.css">-->
+<!--<script src="../js/jquery-1.11.1.min.js"></script>-->
+<!--<script type="text/babel" src="../js/virtualkeyboard.js"></script>-->
+<script src="../js/LodopFuncs.js"></script>
+<script type="text/javascript">
+
+
+</script>
+<script type="text/javascript">
+  let qs = Qs;
+  // console.log(qs);
+
+</script>
+<script>
+  //local
+  // const urlPro = 'http://12.120.27.219:8088/case-service';
+  // const urlPro = 'http://127.0.0.1:8088/case-service';
+  // const interUrlPro = 'http://12.120.27.219:9092';
+  // const scanUrlPro = 'http://127.0.0.1:9093';
+  //online
+  const urlPro = 'http://172.21.178.38:8088/case-service';
+  // const interUrlPro = 'http://172.21.178.38:8005';
+  // const interUrlPro = 'http://12.120.27.219:8088/case-service';
+
+  new Vue({
+
+    el: "#app",
+    data: function () {
+      return {
+        // 遮罩层
+        loadingGetNumb: false,
+
+        edit: true,
+        errorMessage: "",
+        showError: false,
+        qrcode: "",
+        chooseTypeDialog: false,
+        showScanQRCode: false,
+        showUserInfo: false,
+        showAppointmentInfor: false,
+        showWorkUser: false,
+        userInfoTitle: "",
+        operateIndex: "",
+        chooseGroupId: "",
+        //保存所有的该分组的帮办人
+        kjbb: [],
+        yybb: [],
+        chooseGroupUsers: [],
+        chooseuserId: "",
+        chooseAssistantId: "",
+        userInfoTips: "",
+        checkList: [],
+        checkWorkList: [],
+        appointmentIdList: [],
+        businessGrouping: [],
+        assistantTypeList: [
+          { name: "快捷帮办(咨询)", assistantId: "1" },
+          { name: "圆桌帮办(材料准备)", assistantId: "2" },
+        ],
+        appointmentList: [],
+        userInfo: {
+          name: "",
+          phone: "",
+          cardNo: "",
+        },
+        userInfoRules: {
+          name: [
+            { required: true, message: "请输入办事人姓名", trigger: "blur" },
+          ],
+          phone: [
+            {
+              required: true,
+              message: "请输入办事人手机号",
+              trigger: "blur",
+            },
+          ],
+          cardNo: [
+            {
+              required: true,
+              message: "请输入办事人身份证号",
+              trigger: "blur",
+            },
+          ],
+        },
+        keyType:''
+      };
+    },
+    created: function () {
+      // this.getGroupList();
+      // $(document).on('click', 'input', function() {
+      //   console.log('ss')
+      //   $(this).virtualkeyboard();
+      // })
+    },
+    methods: {
+      toType: function (type) {
+        this.keyType = type;
+      },
+      add: function (num) {
+        if(num != 'cancel' && num != 'delete'){
+          let str = this.userInfo[this.keyType];
+          if(str.length<11){
+            this.userInfo[this.keyType] = str + num;
+          }
+        }else if(num == 'cancel'){
+          this.userInfo[this.keyType] = '';
+        }else if(num == 'delete'){
+          let str = this.userInfo[this.keyType];
+          let length = str.length;
+          str = str.substring(0,str.length-1);
+          this.userInfo[this.keyType] = str;
+        }
+      },
+      //每次选中或取消选中一个多选框会更新数组 checkWorkList
+      ListChange: function () {
+        console.log("ListChange")
+        const _this = this
+        _this.checkWorkList = [];
+        _this.appointmentIdList = [];
+
+        // console.log("checkList--------------"+ JSON.stringify(this.checkList));
+        var check = this.checkList.toString().split(",");
+        // console.log("check--------------"+ JSON.stringify(check));
+        for (var i = 0; i < check.length; i++) {
+          // console.log("check[i]--------------"+ JSON.stringify(check[i]));
+          var work = check[i].split(":");
+          _this.appointmentIdList.push(work[0]);
+          _this.checkWorkList.push(work[1]);
+        }
+        // console.log("checkList--------------"+ JSON.stringify(this.checkWorkList));
+
+      },
+      //返回首页
+      goBack: function () {
+        window.location.href = 'http://172.21.176.99:8081/ac-queue/queue_huangpu/index/index.html'
+      },
+      //选择分组
+      chooseGroup: function (data) {
+        // console.log("chooseGroupId--------------"+ JSON.stringify(data));
+        this.chooseGroupId = data.groupId;
+        this.kjbb = data.kjbb;
+        this.yzbb = data.yzbb;
+        if (this.chooseAssistantId === '1') {
+          this.chooseGroupUsers = this.kjbb;
+        } else if (this.chooseAssistantId === '2') {
+          this.chooseGroupUsers = this.yzbb;
+        } else {
+          this.chooseGroupUsers = [];
+        }
+      },
+      chooseGroupStatus: function (data) {
+        this.showWorkUser = true;
+      },
+      //选择分配的帮办人员
+      chooseGroupUser: function (data) {
+        console.log("chooseUser--------------" + JSON.stringify(data));
+        this.chooseuserId = data;
+        this.checkWorkList = [];
+        this.checkWorkList.push(data);
+      },
+      //选择分配的帮办人员
+      chooseGroupUserRandom: function (data) {
+        console.log("chooseUser--------------" + JSON.stringify(data));
+        this.chooseuserId = "";
+        this.checkWorkList = [];
+        this.showWorkUser = false;
+      },
+      //选择帮办类型
+      chooseAssistant: function (data) {
+        console.log("assistantId--------------" + JSON.stringify(data.assistantId));
+        this.chooseAssistantId = data.assistantId;
+        if (data.assistantId === '1') {
+          this.chooseGroupUsers = this.kjbb;
+        } else if (data.assistantId === '2') {
+          this.chooseGroupUsers = this.yzbb;
+        } else {
+          this.chooseGroupUsers = [];
+        }
+      },
+      //选择取号方式
+      operate: function (index) {
+        //获取分组信息
+        this.getGroupList();
+        this.chooseGroupId = "";
+        this.chooseGroupUsers = [];
+        this.chooseuserId = "";
+        this.chooseAssistantId = "";
+        this.operateIndex = index;
+        //初始化数据
+        this.userInfo.name = "";
+        this.userInfo.phone = "";
+        this.userInfo.cardNo = "";
+        this.checkWorkList = [];
+        this.appointmentList = [];
+        this.appointmentIdList = [];
+        this.checkList = [];
+        if (index === "1") {
+          this.chooseTypeDialog = true;
+          this.userInfoTitle = "办事人信息";
+          this.userInfoTips =
+            "已扫码获取办事人以下信息，请确认无误后再取号。";
+        }
+        if (index === "2") {
+          this.showScanQRCode = true;
+          this.scanning()
+          // this.getAppointment("330411199805010635");
+          // this.userInfo.name = "赵冰峰";
+          // this.userInfo.phone = "17172190635";
+          // this.userInfo.cardNo = "330411199805010635";
+        }
+        if (index === "3") {
+          this.chooseTypeDialog = true;
+          this.userInfoTitle = "录入办事人信息";
+          this.userInfoTips = "请录入办事人以下信息，完成帮办取号信息录入。";
+        }
+        if (index === "4") {
+          this.chooseTypeDialog = true;
+          this.userInfoTitle = "录入办事人信息";
+          this.userInfoTips = "请录入办事人以下信息，完成帮办取号信息录入。";
+        }
+      },
+      nextStpe: function () {
+        if (this.chooseGroupId === "" || this.chooseAssistantId === "") {
+          // alert("请选择业务分组和帮代办类型");
+          this.showError = true;
+          this.errorMessage = "请选择业务分组和帮代办类型";
+          return;
+        }
+        console.log(this.showWorkUser+":"+this.chooseuserId+":"+this.checkWorkList)
+        if (this.showWorkUser===true && this.chooseuserId==="") {
+          // alert("请选择业务分组和帮代办类型");
+          this.showError = true;
+          this.errorMessage = "指定取号请选择指定人员";
+          return;
+        }
+        if (this.operateIndex === "1") {
+          this.showScanQRCode = true;
+          this.scanning();
+
+        }
+        if (this.operateIndex === "3") {
+          this.showUserInfo = true;
+          this.idCardSfz();
+        }
+        if (this.operateIndex === "4") {
+          this.showUserInfo = true;
+          this.idCardSfz();
+        }
+      },
+      //随身办扫描
+      scanning: function () {
+        this.qrcode = "";
+        // 打开串口扫描 获取二维码信息
+        const _this = this
+        //扫描后返回随身办地址，回调万达接口，获取用户信息
+        $.device.qrCodeOpen(function (code) {
+          // alert(code);
+          //关闭
+          $.device.qrCodeClose();
+          _this.qrcode = code;
+          _this.getUserData();
+        })
+
+      },
+
+      //身份证扫描
+    idCardSfz: function () {
+      let _this = this;
+      if (_this.operateIndex === '3') {
+        // 获取数据
+        $.device.idCardOpen(function (value) {
+          // alert("value"+value);
+          var data = eval('(' + value + ')');
+          // alert("data"+data);
+          var tempCertNo = '';
+          var tempUserName = '';
+          // 身份证号码
+          //var tempCertNo = data.IDCard;
+          //var tempCertNo = data.Number;
+          // 姓名
+          //var tempUserName = data.PeopleName;
+          //var tempUserName = data.Name;
+          if(data.Number !== '' && data.Name !== ''){
+            tempCertNo = data.Number;
+            tempUserName = data.Name;
+          }
+          if(data.IDCard !== undefined && data.PeopleName !== undefined){
+            tempCertNo = data.IDCard;
+            tempUserName = data.PeopleName;
+          }
+          // 汉字校验
+          var nameReg = /[\u4e00-\u9fa5]+/g;
+          // 身份证校验
+          var certNoReg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+          if(!nameReg.test(tempUserName) || !certNoReg.test(tempCertNo)){
+            // Service.showComfirmMsg('身份证信息有误，请重新刷卡或者联系前台人员','error');
+            _this.showError = true;
+            _this.errorMessage = "身份证信息有误，请重新刷卡或者联系前台人员";
+            $.log.info("身份证不合法");
+            _this.idCardSfz()
+            return;
+          }
+          // 身份证号码
+          // alert("tempUserName"+tempUserName+";tempCertNo"+tempCertNo)
+          _this.userInfo.cardNo  = tempCertNo;
+          // 姓名
+          // userName = encodeURIComponent(tempUserName);
+          _this.userInfo.name = tempUserName;
+          _this.getPhoneByCardNo(tempCertNo);
+          // $.device.idCardClose();
+        });
+      }
+    },
+
+      /* 调用scanning，通过java的方式调用扫描枪 弃用 会和万达原有的扫描功能冲突
+
+      scanning:function() {
+        this.qrcode = "";
+        // 打开串口扫描 获取二维码信息
+        const _this = this
+        let url = scanUrlPro+'/scanning/open.do';
+        $.ajax({
+          type: 'post',
+          url: url,
+          data: qs.stringify(),
+          dataType: 'json',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'  //解决跨域问题
+          },
+          success: function(res){
+            console.log(res)
+            console.log("scanning-----------------------"+JSON.stringify(res));
+            if(res.code===200) {
+              _this.qrcode = res.data
+              _this.getUserData();
+            }else if(res.code===505){
+              // this.showScanQRCode = false;
+              _this.showError = true;
+              _this.errorMessage = "扫描超时:"+res.message;
+            }else{
+              // this.showScanQRCode = false;
+              _this.showError = true;
+              _this.errorMessage = "打开扫描组件错误:"+res.message;
+              // alert(res.message);
+            }
+          },
+          error: function (error) {
+            console.log(error);
+            _this.showError = true;
+            _this.errorMessage = "扫描随身办获取用户信息错误:"+error;
+          }
+
+        });
+
+      },
+
+       */
+
+      //调用万达方法 通过二维码获取用户信息
+      getUserData: function () {
+        let _this = this;
+        let param = {
+          pos: "黄浦区行政服务中心",
+          use: "自助打印机",
+          qrcode: this.qrcode
+        }
+        // let url = interUrlPro + '/zzk/inter/scanCertQrCode.do';
+        let url = urlPro + '/ha/outer/scanCertQrCode';
+        // alert(JSON.stringify(param));
+        $.ajax({
+          type: 'post',
+          dataType: 'json',
+          url: url,
+          data: qs.stringify(param),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',  //解决跨域问题
+          },
+          success: function (res) {
+            // console.log(res);
+            if (res.code === 200) {
+              console.log("调用万达方法 --------------" + JSON.stringify(res));
+              //扫码取号
+              _this.userInfo.name = res.data.xm;
+              _this.userInfo.phone = res.data.mobile;
+              _this.userInfo.cardNo = res.data.zjhm;
+              if (_this.operateIndex === "1") {
+                //跳转到用户信息页面供用户查看或修改细腻些
+                _this.showUserInfo = true;
+              }
+              //预约取号
+              if (_this.operateIndex === "2") {
+                //获取预约信息
+                _this.getAppointment(res.data.zjhm);
+              }
+            } else {
+              _this.showError = true;
+              _this.errorMessage = "扫描随身办获取用户信息错误:" + res.message;
+            }
+          },
+          error: function (error) {
+            // alert(JSON.stringify(error));
+            console.log(error);
+            // this.showScanQRCode = false;
+            _this.showError = true;
+            _this.errorMessage = "扫描随身办获取用户信息错误:" + JSON.stringify(error);
+            // alert(res.message)
+          }
+        });
+      },
+      //获取预约信息
+      getAppointment: function (cardNo) {
+        let _this = this;
+        let param = {
+          cardNo: cardNo
+        }
+        let url = urlPro + '/ha/outer/queryAppointmentInfo';
+        $.ajax({
+          type: 'post',
+          dataType: 'json',
+          url: url,
+          data: qs.stringify(param),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',  //解决跨域问题
+          },
+          success: function (res) {
+            // console.log(res);
+            if (res.code === 200) {
+              _this.showAppointmentInfor = true;
+              _this.appointmentList = res.data;
+              //"item.id+':'+item.appointmentWorkUserId"
+              for (var i = 0; i < _this.appointmentList.length; i++) {
+                _this.checkList.push(_this.appointmentList[i].id+':'+_this.appointmentList[i].appointmentWorkUserId);
+              };
+              _this.ListChange();
+            } else {
+              _this.showError = true;
+              _this.errorMessage = "获取预约信息错误:" + res.message;
+            }
+          },
+          error: function (error) {
+            console.log(error);
+            _this.showError = true;
+            _this.errorMessage = "扫描随身办获取用户信息错误:" + error;
+          }
+        });
+      },
+      /**节流函数 控制短时间内只能点击一次取号
+      throttle: function (handler, wait) {
+
+        var lastTime = 0;
+
+        return function () {
+
+          var nowTime = new Date().getTime();
+
+          if (nowTime - lastTime > wait) {
+            handler.apply(this, arguments);
+            lastTime = nowTime;
+          }else{
+            console.log("nowTime:"+nowTime+";lastTime"+lastTime);
+          }
+
+        }
+      },**/
+      //取号
+      getNumber: function () {
+        let _this = this;
+        if(this.operateIndex === "4"){
+          if (this.userInfo.phone === "" ) {
+            // alert("请填写必要信息");
+            this.showError = true;
+            this.errorMessage = "请填写必要信息";
+            return;
+          }
+          if (!isPoneAvailable(this.userInfo.phone)) {
+            // alert("请填写必要信息");
+            this.showError = true;
+            this.errorMessage = "请输入正确的手机号码";
+            return;
+          }
+        }else{
+          if (this.userInfo.name === "" || this.userInfo.phone === "" || this.userInfo.cardNo === "") {
+            // alert("请填写必要信息");
+            this.showError = true;
+            this.errorMessage = "请填写必要信息";
+            return;
+          }
+          if (!isPoneAvailable(this.userInfo.phone)) {
+            // alert("请填写必要信息");
+            this.showError = true;
+            this.errorMessage = "请输入正确的手机号码";
+            return;
+          }
+          if (!SFID(this.userInfo.cardNo)) {
+            // alert("请填写必要信息");
+            this.showError = true;
+            this.errorMessage = "请输入正确的身份证号";
+            return;
+          }
+        }
+        if(this.operateIndex === "2"){
+          if(this.checkWorkList.length===0){
+            this.showError = true;
+            this.errorMessage = "请选择需要取出的预约号";
+            return;
+          }
+        }
+
+        let param = {
+          name: this.userInfo.name,
+          cardNo: this.userInfo.cardNo,
+          phone: this.userInfo.phone,
+          companyName: "",
+          companyCode: "",
+          workUserIds: this.checkWorkList.join(),
+          takeNumberType: this.operateIndex,
+          groupId: this.chooseGroupId,
+          haType: this.chooseAssistantId,
+          appointmentIds: this.appointmentIdList.join()
+        }
+        let url = urlPro + '/ha/takeNum/helpInfo';
+        _this.loadingGetNumb = true;
+        $.ajax({
+          type: 'post',
+          dataType: 'json',
+          url: url,
+          data: qs.stringify(param),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',  //解决跨域问题
+          },
+          success: function (res) {
+            // console.log(res);
+            // console.log(res);
+            if (res.code === 200) {
+              for (i = 0; i < res.data.length; i++) {
+                _this.testCall3New(res.data[i]);
+              }
+              _this.chooseTypeDialog = false
+              _this.showScanQRCode = false
+              _this.showUserInfo = false
+              _this.showAppointmentInfor = false
+              _this.loadingGetNumb = false;
+            } else {
+              _this.showError = true;
+              _this.errorMessage = "取号错误:" + res.message;
+              _this.loadingGetNumb = false;
+            }
+          },
+          error: function (error) {
+            console.log(error);
+            _this.showError = true;
+            _this.errorMessage = "扫描随身办获取用户信息错误:" + error;
+          }
+        });
+      },
+      //获取组别列表
+      getGroupList: function () {
+        const _this = this
+        let url = urlPro + '/ha/outer/getGroupListSub';
+        // this.getPhoneByCardNo();
+        $.ajax({
+          type: 'get',
+          dataType: 'json',
+          url: url,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',  //解决跨域问题
+          },
+          success: function (res) {
+
+            // console.log("============"+JSON.stringify(res));
+            if (res.code === 200) {
+              _this.businessGrouping = res.data.businessGrouping;
+            } else {
+              _this.showError = true;
+              _this.errorMessage = "获取组别列表错误:" + res.message;
+            }
+
+          },
+          error: function (error) {
+            console.log(error);
+            _this.showError = true;
+            _this.errorMessage = "获取组别列表错误:" + error;
+          }
+
+        });
+
+      },
+      getPhoneByCardNo: function (cardNo) {
+        const _this = this
+        let url = urlPro + '/ha/outer/getPhoneByCardNo?cardNo='+cardNo;
+        // alert(url);
+        $.ajax({
+          type: 'get',
+          dataType: 'json',
+          url: url,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',  //解决跨域问题
+          },
+          success: function (res) {
+
+            if (res.code === 200) {
+              _this.userInfo.phone = res.data.phone;
+            }
+
+          },
+          error: function (error) {
+            console.log(error);
+            _this.showError = true;
+            _this.errorMessage = "扫描随身办获取用户信息错误:" + error;
+          }
+
+        });
+
+      },
+
+      //扫码录入
+      toScanCode: function () {
+        this.showScanQRCode = true;
+        this.scanning()
+      },
+      //新设备打印
+      testCall3New: function(data) {
+        const _this = this;
+        try {
+          var LodopRef = getLodop(document.getElementById('LODOP1'), document.getElementById('LODOP_EM1'));
+          LodopRef.PRINT_INITA(0, 0, 320, 320, "打印控件功能演示_Lodop功能_打印条码");
+          LodopRef.SET_PRINT_STYLE("FontSize", 17);
+          LodopRef.SET_PRINT_STYLE("FontName", "黑体");
+          LodopRef.SET_PRINT_STYLE("Bold", 1);
+          //设置对其方式 1--左靠齐 2--居中 3--右靠齐，缺省值是1。
+          LodopRef.SET_PRINT_STYLE("Alignment", 2);
+          /*LodopRef.ADD_PRINT_TEXT(8, 2, 270, 39, data.ticketTitle);*/
+          LodopRef.ADD_PRINT_TEXT(10, 2, 270, 39, "黄浦区行政服务中心");
+          LodopRef.SET_PRINT_STYLE("FontName", "微软雅黑");
+          /*LodopRef.SET_PRINT_STYLE("FontSize", 22);*/
+          LodopRef.SET_PRINT_STYLE("FontSize", 22);
+          LodopRef.SET_PRINT_STYLE("Bold", 1);
+          LodopRef.ADD_PRINT_TEXT(100, 0, 270, 30, data.windowsNumber);
+          LodopRef.SET_PRINT_STYLE("FontName", "微软雅黑");
+          //LodopRef.SET_PRINT_STYLE("Bold", 5);
+          //设置对其方式 0靠左 1居中
+          LodopRef.SET_PRINT_STYLE("Alignment", 1);
+          //LodopRef.SET_PRINT_STYLE("FontSize", 10);
+          LodopRef.SET_PRINT_STYLE("FontSize", 17);
+          /*LodopRef.ADD_PRINT_TEXT(51, 0, 296, 50, "请到："  + ticker.tickerMsg.stDesc);*/
+          LodopRef.ADD_PRINT_TEXT(40, 0, 296, 30, "请到：" + data.haWorkUser.servicePostion );
+          // LodopRef.ADD_PRINT_TEXT(40, 0, 296, 30, "请到：" + data.haWorkUser.servicePostion + "," + data.haWorkUser.loginLocationName);
+          LodopRef.SET_PRINT_STYLE("FontName", "宋体");
+          LodopRef.SET_PRINT_STYLE("Bold", 1);
+          LodopRef.SET_PRINT_STYLE("FontSize", 15);
+          LodopRef.SET_PRINT_STYLE("Alignment", 1);
+          /*LodopRef.ADD_PRINT_TEXT(98, 0, 270, 26, "办理业务：" + ticker.tickerMsg.stCategoryName);*/
+          LodopRef.ADD_PRINT_TEXT(70, 0, 270, 26, "帮办分类:" + data.haWorkUser.groupName);
+          LodopRef.SET_PRINT_STYLE("FontSize", 9);
+          LodopRef.SET_PRINT_STYLE("Bold", 1);
+          LodopRef.ADD_PRINT_TEXT(162, 0, 270, 30, "分配的帮办人员:" + data.haWorkUser.name + "  ,前方等待人数:" + data.haWorkUser.waitingNum);
+          // LodopRef.ADD_PRINT_TEXT(205, 0, 159, 32, data.ticketPrompt);
+          LodopRef.ADD_PRINT_TEXT(192, 0, 270, 30, "谢谢您的合作");
+          LodopRef.ADD_PRINT_TEXT(222, 0, 270, 30, "时间:" + this.getCurrentTime());
+          LodopRef.ADD_PRINT_TEXT(252, 0, 270, 30, "");
+          // LodopRef.ADD_PRINT_TEXT(265, 0, 149, 21, ticker.tickerMsg.stTakeDate);
+          // LodopRef.ADD_PRINT_TEXT(289, 0, 155, 21, "扫描二维码获取等待信息");
+          // LodopRef.ADD_PRINT_BARCODE(188, 159, 118, 118, "QRCode", ticker.url);
+          // LodopRef.SET_PRINT_STYLEA(3, "Bold", 5);
+          // LodopRef.SET_PRINT_STYLEA(3, "Underline", 1);
+          // LodopRef.SET_PRINT_STYLEA(3, "FontSize", 16);
+          // LodopRef.SET_PRINT_STYLEA(4, "Bold", 10);
+          // LodopRef.SET_PRINT_STYLEA(4,"FontName","黑体");
+          // LodopRef.SET_PRINT_STYLEA(4, "FontSize", 12);
+          // if(data.itemStatus != null && data.itemStatus != "" && data.itemStatus != "undefined"){
+          //   //alert(data.itemStatus);
+          //   LodopRef.SET_PRINT_STYLE("FontName","微软雅黑");
+          //   LodopRef.SET_PRINT_STYLE("FontSize",10);
+          //   LodopRef.SET_PRINT_STYLE("Alignment",2);
+          //   LodopRef.SET_PRINT_STYLE("Bold",1);
+          //   LodopRef.ADD_PRINT_TEXT(5, 0, 270, 30, "您可到二楼智能帮办区体验智能帮办服务");
+          // }
+          LodopRef.SET_LICENSES("万达信息股份有限公司", "649717666688688748719056235623", "", "");
+          LodopRef.PRINT();
+        } catch (e) {
+          _this.loadingGetNumb = false;
+          _this.errorMessage = "取号成功，您的号票为(" + data.windowsNumber + ")，\n" +
+                  "打印机打印号票时错误，\n" +
+                  "请到相应窗口等待(" + data.haWorkUser.servicePostion +")";
+                  // "请到相应窗口等待(" + data.haWorkUser.servicePostion + ","+data.haWorkUser.loginLocationName+")";
+          _this.showError = true;
+          $.log.info("帮办取号打印机异常:" + e.message);
+        }
+      },
+      // 美松打印
+      //设置初始化
+      testCall1: function () {
+        //PrintStatus.SetPrintport("USB001",115200);
+        PrintStatus.SetUsbportauto();
+        alert(PrintStatus.SetInit());
+      },
+      //设置关闭
+      testCall4: function () {
+        alert(PrintStatus.SetClose());
+      },
+      //获取状态
+      testCall2: function () {
+        alert(PrintStatus.GetStatus());
+      },
+      //打印取号
+      testCall3: function (data) {
+        const _this = this;
+        try {
+          // console.log("testCall3----------------------------"+JSON.stringify(data))
+          PrintStatus.SetUsbportauto;
+          PrintStatus.SetInit();
+          PrintStatus.GetStatus();
+
+
+
+          PrintStatus.SetClean();
+          //设置对其方式 0靠左 1居中
+          PrintStatus.SetAlignment(1);
+          //设置字体大小
+          PrintStatus.SetSizetext(2, 2);
+          //设置行间距
+          PrintStatus.SetLinespace(30);
+          //加粗
+          PrintStatus.SetBold(1);
+          //打印字符串，0换行，1不换行
+          PrintStatus.PrintString("黄浦区行政服务中心", 0);
+          //设置对其方式 0靠左 1居中
+          PrintStatus.SetAlignment(0);
+          PrintStatus.PrintString("请到:" + data.haWorkUser.servicePostion, 0);
+          //打印空行
+          PrintStatus.PrintFeedline(1);
+          PrintStatus.SetBold(0);
+          PrintStatus.PrintString("帮办分类:" + data.haWorkUser.groupName, 0);
+
+          PrintStatus.PrintFeedline(1);
+          PrintStatus.SetAlignment(1);
+          PrintStatus.SetBold(1);
+          PrintStatus.PrintString(data.windowsNumber, 0);
+
+          PrintStatus.PrintFeedline(1);
+          PrintStatus.SetAlignment(0);
+          PrintStatus.SetBold(0);
+          PrintStatus.SetSizetext(1, 1);
+          PrintStatus.PrintString("分配的帮办人员:" + data.haWorkUser.name + "  ,前方等待人数:" + data.haWorkUser.waitingNum, 0);
+
+          // PrintStatus.PrintFeedline(1);
+          // PrintStatus.PrintString("登录随申办黄浦旗舰店获取等待信息", 0);
+          PrintStatus.PrintFeedline(1);
+          PrintStatus.PrintString("谢谢您的合作!", 0);
+          PrintStatus.PrintFeedline(1);
+          PrintStatus.PrintString("时间:" + this.getCurrentTime(), 0);
+          /*二维码
+          PrintStatus.SetClean();
+          PrintStatus.PrintQrcode("www.xxx.com",5,6,0);
+          */
+          /* 表格格式  例如 one  two  three
+                          1    2    3
+          PrintStatus.PrintString("SetHTseat",0);
+          PrintStatus.SetHTseat("10,20,30,",3);
+          PrintStatus.PrintString("one",1);
+          PrintStatus.PrintNextHT();
+          PrintStatus.PrintString("two",1);
+          PrintStatus.PrintNextHT();
+          PrintStatus.PrintString("three",0);
+          PrintStatus.PrintString("1",1);
+          PrintStatus.PrintNextHT();
+          PrintStatus.PrintString("2",1);
+          PrintStatus.PrintNextHT();
+          PrintStatus.PrintString("3",0);
+          */
+
+          PrintStatus.PrintFeedline(6);
+          //剪纸
+          PrintStatus.PrintCutpaper(0);
+
+
+          PrintStatus.SetClose()
+        } catch (e) {
+          _this.showError = true;
+          _this.errorMessage = "取号成功，您的号票为(" + data.windowsNumber + ")，\n" +
+            "打印机打印号票时错误，\n" +
+            "请到相应窗口等待(" + data.haWorkUser.servicePostion + ")";
+          $.log.info("帮办取号打印机异常:" + e.message);
+        }
+
+      },
+      getCurrentTime: function () {
+        var date = new Date();//当前时间
+        var year = date.getFullYear() //年
+        var month = this.repair(date.getMonth() + 1);//月
+        var day = this.repair(date.getDate());//日
+        var hour = this.repair(date.getHours());//时
+        var minute = this.repair(date.getMinutes());//分
+        var second = this.repair(date.getSeconds());//秒
+
+        //当前时间
+        var curTime = year + "-" + month + "-" + day
+          + " " + hour + ":" + minute + ":" + second;
+        return curTime;
+      },
+
+      //若是小于10就加个0
+
+      repair: function (i) {
+        if (i >= 0 && i <= 9) {
+          return "0" + i;
+        } else {
+          return i;
+        }
+      }
+    },
+    watch: {
+      chooseTypeDialog: function (val) {
+        if (!val) {
+          this.operateIndex = '';
+          $.device.qrCodeClose();
+        }
+      },
+      showScanQRCode: function (val) {
+        if (!val) {
+          if (this.operateIndex === '2') {
+            this.operateIndex = ''
+          }
+        }
+      }
+    }
+  });
+
+</script>
+<script type="text/javascript">
+
+</script>
+</html>

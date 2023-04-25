@@ -1,0 +1,445 @@
+html {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+    margin: 0;
+        #app {
+            width: 100%;
+            height: 100%;
+// .header{
+//     height: 45px;
+// background: linear-gradient(90deg, #2B72F1 0%, #659FEF 100%);
+// display: flex;
+// align-items: center;
+// justify-content: flex-start;
+// padding-left: 15px;
+// img{
+//     width: 21px;
+//     margin-right: 10px;
+//     cursor: pointer;
+// }
+// span{
+//     font-size: 18px;
+// font-family: Source Han Sans CN;
+// font-weight: 500;
+// color: #FFFFFF;
+// }
+// }
+            .content-body {
+                width: 100%;
+                height: 100%;
+                padding: 0 5vw;
+                box-sizing: border-box;
+                background: #F9F9FA;
+                box-shadow: 0px 0px 27px 0px rgba(84, 85, 85, 0.36);
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                position: relative;
+                .toBack{    
+                    position: absolute;
+                    top: 50px;
+                    right: 50px;
+                    font-size: 24px;
+                    height: 48px;
+                    line-height: 48px;
+                    display: flex;
+                    align-items: center;
+                    cursor: pointer;
+                    img{
+                        margin-right: 5px;
+                    }
+                    &:hover{
+                        opacity: 0.8;
+                    }
+                }
+                .item-block {
+                    width: 21%;
+                    height: 48%;
+                    background: #FFFFFF;
+                    border: 1px solid #F2F3F5;
+                    box-shadow: 0px 10px 32px 0px #E1E5EB;
+                    border-radius: 10px;
+                    cursor: pointer;
+&:nth-child(1){
+    .content{
+        background: linear-gradient(-28deg, #10C38E 0%, #6EF3FF 100%);
+        border-radius: 10px 10px 0px 0px;
+    }
+    
+}
+&:nth-child(2){
+    .content {
+        background: linear-gradient(-28deg, #F19533 0%, #FFD88C 100%);
+        border-radius: 10px 10px 0px 0px;
+    }
+
+}
+&:nth-child(3){
+    .content {
+        background: linear-gradient(-28deg, #3379F1 0%, #6EB2FF 100%);
+        border-radius: 10px 10px 0px 0px;
+    }
+}
+                    .content {
+                        width: 100%;
+                        height: calc(100% - 86px);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        img {
+                            width: 8.6429rem;
+                        }
+                    }
+
+                    .footer {
+                        width: 100%;
+                        height: 86px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        //font-size: 1.4286rem;
+                        font-size: 2.4286rem;
+                        font-family: Source Han Sans CN;
+                        //font-weight: 400;
+                        font-weight: 900;
+                        color: #404040;
+                    }
+                }
+
+                .active {
+                    border: none;
+                    box-shadow: 0px 11px 56px 0 #367CF2;
+
+                    .content {
+                        background: linear-gradient(-28deg, #3379F1 0%, #6EB2FF 100%);
+                        border-radius: 10px 10px 0px 0px;
+                    }
+                }
+            }
+
+            .chooseTypeDialog {
+                width: 80%;
+                height: 80vh;
+                border-radius: 10px;
+                margin-top: 10vh !important;
+                background: #F9F9FA;
+
+                .el-dialog__header {
+                    padding: 0 15px;
+                    margin: 0;
+                    height: 45px;
+                    background: linear-gradient(90deg, #2B72F1 0%, #659FEF 100%);
+                    border-radius: 10px 10px 0px 0px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    .el-dialog__title {
+                        //font-size: 1.2857rem;
+                        font-size: 1.857rem;
+                        font-family: Source Han Sans CN;
+                        font-weight: 500;
+                        color: #FFFFFF;
+                    }
+
+                    .el-dialog__headerbtn {
+                        position: unset;
+
+                        i {
+                            color: #fff;
+                        }
+                    }
+                }
+
+                .el-dialog__body {
+                    height: calc(100% - 200px);
+
+                    .content {
+                        .options {
+                            width: 100%;
+                            height: auto;
+                            box-sizing: border-box;
+
+                            p {
+                                padding: 0;
+                                margin: 0;
+                            }
+
+                            .optionsTitle {
+                                //font-size: 1.1429rem;
+                                font-size: 1.4429rem;
+                                padding-left: 12px;
+                                font-family: Microsoft YaHei;
+                                font-weight: bold;
+                                color: #333333;
+                                height: 2.1429rem;
+                                background: rgba(233, 237, 247, 0.34);
+                                display: flex;
+                                align-items: center;
+                                justify-content: flex-start;
+                            }
+
+                            .formArea {
+                                margin-top: 60px;
+                                display: flex;
+                                flex-wrap: wrap;
+                                align-items: center;
+                                justify-content: center;
+
+                                .baseFillInfo {
+                                    width: 90%;
+                                }
+
+                                .scanCode {
+                                    width: 70%;
+                                    text-align: right;
+                                    font-size: 1rem;
+                                    font-family: Microsoft YaHei;
+                                    font-weight: 400;
+                                    color: #367BF1;
+                                    cursor: pointer;
+                                }
+                            }
+
+                            .itemsList {
+                                width: 100%;
+                                height: auto;
+                                //margin-top: 33px;
+                                margin-top: 13px;
+                                display: flex;
+                                align-items: flex-start;
+                                justify-content: flex-start;
+
+                                .item {
+                                    /*width: 134px;*/
+                                    width: 200px;
+                                    /*height: 2.7143rem;*/
+                                    height: 3.7143rem;
+                                    margin-right: 42px;
+                                    //margin-bottom: 33px;
+                                    margin-bottom: 13px;
+                                    background: #FFFFFF;
+                                    border: 1px solid #E6E8ED;
+                                    border-radius: 4px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    cursor: pointer;
+                                    font-size: 1.4rem;
+                                    font-family: Microsoft YaHei;
+                                    font-weight: 400;
+                                    color: #353535;
+                                }
+
+                                .active {
+                                    background: #3A7DF0;
+                                    color: #fff;
+                                }
+                            }
+                        }
+
+                        .appointList {
+                            width: 100%;
+                            height: 100%;
+                            overflow-y: auto;
+
+                            .items {
+                                width: 100%;
+                                height: 113px;
+                                background: #FFFFFF;
+                                border-radius: 20px;
+
+                                .left {
+                                    width: 66px;
+                                    height: 113px;
+                                    background: #5995EF;
+                                    border-radius: 20px 0px 0px 20px;
+                                }
+                            }
+                        }
+
+                        .el-checkbox-group {
+                            width: 100%;
+                            height: 100%;
+                            overflow-y: auto;
+
+                            .el-checkbox {
+                                width: 100%;
+                                height: 113px;
+                                margin-bottom: 16px;
+                                background: #FFFFFF;
+                                border-radius: 20px;
+                                display: flex;
+
+                                .el-checkbox__input {
+                                    width: 66px;
+                                    background: #E7EAEF;
+                                    border: 1px solid #DCDFE6;
+                                    border-radius: 20px 0px 0px 20px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+
+                                    .el-checkbox__inner {
+                                        width: 20px;
+                                        height: 20px;
+                                    }
+                                }
+
+                                .el-checkbox__label {
+                                    width: calc(100% - 66px);
+                                    padding: 20px 30px 25px 20px;
+
+                                    .right {
+                                        width: 100%;
+                                        height: 100%;
+                                        .items {
+                                            width: 100%;
+                                            height: 40px;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: space-between;
+&:nth-last-child(1){
+    p{
+        &:nth-last-child(1){
+            span{
+                color: #3177F1;
+            }
+        }
+    }
+}
+                                            .name {
+                                                font-size: 1.7143rem;
+                                                font-family: Microsoft YaHei;
+                                                font-weight: 400;
+                                                color: #353535;
+                                            }
+
+                                            p {
+                                                padding: 0;
+                                                margin: 0;
+                                                font-size: 1.2857rem;
+                                                font-family: Microsoft YaHei;
+                                                font-weight: 400;
+                                                color: #999999;
+
+                                                span {
+                                                    color: #353535;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                .is-focus{
+                                    .el-checkbox__input{
+                                        border-color: #DCDFE6!important;
+                                    }
+                                }
+                                .is-checked {
+                                    background: #5995EF;
+                                    .el-checkbox__inner {
+                                        background-color: #fff;
+                                        &:after {
+                                            border-color: rgba(49, 119, 241, 1);
+                                            left: 7px;
+                                            top: 4px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .el-dialog__footer {
+                    div {
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        p {
+                            margin: 0;
+                            padding: 11px 42px;
+                            background: #FFFFFF;
+                            border: 1px solid #0977FF;
+                            border-radius: 5px;
+                            font-size: 1.2857rem;
+                            font-family: Microsoft YaHei;
+                            font-weight: 400;
+                            color: #6890E7;
+                            cursor: pointer;
+
+                            &:nth-child(2) {
+                                background: linear-gradient(90deg, #2B72F1 0%, #659FEF 100%);
+                                border: none;
+                                color: #fff;
+                                margin-left: 26px;
+                            }
+                        }
+                    }
+                }
+
+                .contentTips {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    .tipsArea {
+                        width: auto;
+                        height: auto;
+                        padding: 47px 37px;
+                        background: #FFFFFF;
+                        border: 1px solid #F2F3F5;
+                        box-shadow: 0px 10px 32px 0px #E1E5EB;
+                        border-radius: 10px;
+
+                        .items {
+                            width: auto;
+                            height: 30px;
+                            font-size: 1.4286rem;
+                            margin-bottom: 27px;
+                            font-family: Source Han Sans CN;
+                            font-weight: 400;
+                            color: #367BF1;
+                            display: flex;
+                            align-items: center;
+                            justify-content: flex-start;
+
+                            &:nth-last-child(1) {
+                                margin-bottom: 0;
+                            }
+
+                            p {
+                                padding: 0;
+                                margin: 0;
+                                width: 23px;
+                                height: 23px;
+                                line-height: 23px;
+                                text-align: center;
+                                border-radius: 50%;
+                                background: #3479F1;
+                                font-size: 1.4286rem;
+                                font-family: Source Han Sans CN;
+                                font-weight: 500;
+                                color: #FFFFFF;
+                                margin-right: 8px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

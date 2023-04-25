@@ -1,0 +1,212 @@
+api:
+  param:
+    validate: true
+server:
+  port: 9095
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: D:/logs
+      pattern: "%t [%I] %{X-Forwarded-For}i %A %r %s (%D ms)"
+
+spring:
+  #时间格式的统一处理
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  jta:
+    log-dir: "./logs/"
+  servlet:
+    multipart:
+      #是否启用http上传处理
+      enabled: true
+      #最大请求文件的大小
+      max-request-size: 100MB
+      #设置单个文件最大长度
+      max-file-size: 100MB
+      #当文件达到多少时进行磁盘写入
+      file-size-threshold: 10MB
+  redis:
+    host: 122.112.225.220
+    port: 6379
+    timeout: 60000
+    database: 14
+    password: ZhuoFan888!@#
+  shardingsphere:
+    datasource:
+      names: ds0
+      ds0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://119.3.101.156:3306/hp_form_v2.0?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: Zfsoft888
+        initialSize: 1
+        minIdle: 1
+        maxActive: 10
+        maxWait: 10000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        testWhileIdle: true
+        testOnBorrow: true
+        testOnReturn: true
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        defaultAutoCommit: true
+        validationQuery: "select 1"
+        filters: "stat"
+    props:
+      sql.show: false
+    sharding:
+      tables:
+        # 指定表分片策略 约定 id 值偶数添加到 tab_user_1 表，如果 id 是奇数添加到tab_user_2 表
+        # t_demo
+        # actual-data-nodes:
+        #   ds0.tab_user$->{0..1}
+        #table-strategy:
+        #  inline:
+        #    sharding-column: id
+        #    algorithm-expression: tab_user$->{id % 2}
+        # 指定数据库分片策略 约定 id 是偶数添加 m1，是奇数添加 m2
+        # t_demo
+        # actual-data-nodes: db$->{0..1}.t_demo$->{0..1}
+        #table-strategy:
+        #  inline:
+        #    sharding-column: id
+        #    algorithm-expression: ds$->{id % 2}
+        t_form_main:
+          actual-data-nodes: "ds0.t_form_main"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_authorize:
+          actual-data-nodes: "ds0.t_form_authorize"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_column:
+          actual-data-nodes: "ds0.t_form_column"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_module:
+          actual-data-nodes: "ds0.t_form_module"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_datasource:
+          actual-data-nodes: "ds0.t_form_datasource"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_component:
+          actual-data-nodes: "ds0.t_form_component"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_design:
+          actual-data-nodes: "ds0.t_form_design"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_report_log:
+          actual-data-nodes: "ds0.t_form_report_log"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_log_archive:
+          actual-data-nodes: "ds0.t_form_log_archive"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_report:
+          actual-data-nodes: "ds0.t_form_report"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_template:
+          actual-data-nodes: "ds0.t_form_template"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_member:
+          actual-data-nodes: "ds0.t_form_member"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_object:
+          actual-data-nodes: "ds0.t_form_object"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_atta:
+          actual-data-nodes: "ds0.t_form_atta"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_object_extand:
+          actual-data-nodes: "ds0.t_form_object_extand"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_form_table:
+          actual-data-nodes: "ds0.t_form_table"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+        t_docx_template:
+          actual-data-nodes: "ds0.t_docx_template"
+          key-generator:
+            column: ID
+            type: SNOWFLAKE
+mybatis:
+  mapper-locations:
+    - classpath:com/zfsoft/microservice/form/dbaccess/mapper/*.xml
+mapper:
+  identity: MYSQL
+  not-empty: false
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql;pageNum=pageNum;pageSize=pageSize;
+logging:
+  level:
+    com.zfsoft.platform.dbaccess.dao: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+redis:
+  cache:
+    timeout: 360
+debug: true
+
+log:
+  extend:
+    fields: true
+
+#jasypt加密时的salt值
+jasypt:
+  encryptor:
+    password: zfsoft888
+
+# ===================================================================
+# 分布式文件系统FDFS配置
+# ===================================================================
+fdfs:
+  #fastDFS,nginx预览的前缀url
+  fastDFSNginxUrl: http://139.9.123.180
+  so-timeout: 3000
+  connect-timeout: 1000
+  thumb-image:
+    width: 150
+    height: 150
+  tracker-list:
+    - 139.9.123.180:22122 #根据实际情况填写，可以配置多个tracker服务器地址
+  # - 100.100.100.101:22122

@@ -1,0 +1,71 @@
+.theme(@background:#fff,@navBackground:#fff,
+@mainBackground:url("@/assets/images/home/homeBack.png") no-repeat, 
+@containerHeaderbg: linear-gradient(90deg, #d5e0f1, #e1eff2 0),
+@windowInformationbg:linear-gradient(180deg, #E2EBFA 0%, #fff 30%),
+@queueQueuebg:linear-gradient(90deg, rgba(36, 115, 255, 0.1) 0%, rgba(86, 177, 253, 0.1) 100%),
+@btnbg:linear-gradient(90deg, #2473FF 0%, #56B1FD 100%),
+@btnbg2:linear-gradient(90deg, #0093E7 0%, #17C3F5 100%),
+@borderColor:#4988F2,
+@homebg: rgba(37, 37, 37, 1.00), @fontcolor: #fff, @hoverbg: #b9bec9, @activebg: #5193e2, @homeli1: rgba(47, 42, 65, 0.5), @homeli2: #2e3d50) {
+    
+  .app-wrapper{
+    // 头部的样式
+    .headNavbr{
+      .navbar{
+        background: @navBackground;
+      }
+    }
+    .main-container{
+      background: @mainBackground;
+      background-size: 100% 100%;
+      .app-main{
+        .container{
+          .container-header{
+            background: @containerHeaderbg;
+            .windowInformation{
+              background: @windowInformationbg;
+              .left{
+                .queueQueue{
+                  background: @queueQueuebg;
+                }
+              }
+            }
+          }
+          .content{
+            .left{
+              .operateArea{
+                .operate{
+                 
+          &:nth-child(1){
+            background:@btnbg;
+          }
+          &:nth-child(2) {
+            background: @btnbg2;
+            box-shadow: 0px 0px 29px 0px rgba(204, 177, 121, 0.3100);
+          }
+          &:nth-child(3){
+            background:@btnbg;
+          }
+          &:nth-child(4) {
+            background: @btnbg2;
+            box-shadow: 0px 0px 29px 0px rgba(204, 177, 121, 0.3100);
+          }
+          &:nth-child(5) {
+            background:@btnbg;
+          }
+                }
+              }
+              .seekHelp{
+                border-color: @borderColor;
+              }
+            }
+            .right{
+              .conponent-container{
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

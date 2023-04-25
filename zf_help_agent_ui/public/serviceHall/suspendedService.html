@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>正在服务</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style-screen-1920.css">
+</head>
+
+<body>
+  <div class="content">
+    <header>
+      <img src="./img/hall-name.png">
+    </header>
+    <div class="main clearfix" id="vue_det">
+      <div class="main-fl">
+        <img class="portrait" src="./img/portrait.png">
+        <ul class="info">
+          <li><span v-cloak>姓名：{{userName}}</span></li>
+          <!-- <li><span>部门：{{organName}}</span></li> -->
+          <li><span>工号：089757</span></li>
+        </ul>
+        <p class="teleNum">咨询电话：0553-2626578</p>
+      </div>
+      <div class="suspend">
+        <div class="susp-top">
+          <span v-if="isWorking==1">正在服务</span>
+          <span v-if="isWorking==0">暂停服务</span>
+        </div>
+        <div class="susp-bottom">
+          <p>社会主义核心价值观</p>
+        </div>
+      </div>
+    </div>
+    <footer>2 0 2 1 @ 上 海 卓 繁 信 息 技 术 股 份 有 限 公 司 沪 I C P 备 2 0 2 1 0 0 4 4 6 9 号 - 1</footer>
+  </div>
+  <script src="../pbpj/js/vue.min.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#vue_det',
+      data: {
+        userName: "",
+        organName: "",
+        isWorking: ""
+      },
+      mounted: function () {
+        this.getCaseInfo();//需要触发的函数
+      },
+      methods: {
+        getCaseInfo: function () {
+          var content = this.getURLParameter("jsonObject");
+          var obj = JSON.parse(content);
+          this.userName = obj.userName;
+          this.organName = obj.organName;
+          this.isWorking = obj.isWorking;
+        },
+        getURLParameter: function (name) {
+          return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+        },
+      }
+    })
+  </script>
+</body>
+
+</html>

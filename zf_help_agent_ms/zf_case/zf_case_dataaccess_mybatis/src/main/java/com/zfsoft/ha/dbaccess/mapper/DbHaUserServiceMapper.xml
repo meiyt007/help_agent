@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.ha.dbaccess.dao.DbHaUserServiceMapper">
+
+    <insert id="saveUserService" parameterType="com.zfsoft.ha.dbaccess.data.DbHaUserService">
+
+        insert into t_ha_user_service(WORK_USER_ID,
+                                      SERVICE_ID,
+                                      SERVICE_TYPE,
+                                      SERVICE_STATUS,
+                                      CREATE_BY,
+                                      CREATE_DATE,
+                                      UPDATE_BY,
+                                      UPDATE_DATE)
+        values (#{workUserId},
+                #{serviceId},
+                #{serviceType},
+                #{serviceStatus},
+                #{createBy},
+                #{createDate},
+                #{updateBy},
+                #{updateDate})
+
+    </insert>
+
+    <resultMap id="dbHaUserService" type="com.zfsoft.ha.dbaccess.data.DbHaUserService">
+        <result column="ID" property="id"></result>
+        <result column="WORK_USER_ID" property="workUserId"></result>
+        <result column="SERVICE_ID" property="serviceId"></result>
+        <result column="SERVICE_TYPE" property="serviceType"></result>
+        <result column="SERVICE_STATUS" property="serviceStatus"></result>
+        <result column="CREATE_BY" property="createBy"></result>
+        <result column="CREATE_DATE" property="createDate"></result>
+        <result column="UPDATE_BY" property="updateBy"></result>
+        <result column="UPDATE_DATE" property="updateDate"></result>
+    </resultMap>
+
+    <select id="queryUserServiceByServiceId" resultMap="dbHaUserService" parameterType="java.lang.String">
+        select ID,
+               WORK_USER_ID,
+               SERVICE_TYPE,
+               SERVICE_STATUS
+        from t_ha_user_service
+        where SERVICE_ID = #{serviceOid}
+        order by CREATE_DATE desc
+    </select>
+
+    <select id="queryUserServiceByServiceIdAndServiceTypeAndWorkUserId" resultMap="dbHaUserService">
+        select *
+        from t_ha_user_service
+        where SERVICE_ID = #{serviceId}
+          and SERVICE_TYPE = #{serviceType}
+          and WORK_USER_ID = #{workUserId}
+    </select>
+
+    <update id="updateUserService" parameterType="com.zfsoft.ha.dbaccess.data.DbHaUserService">
+        update t_ha_user_service
+        set SERVICE_STATUS= #{serviceStatus},
+            UPDATE_BY= #{updateBy},
+            UPDATE_DATE   = #{updateDate}
+        where id = #{id}
+    </update>
+
+    <select id="queryUserServiceByServiceIdsAndUserId" resultMap="dbHaUserService">
+        select *
+        from t_ha_user_service
+        <where>
+            SERVICE_STATUS = '1'
+            <if test="serviceIds != null and serviceIds != ''">
+                and SERVICE_ID in
+                <foreach item="serviceId" index="index" collection="serviceIds" open="(" close=")" separator=",">
+                    #{serviceId}
+                </foreach>
+            </if>
+            <if test="userId != null and userId != ''">
+                and WORK_USER_ID = #{userId}
+            </if>
+        </where>
+        order by CREATE_DATE desc
+    </select>
+
+</mapper>

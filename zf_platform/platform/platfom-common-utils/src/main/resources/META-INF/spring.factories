@@ -1,0 +1,10 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.zfsoft.platform.utils.validate.ParamValidConfig,\
+com.zfsoft.platform.utils.hystrix.ThreadLocalConfiguration,\
+com.zfsoft.platform.utils.feign.FeignCalledConfig,\
+com.zfsoft.platform.utils.fileUtil.FileUploadConfig,\
+com.zfsoft.platform.utils.log.LogHandlerInterceptorConfig,\
+com.zfsoft.platform.utils.spring.SpringContextHelperConfig,\
+com.zfsoft.platform.utils.sql.SqlAutoConfiguration,\
+com.zfsoft.platform.utils.authority.AuthorityAutoConfiguration

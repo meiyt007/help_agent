@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html style="height:100%;overflow-y:hidden;">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="shortcut icon" href="images/zflogo.ico" type="image/x-icon" />
+		<meta name="renderer" content="webkit">
+		<title>模板制作</title>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="css/tabs/font-awesome.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+
+    <script src="js/fa/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="js/fa/zDialog/zDialog.css">
+    <script src="js/fa/zDialog/zDialog.js"></script>
+
+    <script type="text/javascript" src="js/plugins/plupload/plupload.js"></script>
+    <script type="text/javascript" src="js/plugins/plupload/fileUploader.js"></script>
+    <script language="javascript" type="text/javascript" src="js/plugins/My97DatePicker/WdatePicker.js"></script>
+    <script src="js/common.js"></script>
+    <script src="../common.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript">
+
+      //获取参数
+      function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+      }
+      var  faModelTemplateOid = getURLParameter("faModelTemplateOid");
+      var materialCatalogOid=getURLParameter("materialCatalogOid");
+      var filePlatAddr = '${filePlatAddr}';
+      //var VUE_APP_BASE_API=commonUrl.VUE_APP_BASE_API;
+      var VUE_APP_BASE_API=VUE_APP_BASE_API;
+      //var VUE_APP_ZC_ROUTE_PATH=commonUrl.VUE_APP_ZC_ROUTE_PATH;
+      var VUE_APP_ZC_ROUTE_PATH="";
+      //var VUE_APP_BASE_API='/dev-api';
+      //var VUE_APP_ZC_ROUTE_PATH='/dzcpt-lss/zc';
+      //var VUE_APP_ZC_ROUTE_PATH="http://172.168.252.43:9090/zc";
+
+      $(function(){
+        getZcUrl();
+      })
+
+
+      function getZcUrl(){
+        //http访问的时候使用配置参数获取
+        /*var code="ZC_ROUTE_URL" ;
+        var urlImg = VUE_APP_BASE_API+'/settings/security/config/getSysConfigByCode';
+        var dataimg = {
+          "code": code,
+        }
+        $.ajax({
+          url: urlImg, //请求地址
+          type: "get", //请求方式
+          data:dataimg,
+          dataType:'json',
+          success: function(data) { //成功回调
+            VUE_APP_ZC_ROUTE_PATH=data.data.value;
+            getinit();
+          },
+          fail: function(data) {
+            console.log('fail')
+          }
+        });*/
+        //https访问使用代理地址
+        VUE_APP_ZC_ROUTE_PATH='/zc-api';
+        getinit();
+      }
+
+
+      function getinit(){
+        var param = {};
+        param.ctxPath = filePlatAddr;
+        param.ctxPath1 = '${ctxPath1 }';
+        param.extensions = "jpg,png,jpeg,bmp";
+        param.chunkSize = "10mb";
+        param.buttonId ="plupload_uploader";
+        param.file_uploaded = fileUploaded;
+        param.otherPrams = {test:true}
+        FileUploader.initUpload(param);
+
+        //获取材料列表
+        getAttaList('');
+      }
+
+      //查询
+      function submitForm(){
+        var originName= $('#originName').val();
+        getAttaList(originName);
+      }
+
+      function getAttaList(originName){
+        $("#attaListHtml").html("");
+        //var url = VUE_APP_ZC_ROUTE_PATH+"/faModelTemplatePic/queryFaModelTemplatePic";
+        var url = VUE_APP_ZC_ROUTE_PATH+"/faModelTemplatePic/getFaModelTemplatePicList";
+        var data = {
+          "originName":originName,
+        }
+        $.post( url, data, function(data) {
+          //var attaList = data.data.data;
+          var attaList = data.data;
+          var html = '';
+          for (var i = 0; i < attaList.length; i++) {
+            var originName=attaList[i].originName;
+            var name=attaList[i].name;
+            var attaOid=attaList[i].attaOid;
+            var faModelTemplatePicOid=attaList[i].faModelTemplatePicOid;
+            var imgStr = "<tr><td>";
+            imgStr += name + "</td>";
+            imgStr += "<td>";
+            imgStr += name + "</td>";
+            imgStr += "<td>";
+            imgStr += '<a href="javascript: selectFile(';
+            imgStr += "'";
+            imgStr += attaOid+"','"+name+"')";
+            imgStr += '">选择</a>';
+            imgStr += '&nbsp;|&nbsp;<a href="javascript: filePreview(';
+            imgStr += "'";
+            imgStr += attaOid+"')";
+            imgStr += '">预览</a></td></tr>';
+            html=html+imgStr;
+          }
+          $("#attaListHtml").append(html);
+        })
+      }
+
+      //文件选择
+      function selectFile(fileOid,fileName ) {
+        var urlImg = VUE_APP_BASE_API+'/platform/security/atta/nologin/getByAttaOid';
+        var dataimg = {
+          "attaOid": fileOid,
+        }
+        $.ajax({
+          url: urlImg, //请求地址
+          type: "get", //请求方式
+          data:dataimg,
+          dataType:'json',
+          success: function(data) { //成功回调
+            imgUrlinfo=data.data.fastdfsNginxUrl;
+            var fileurl=imgUrlinfo;
+            parent.util.showLoading();
+            ownerDialog.diagClose(fileOid, fileurl);
+          },
+          fail: function(data) {
+            console.log('fail')
+          }
+        });
+
+      }
+
+      //预览获取地址
+      function filePreview(attaOid){
+        var urlImg = VUE_APP_BASE_API+'/platform/security/atta/nologin/getByAttaOid';
+        var dataimg = {
+          "attaOid": attaOid,
+        }
+        $.ajax({
+          url: urlImg, //请求地址
+          type: "get", //请求方式
+          data:dataimg,
+          dataType:'json',
+          success: function(data) { //成功回调
+            imgUrlinfo=data.data.fastdfsNginxUrl;
+            var fileurl=imgUrlinfo;
+            showFile(fileurl);///文件预览
+          },
+          fail: function(data) {
+            console.log('fail')
+          }
+        });
+      }
+      //文件预览
+      function showFile(fileurl) {
+        var diag = new Dialog();
+        diag.Width = 900;
+        diag.Height = 500;
+        diag.Title = '附件预览';
+        diag.URL=fileurl;
+        diag.diagClose = function(){
+          diag.close();
+        }
+        diag.show();
+      }
+
+      // 文件上传完毕触发函数
+      function fileUploaded(up, file, info,param){
+        var respContent = $.parseJSON(info.response);
+        if(respContent.code=='200'||respContent.code==200) {
+          var fileObj = respContent.data;
+          var attaOid = fileObj.oid;
+          var fileName = fileObj.name;
+          var name = fileObj.name;
+          var filePath = fileObj.url;
+          var progressDiv = $("#tableList");
+          var imgStr = "<tr><td>";
+          imgStr += fileName + "</td>";
+          imgStr += "<td>";
+          imgStr += name + "</td>";
+          imgStr += "<td>";
+          imgStr += '<a href="javascript: selectFile(';
+          imgStr += "'";
+          imgStr += attaOid+"','"+name+"')";
+          imgStr += '">选择</a>';
+          imgStr += '&nbsp;|&nbsp;<a href="javascript: filePreview(';
+          imgStr += "'";
+          imgStr += attaOid+"')";
+          imgStr += '">预览</a></td></tr>';
+          progressDiv.append(imgStr);
+          //$("#attaListHtml").append(imgStr);
+
+          var faModelTemplatePic={};
+          faModelTemplatePic.attaOid = attaOid;
+          faModelTemplatePic.originName = name;
+          faModelTemplatePic.name = name;
+          faModelTemplatePic.filePath= filePath;
+          saveTemplatePic(faModelTemplatePic);
+        } else {
+          Dialog.alert(respContent.message);
+        }
+      }
+
+
+      // 保存底图信息
+      function saveTemplatePic(faModelTemplatePic){
+        var urlImg = VUE_APP_ZC_ROUTE_PATH+'/faModelTemplatePic/saveOrUpdate';
+        $.ajax({
+          url: urlImg, //请求地址
+          type: "post", //请求方式
+          data:faModelTemplatePic,
+          dataType:'json',
+          success: function(data) { //成功回调
+            console.log('success')
+          },
+          fail: function(data) {
+            console.log('fail')
+          }
+        })
+
+      }
+
+
+
+
+
+
+
+    </script>
+	</head>
+  <body class="" style="background: #f1f1f1;">
+  <div class="nav_information">
+    <div class="select_area_cont">
+      <div class="select_exist_list" style="background: #fff; padding: 12px;">
+        <form class="form-horizontal" role="form" action="${ctxPath}fa/modelTemplate/imgAttaList.do" id="queryForm" name="queryForm" method="post">
+          <div class="form-group col-md-8 col-sm-8">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+              <nobr>
+                <label class="control-label">原始文件名：</label>
+                <input type="text" class="form-control key" placeholder="请输入原始文件名" id="originName" name="originName" value="">
+              </nobr>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 btn-group">
+            <button type="button" class="btn btn-primary" onclick="submitForm()">
+              <i class="fa fa-search"></i> 搜索
+            </button>
+            <a id="plupload_uploader" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-plus"> </i> 选择本地底图文件</a>
+          </div>
+          <input type="hidden" name="pageSize" value="10">
+        </form>
+        <div id="progress"></div>
+        <div class="box box-solid" id="progressDiv">
+        </div>
+      </div>
+    </div>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="home">
+        <!--表格-->
+        <div class="select_result_list">
+          <h4>
+						<span>
+							<i class="icon-nav iconfont"></i> 已上传底图列表
+						</span>
+          </h4>
+          <table class="table table-bordered" style="table-layout: fixed;" id="tableList">
+            <tr>
+              <!-- <th width="5%">序号</th> -->
+              <th width="25%">原始文件名</th>
+              <th width="35%">文件名</th>
+              <!-- <th width="20%">上传时间</th> -->
+              <th width="15%">操作</th>
+            </tr>
+            <tbody id="attaListHtml">
+
+
+            </tbody>
+           <!-- <c:forEach items="${page.datas}" var="atta" varStatus="sta">
+              <tr>
+                <td style="text-align: center" title="<c:out value='${atta.originName}' />"><c:out value='${atta.originName}' /></td>
+                <td title="<c:out value='${atta.name}' />"><c:out value='${atta.name}' /></td>
+                <td><a href="javascript: selectFile('<c:out value="${atta.attaOid }"/>','<c:out value="${atta.name }"/>')">选择</a>
+                  <%&#45;&#45; 									&nbsp;|&nbsp;<a href="atta/downloadFile.do?attaOid=<c:out value='${atta.oid }'/>">下载</a> &#45;&#45;%>
+                  &nbsp;|&nbsp;<a href="javascript: filePreview('<c:out value="${atta.attaOid }"/>')">预览</a></td>
+              </tr>
+            </c:forEach>-->
+          </table>
+          <!--分页-->
+        <!--  <div class="pagination_box">
+            <%@ include file="/include/pagination.inc"%>
+          </div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $('.table-bordered tr:even').addClass('active');
+    $('body').height($(window).height() - 20);
+    $(window).resize(function() {
+      $('body').height($(window).height() - 20);
+    });
+  </script>
+  </body>
+
+</html>

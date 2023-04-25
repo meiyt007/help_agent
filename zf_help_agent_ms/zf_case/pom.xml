@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.zfsoft.ha</groupId>
+    <artifactId>zf_help_agent_ms</artifactId>
+    <version>1.0-HP</version>
+  </parent>
+
+  <groupId>com.zfsoft.ha.case</groupId>
+  <artifactId>zf_case</artifactId>
+  <version>1.0-HP</version>
+  <packaging>pom</packaging>
+  <description>卓繁-浦东帮代办服务</description>
+
+   <distributionManagement>
+    <repository>
+      <id>nexus-releases</id>
+      <name>Internal Releases</name>
+      <url>http://hf.zhuofansoft.com:16001/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <name>Internal Releases</name>
+      <url>http://hf.zhuofansoft.com:16001/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+   <modules>
+   	<module>zf_case_service</module>
+   	<module>zf_case_service_provider</module>
+   	<module>zf_case_dataaccess_mybatis</module>
+   </modules>
+</project>

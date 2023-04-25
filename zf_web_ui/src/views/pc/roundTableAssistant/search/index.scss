@@ -1,0 +1,215 @@
+.search-container{
+    padding-top: 15px;
+    text-align: left;
+    // width: calc((100% - 50px));
+    margin: 0 auto;
+    height: 100%;
+    .search{
+        width: 100%;
+        position: relative;
+        margin-bottom: 20px;
+        ::v-deep .el-input__inner{
+            width: 100%;
+            height: 5.2941rem;
+            line-height: 5.2941rem;
+            background: rgba(255,255,255,0.55);
+            border: 1px solid #DFE2E5;
+            box-shadow: -1px 0px 0.4706rem 0px rgba(85,139,220,0.61);
+            border-radius: 2.7059rem;
+            padding: 0 9rem 0 1.1765rem;
+        }
+        ::v-deep .el-input__suffix{
+            right: 9rem;
+        }
+        .btn{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 8.2353rem;
+            height: 5.3529rem;
+            font-size: 1.5294rem;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(90deg, #6D93E8 0%, #77B0FE 100%);
+            box-shadow: 0px 0.4118rem 0px 0px rgba(106,159,231,0.31);
+            border-radius: 0px 2.7059rem 2.7059rem 0px;
+            img{
+                width: 1.5882rem;
+                margin-right: 0.2941rem;
+            }
+        }
+    }
+    .title{
+        font-size: 1.2941rem;
+        line-height: 1.2941rem;
+        color: #373737;
+        margin-top: 2.6471rem;
+        margin-bottom: 1.1765rem;
+    }
+    .hot{
+        &>div{
+            padding: 0 1rem;
+            height: 2.8235rem;
+            line-height: 2.8235rem;
+            color: #5186C7;
+            display: inline-block;
+            font-size: 1.2941rem;
+            margin-right: 1.1765rem;
+            background: #F9F9F9;
+            box-shadow: 0rem 0.4118rem 0rem 0rem rgba(213,238,251,0.31);
+            border-radius: 1.4118rem;
+            margin-bottom: 1.1765rem;
+        }
+        &::after{
+            content: '';
+            clear: both;
+            display: block;
+        }
+    }
+    // .result{
+    //     margin-top: 2.9412rem;
+    //     // max-height: 450px;
+    //     // height: 450px;
+    //     height: calc(100% - 15rem);
+    //     padding-right: 10px;
+    //     #box{
+    //         width: 100%;
+    //         height: 100%;
+    //         overflow-y: auto;
+    //         &::-webkit-scrollbar {
+    //             width: 0.4375rem;
+    //             background-color: #fff;
+    //         }
+            
+    //         &::-webkit-scrollbar-thumb {
+    //             width: 0.4375rem;
+    //             height: 0.625rem !important;
+    //             // background: linear-gradient(270deg, #bf9e63 0%, #dfca98 100%);
+    //             background: linear-gradient(270deg, #2473ff 0%, #56b1fd 100%);
+    //             border-radius: 4px;
+    //         }
+    //     }
+        .item{
+            height: 40px;
+            width: 100%;
+            line-height: 40px;
+            background:  #F3F6F8;
+            box-shadow: 0px 0.4118rem 0px 0px rgba(213,238,251,0.31);
+            opacity: 0.98;
+            border-radius: 4px;
+            padding: 0 1.4706rem 0 2.0588rem;
+            position: relative;
+            margin-bottom: 1.1765rem;
+            .name{
+                color: #373737;
+                font-weight: bold;
+                font-size: 1.5294rem;
+                max-width:calc(100% - 20rem);
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+            .unit{
+                height: 1.5882rem;
+                line-height: 1.5882rem;
+                background: rgba(255,255,255,0.55);
+                box-shadow: -0.0588rem 0rem 0.4706rem 0rem rgba(85,139,220,0.61);
+                border-radius: 0.8235rem;
+                color: #6F91DA;
+                padding: 0 0.5882rem;
+                font-size: 1.1765rem;
+                margin-left: 0.5882rem;
+            }
+            .look{
+                width: 7.7059rem;
+                position: absolute;
+                right: 1.4706rem;
+                height: 3.5294rem;
+                top: 5px;
+                line-height: 3.5294rem;
+                text-align: center;
+                font-size: 1.5294rem;
+                color: #fff;
+                background: linear-gradient(90deg, #2B72F1 0%, #659FEF 100%);
+                box-shadow: 0px 0.4118rem 0px 0px rgba(106,159,231,0.31);
+                border-radius: 1.7059rem;
+                a{
+                    text-decoration: none;
+                    color: #fff;
+                }
+            }
+            .look_share{
+                right: 10rem;
+            }
+            &.item-pdf{
+                .name{
+                    max-width: calc(100% - 18rem);
+                }
+                
+                .lookPdf{
+                    right: 9.5rem;
+                }
+            }
+        }
+        
+    // }
+}
+.loadingBox{
+    text-align: center;
+}
+.footBtn {
+    width: 100%;
+    height: 3.125rem;
+    margin-top: 2.6875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      height: 3.125rem;
+      width: auto;
+      padding: 0 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 1.25rem;
+      background-color: rgba(59, 166, 255, 0.1);
+      border-radius: 1.5625rem;
+      font-family: Microsoft YaHei;
+      font-weight: 400;
+      color: #3ba6ff;
+
+      img {
+        width: 0.8125rem;
+        margin-right: 0.5rem;
+      }
+    }
+}
+
+.previewArea{
+    height: 50%;
+    text-align: center;
+    position: relative;
+    img{
+        max-width: 100%;
+    }
+    
+}
+.shareBtn{
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    padding: 0 20px;
+    height: 3.5294rem;
+    line-height: 3.5294rem;
+    text-align: center;
+    font-size: 1.5294rem;
+    color: #fff;
+    background: linear-gradient(90deg, #2B72F1 0%, #659FEF 100%);
+    box-shadow: 0px 0.4118rem 0px 0px rgba(106,159,231,0.31);
+    border-radius: 1.7059rem;
+}
+.el-pagination{
+    text-align: right;
+    margin-top: 50px;
+}

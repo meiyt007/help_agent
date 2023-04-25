@@ -1,0 +1,475 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>文本框</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/ie.css">
+    <![endif]-->
+    <link rel="stylesheet" href="leipi.style.css">
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+        <script src="../../../../jquery.min.js"></script>
+    <script src="../../../../plugins/zDialog/zDialog.js"></script>
+    <script type="text/javascript" src="../../../../common.js"></script>
+
+    <script type="text/javascript">
+/* Thank you by  
+http://www.alt-tag.com/blog/2006/02/ie-dom-bugs/ */
+function createElement(type, name)
+{     
+    var element = null;     
+    try {        
+        element = document.createElement('<'+type+' name="'+name+'">');     
+    } catch (e) {}   
+    if(element==null) {     
+        element = document.createElement(type);     
+        element.name = name;     
+    } 
+    return element;     
+}
+</script>
+</head>
+<body>
+<div class="content">
+    <table class="table table-bordered table-striped table-hover">
+     <tr>
+        <th><span>字段名称</span><span class="label label-important">*</span></th>
+        <th><span>字段标题</span><span class="label label-important">*</span> </th>
+    </tr>
+    <tr>
+        <td><input type="text" id="fieldname" placeholder="必填项"></td>
+        <td><input type="text" id="orgname" placeholder="必填项"></td>
+    </tr>
+     <tr>
+        <th><span>文本控件</span> </th>
+        <th> <span>视图</span></th>
+    </tr>
+    <tr>
+        <td>
+           <select id="tooltype" onchange="showView(this);">
+                <option value="text">普通文本框</option>
+                <option value="signature">签名控件</option>
+                <option value="idcard">身份证控件</option>
+                <option value="dateselect">日期选择器</option>
+                <option value="areaselect">区划选择器</option>
+                <option value="organselect">机构选择器</option>
+                <option value="viewselect">视图选择器</option>
+            </select>  
+        </td>
+        <td>
+           <select id="viewoid" name="viewoid">
+           </select>  
+        </td>
+    </tr>
+     <tr>
+        <th><span>默认值</span> </th>
+        <th><span>流程变量</span> </th>
+    </tr>
+    <tr>
+        <td><input type="text" id="orgvalue" placeholder="无则不填"></td>
+        <td><label class="checkbox inline"><input id="fieldflow" type="checkbox"/> 流程变量</label></td>
+    </tr>
+    <tr>
+        <th><span>数据类型</span> </th>
+        <th><span>对齐方式</span> </th>
+    </tr>
+    <tr>
+        <td>
+            <select id="orgtype">
+                <option value="text">普通文本</option>
+                <option value="ch">汉字</option>
+                <option value="en">英文字母</option>
+                <option value="num">数字</option>
+                <option value="mob">手机号码</option>
+                <option value="pho">电话号码</option>
+                <option value="ic">身份证号码</option>
+                <option value="email">邮箱地址</option>
+                <option value="url">URL地址</option>
+            </select>   
+        </td>
+        <td>
+            <select id="orgalign">
+                <option value="left" >左对齐</option>
+                <option value="center">居中对齐</option>
+                <option value="right">右对齐</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th><span>&nbsp;&nbsp;&nbsp;&nbsp;长&nbsp;&nbsp;X&nbsp;&nbsp;宽&nbsp;&nbsp;&nbsp;&&nbsp;&nbsp;&nbsp;字体大小</span> </th>
+        <th><span>最小长度&nbsp;&nbsp;-&nbsp;&nbsp;最大长度</span> </th>
+    </tr>
+    <tr>
+        <td>
+            <input id="orgwidth" type="text" value="150" class="input-small span1" placeholder="auto"/>
+            X
+            <input id="orgheight" type="text" value="" class="input-small span1" placeholder="auto"/>
+            &
+            <input id="orgfontsize" type="text"  value="" class="input-small span1" placeholder="auto"/> px
+
+        </td>
+        <td>
+         	<input id="minlength" type="text" value="1" class="input-small span1" placeholder="auto"/>
+            -
+            <input id="maxlength" type="text" value="50" class="input-small span1" placeholder="auto"/>   
+        </td>
+    </tr>
+     <tr>
+        <th colspan="2"><span>选项</span> </th>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label class="checkbox inline"><input id="toshare" type="checkbox"/> 共享</label>
+            <label class="checkbox inline"><input id="notnull" type="checkbox"/> 必填 </label>
+            <label class="checkbox inline"><input id="islist" type="checkbox"/> 列表项 </label>
+            <label class="checkbox inline"><input id="isdetail" type="checkbox"/> 内容项 </label>
+            <label class="checkbox inline"><input id="orghide" type="checkbox"/> 隐藏 </label>
+            <input id="pluginsid" value="zfsoft" type="hidden" />
+        </td>
+    </tr>
+    
+
+    </table>
+</div>
+<script type="text/javascript">
+function getContextPath(){   
+    var pathName = document.location.pathname;   
+    var index = pathName.substr(1).indexOf("/");   
+    var result = pathName.substr(0,index+1);   
+    return result;   
+}  
+
+var oNode = null,thePlugins = 'text';
+window.onload = function() {
+    if( UE.plugins[thePlugins].editdom ){
+        oNode = UE.plugins[thePlugins].editdom;
+		var gValue = oNode.getAttribute('value').replace(/&quot;/g,"\""),gName=oNode.getAttribute('fieldname'),gFlow=oNode.getAttribute('fieldflow'),gTitle=oNode.getAttribute('title').replace(/&quot;/g,"\""),gHidden=oNode.getAttribute('orghide'),gFontSize=oNode.getAttribute('orgfontsize'),gAlign=oNode.getAttribute('orgalign'),gWidth=oNode.getAttribute('orgwidth'),gHeight=oNode.getAttribute('orgheight'),gType=oNode.getAttribute('orgtype');
+		var gToshare=oNode.getAttribute('toshare'),gNotnull=oNode.getAttribute('notnull'),gIslist=oNode.getAttribute('islist'),gIsdetail=oNode.getAttribute('isdetail');
+		var gTooltype=oNode.getAttribute('tooltype'),gViewoid=oNode.getAttribute('viewoid');
+		var gMinlength=oNode.getAttribute('minlength'),gMaxlength=oNode.getAttribute('maxlength');
+		var gPluginsid=oNode.getAttribute('pluginsid');
+		gValue = gValue==null ? '' : gValue;
+        gTitle = gTitle==null ? '' : gTitle;
+        gName = gName==null ? '' : gName;
+		$G('orgvalue').value = gValue;
+        $G('orgname').value = gTitle;
+        $G('fieldname').value = gName;
+        if (gFlow == '1')
+        {
+            $G('fieldflow').checked = true;
+        }
+        if (gHidden == '1')
+        {
+            $G('orghide').checked = true;
+        }
+        if(gToshare=='1'){
+        	$G('toshare').checked= true;
+        }
+        if(gNotnull=='1'){
+        	$G('notnull').checked= true;
+        }
+        if(gIslist=='1'){
+        	$G('islist').checked= true;
+        }
+        if(gIsdetail=='1'){
+        	$G('isdetail').checked= true;
+        }
+        if(gTooltype == 'viewselect'){
+    		var type="1";//扩展字段
+    		$.ajax({
+    	        type: 'POST',
+    	        url : getContextPath()+'/form/view/viewList.do',
+    	        data : {'type' : type},
+    	        success : function(data){
+    	        	if (data.success) {
+    	        		var typeList = data.data;
+    					if(typeList) {
+    						for(var i = 0; i < typeList.length; i++) {
+    							var type = typeList[i];
+								if(type.oid == gViewoid){
+    								addSelelctOption(type.name,type.oid,true);
+								} else {
+									addSelelctOption(type.name,type.oid,'');
+								}
+    						}
+    					}
+    				} else {
+    					alert(data.data);
+    				}
+    	        }
+    	    });
+    	}
+        $G('orgfontsize').value = gFontSize;
+        $G('orgwidth').value = gWidth;
+        $G('orgheight').value = gHeight;
+        $G('orgalign').value = gAlign;
+        $G('orgtype').value = gType;//校验规则
+        $G('tooltype').value =gTooltype;//操作类型
+        $G('viewoid').value =gViewoid;//视图类型
+        $G('minlength').value =gMinlength;//最小长度
+        $G('maxlength').value =gMaxlength;//最大长度
+        $G('pluginsid').value =gPluginsid;//字段编号
+        
+    }
+}
+dialog.oncancel = function () {
+    if( UE.plugins[thePlugins].editdom ) {
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+dialog.onok = function (){
+	var fieldname=$G('fieldname').value,orgname=$G('orgname').value;
+	var gMinlength=$G('minlength').value,gMaxlength=$G('maxlength').value;
+	var gWidth=$G('orgwidth').value,gHeight=$G('orgheight').value;
+    var errorMessage = common.validValueParam(fieldname, 'em', '字段名称不能为空！',
+    		fieldname, 'sten', '字段名称必须是英文字母开头，英文或数字结合的字符！',
+    		fieldname, 'len:100', '字段名称长度的长度不能超过10！',orgname,'em','字段标题不能为空！',
+    		gMinlength,'em','最小长度不能为空！',gMinlength,'int1','最小长度必须是大于零的正整数！', gMinlength, 'len:10', '最小长度的长度不能超过10！',
+    		gMaxlength,'em','最大长度不能为空！',gMaxlength,'int1','最大长度必须是大于零的正整数！', gMaxlength, 'len:10', '最大长度的长度不能超过10！',
+    		gWidth,'em','长不能为空！',gWidth,'int1','长必须是大于零的正整数！', gWidth, 'len:10', '长的长度不能超过10！');
+	if (errorMessage.length > 0) {
+		alert(errorMessage[0]);
+		return false;
+	}
+	if(parseInt(gMinlength)>parseInt(gMaxlength)){
+		alert("最小长度必须小于最大长度");
+		return false;
+	}
+    var gValue=$G('orgvalue').value.replace(/\"/g,"&quot;"),gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gName=$G('fieldname').value,gFontSize=$G('orgfontsize').value,gAlign=$G('orgalign').value,gType=$G('orgtype').value;
+    var gTooltype=$G('tooltype').value,gViewoid=$G('viewoid').value,gPluginsid=$G('pluginsid').value;
+    if( !oNode ) {
+        try {
+            oNode = createElement('input',gName);
+            oNode.setAttribute('type','text');
+            oNode.setAttribute('title',gTitle);
+            oNode.setAttribute('value',gValue);
+            oNode.setAttribute('name',gName);
+            oNode.setAttribute('fieldname',gName);
+            oNode.setAttribute('plugins',thePlugins);
+            oNode.setAttribute('pluginsid',gPluginsid);
+            if ( $G('orghide').checked ) {
+                oNode.setAttribute('orghide',1);
+            } else {
+                oNode.setAttribute('orghide',0);
+            }
+            if ( $G('fieldflow').checked ) {
+                oNode.setAttribute('fieldflow',1);
+            } else {
+                oNode.setAttribute('fieldflow',0);
+            }
+            //是否共享
+            if ( $G('toshare').checked ) {
+                oNode.setAttribute('toshare',1);
+            } else {
+                oNode.setAttribute('toshare',0);
+            }
+            //是否为空
+            if ( $G('notnull').checked ) {
+                oNode.setAttribute('notnull',1);
+            } else {
+                oNode.setAttribute('notnull',0);
+            }
+            //列表项
+            if ( $G('islist').checked ) {
+                oNode.setAttribute('islist',1);
+            } else {
+                oNode.setAttribute('islist',0);
+            }
+            //内容项
+            if ( $G('isdetail').checked ) {
+                oNode.setAttribute('isdetail',1);
+            } else {
+                oNode.setAttribute('isdetail',0);
+            }
+            if( gFontSize != '' ) {
+                oNode.style.fontSize = gFontSize + 'px';
+                //style += 'font-size:' + gFontSize + 'px;';
+                oNode.setAttribute('orgfontsize',gFontSize );
+            }
+            if( gAlign != '' ) {
+                //style += 'text-align:' + gAlign + ';';
+                oNode.style.textAlign = gAlign;
+                oNode.setAttribute('orgalign',gAlign );
+            }
+            if( gWidth != '' ) {
+                oNode.style.width = gWidth+ 'px';
+                //style += 'width:' + gWidth + 'px;';
+                oNode.setAttribute('orgwidth',gWidth );
+            }
+            if( gHeight != '' ) {
+                oNode.style.height = gHeight+ 'px';
+                //style += 'height:' + gHeight + 'px;';
+                oNode.setAttribute('orgheight',gHeight );
+            }
+            if( gType != '' ) {
+                oNode.setAttribute('orgtype',gType );
+            }
+            if( gTooltype != '' ) {
+                oNode.setAttribute('tooltype',gTooltype );
+            }
+            if( gViewoid != '' ) {
+                oNode.setAttribute('viewoid',gViewoid );
+            }
+            if( gMinlength != '' ) {
+                oNode.setAttribute('minlength',gMinlength );
+            }
+            if( gMaxlength != '' ) {
+                oNode.setAttribute('maxlength',gMaxlength );
+            }
+            //oNode.setAttribute('style',style );
+            //oNode.style.cssText=style;//ie7
+            editor.execCommand('insertHtml',oNode.outerHTML);
+        } catch (e) {
+            try {
+                editor.execCommand('error');
+            } catch ( e ) {
+                alert('控件异常，请联系技术支持');
+            }
+            return false;
+        }
+    } else {        
+        oNode.setAttribute('title', gTitle);
+        oNode.setAttribute('value', $G('orgvalue').value);
+        oNode.setAttribute('fieldname',gName);
+        oNode.setAttribute('pluginsid',gPluginsid);
+        if( $G('orghide').checked ) {
+            oNode.setAttribute('orghide', 1);
+        } else {
+            oNode.setAttribute('orghide', 0);
+        }
+        if ( $G('fieldflow').checked ) {
+            oNode.setAttribute('fieldflow',1);
+        } else {
+            oNode.setAttribute('fieldflow',0);
+        }
+        //是否共享
+        if ( $G('toshare').checked ) {
+            oNode.setAttribute('toshare',1);
+        } else {
+            oNode.setAttribute('toshare',0);
+        }
+        //是否为空
+        if ( $G('notnull').checked ) {
+            oNode.setAttribute('notnull',1);
+        } else {
+            oNode.setAttribute('notnull',0);
+        }
+        //列表项
+        if ( $G('islist').checked ) {
+            oNode.setAttribute('islist',1);
+        } else {
+            oNode.setAttribute('islist',0);
+        }
+        //内容项
+        if ( $G('isdetail').checked ) {
+            oNode.setAttribute('isdetail',1);
+        } else {
+            oNode.setAttribute('isdetail',0);
+        }
+        if( gFontSize != '' ) {
+            oNode.style.fontSize = gFontSize+ 'px';
+            oNode.setAttribute('orgfontsize',gFontSize );
+        }else{
+            oNode.style.fontSize = '';
+            oNode.setAttribute('orgfontsize', '');
+        }
+        if( gAlign != '' ) {
+            oNode.style.textAlign = gAlign;
+            oNode.setAttribute('orgalign',gAlign );
+        }else{
+            oNode.setAttribute('orgalign', '');
+        }
+        if( gWidth != '' ) {
+            oNode.style.width = gWidth+ 'px';
+            oNode.setAttribute('orgwidth',gWidth );
+        }else{
+            oNode.style.width = '';
+            oNode.setAttribute('orgwidth', '');
+        }
+        if( gHeight != '' ) {
+            oNode.style.height = gHeight+ 'px';
+            oNode.setAttribute('orgheight',gHeight );
+        }else{
+            oNode.style.height = '';
+            oNode.setAttribute('orgheight', '');
+        }
+        if( gType != '' ) {
+            oNode.setAttribute('orgtype',gType );
+        }else{
+            oNode.setAttribute('orgtype', '');
+        }
+        if( gTooltype != '' ) {
+            oNode.setAttribute('tooltype',gTooltype );
+        }else{
+        	 oNode.setAttribute('tooltype', '');
+        }
+        if( gViewoid != '' ) {
+            oNode.setAttribute('viewoid',gViewoid );
+        }else{
+        	 oNode.setAttribute('viewoid', '');
+        }
+        if( gMinlength != '' ) {
+            oNode.setAttribute('minlength',gMinlength );
+        }else{
+        	 oNode.setAttribute('minlength', '');
+        }
+        if( gMaxlength != '' ) {
+            oNode.setAttribute('maxlength',gMaxlength );
+        }else{
+        	 oNode.setAttribute('maxlength', '');
+        }
+        
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+function addSelelctOption(text,value,flag){ 
+	var obj=document.getElementById('viewoid'); 
+	var newOption = new Option(text,value);
+	if(flag){
+		newOption.setAttribute('selected',true);
+	}
+	//obj.add(new Option("文本","值")); //只能在IE中有效 
+	obj.options.add(newOption); //兼容IE与firefox 
+	}
+function removeSelectOptionAll(){ 
+	var obj=document.getElementById('viewoid'); 
+	obj.options.length=0; 
+	} 	
+
+
+function showView(obj){
+	if(obj.value!='viewselect'){
+		removeSelectOptionAll();
+		return false;
+	}else{
+		var type="1";//扩展字段
+		$.ajax({
+	        type: 'POST',
+	        url : getContextPath()+'/form/view/viewList.do',
+	        //dataType : 'json',
+	        data : {'type' : type},
+	        success : function(data){
+	        	//var mes = eval(data);
+	        	if (data.success) {
+	        		var typeList = data.data;
+					if(typeList) {
+						for(var i = 0; i < typeList.length; i++) {
+							var type = typeList[i];
+							addSelelctOption(type.name,type.oid,false);
+						}
+					}
+				} else {
+					alert(data.data);
+				}
+	        }
+	    });
+	}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+api:
+  param:
+    validate: true
+server:
+  port: 8081
+spring:
+  #时间格式的统一处理
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  jta:
+    log-dir: "d:/logs/"
+  servlet:
+    multipart:
+      enabled: true #是否启用http上传处理
+      max-request-size: 100MB #最大请求文件的大小
+      max-file-size: 50MB #设置单个文件最大长度
+      file-size-threshold: 10MB #当文件达到多少时进行磁盘写入
+  redis:
+    host: 172.21.176.204
+    port: 13302
+    timeout: 60000
+    database: 14
+    password: ZhuoFan888!@#
+    lettuce:
+      shutdown-timeout: 100
+  shardingsphere:
+    datasource:
+      names: ds0
+      ds0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://172.21.176.204:13301/hp_platform_v1.4?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: Zfsoft888
+        initialSize: 1
+        minIdle: 1
+        maxActive: 10
+        maxWait: 10000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        testWhileIdle: true
+        testOnBorrow: true
+        testOnReturn: true
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        defaultAutoCommit: true
+        validationQuery: "select 1"
+        filters: "stat"
+    props:
+      sql.show: false
+    sharding:
+      tables:
+        t_sys_login:
+          actual-data-nodes: "ds0.t_sys_login"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_app:
+          actual-data-nodes: "ds0.t_sys_app"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_atta:
+          actual-data-nodes: "ds0.t_sys_atta"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_district:
+          actual-data-nodes: "ds0.t_sys_district"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_user:
+          actual-data-nodes: "ds0.t_sys_user"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_login_role:
+          actual-data-nodes: "ds0.t_sys_login_role"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_menu:
+          actual-data-nodes: "ds0.t_sys_menu"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_organ:
+          actual-data-nodes: "ds0.t_sys_organ"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_permission:
+          actual-data-nodes: "ds0.t_sys_permission"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_permission_link:
+          actual-data-nodes: "ds0.t_sys_permission_link"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_post:
+          actual-data-nodes: "ds0.t_sys_post"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_role:
+          actual-data-nodes: "ds0.t_sys_role"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_role_permission:
+          actual-data-nodes: "ds0.t_sys_role_permission"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_holiday:
+          actual-data-nodes: "ds0.t_sys_holiday"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_message:
+          actual-data-nodes: "ds0.t_sys_message"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+        t_sys_message_sended:
+          actual-data-nodes: "ds0.t_sys_message_sended"
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+mybatis:
+  mapper-locations:
+    - classpath:com/zfsoft/microservice/platform/dbaccess/mapper/*.xml
+    - classpath:com/zfsoft/microservice/platform/dbaccess/mapper/sys/*.xml
+mapper:
+  identity: MYSQL
+  not-empty: false
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql;pageNum=pageNum;pageSize=pageSize;
+logging:
+  level:
+    com.zfsoft.microservice.platform.dbaccess.dao: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+redis:
+  cache:
+    timeout: 360
+debug: true
+
+# ===================================================================
+# 分布式文件系统FDFS配置
+# ===================================================================
+fdfs:
+  #fastDFS,nginx预览的前缀url
+  fastDFSNginxUrl: http://172.21.178.38
+  so-timeout: 1500
+  connect-timeout: 1000
+  thumb-image:
+    width: 150
+    height: 150
+  tracker-list:
+    - 172.21.178.38:22122 #根据实际情况填写，可以配置多个tracker服务器地址
+  # - 100.100.100.101:22122
+
+log:
+  extend:
+    fields: true
+
+#jasypt加密时的salt值
+jasypt:
+  encryptor:
+    password: zfsoft888
+
+#菜单设置外链接时候的url前置
+zfsoft:
+  out-link-prefix: http://172.168.252.121:40001/web/
+
+zhuofan:
+  register:
+    #是否开启注册授权功能 true开启  false关闭   默认开启 （备注：正式系统请删除isAble属性）
+    isAble: false
+    path: D:/
+    code: 340000
+    message: 无效授权文件，请与上海卓繁信息技术股份有限公司联系，联系电话:021-60748199 QQ:1041844974。
+    version: zfsoftVersion.txt
+    register: zfsoftRegister.txt
+    authorization: zfSoftAuthorization.txt
+    monitor:

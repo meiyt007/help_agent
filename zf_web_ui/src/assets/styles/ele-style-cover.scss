@@ -1,0 +1,304 @@
+/**
+ * @Author: kkfan
+ * @Date: 2020-10-31 10:35:32
+ * @Last Modified by: kkfan
+ * @Last Modified time: 2022-06-15 15:56:25
+ * @Description: 全局样式编辑
+ */
+@import './mixin.scss';
+
+//  disabled 禁用样式覆盖开始
+.dialog-table1 .vue-treeselect--disabled .vue-treeselect__control {
+  background-color: #fff;
+  border: none;
+}
+
+.dialog-table1 .vue-treeselect--disabled .vue-treeselect__control-arrow-container {
+  display: none;
+}
+
+.dialog-table1 .is-disabled input[disabled=disabled],
+.dialog-table1 .is-disabled textarea[disabled=disabled] {
+  background-color: #fff;
+  border: none;
+  color: #333;
+}
+
+.dialog-table1 .is-disabled .el-input__icon {
+  display: none;
+}
+
+.dialog-table1 .is-disabled textarea[disabled=disabled] {
+  resize: none;
+}
+
+.dialog-table1 .el-input.is-disabled .el-input__inner,
+.dialog-table1 .el-select .el-input.is-disabled .el-input__inner,
+.dialog-table1 .el-textarea.is-disabled .el-textarea__inner {
+  cursor: unset;
+}
+
+//  disabled 禁用样式覆盖结束
+
+// 弹窗样式表格样式开始
+.dialog-table {
+  adding: 20px;
+  box-sizing: border-box;
+}
+
+.dialog-table h3 {
+  font-size: 14px;
+  font-weight: normal;
+  color: #333;
+  margin: 0px 0px 10px 0px;
+}
+
+.dialog-table table {
+  width: 100%;
+}
+
+.dialog-table table {
+  border: 1px solid #dfe6ec;
+  border-collapse: collapse;
+}
+
+.dialog-table table tr td {
+  border: 1px solid #dfe6ec;
+  padding: 28px 8px;
+  font-size: 12px;
+  color: #515a6e;
+  text-align: right;
+}
+
+.dialog-table table tr td:nth-of-type(2n+1) {
+  background-color: #f8f8f9;
+}
+
+.dialog-table table tr td:nth-of-type(2n) {
+  color: #606266;
+  text-align: left;
+}
+
+.dialog-table .el-form-item {
+  margin-bottom: 0;
+}
+
+.dialog-table .line {
+  text-align: center;
+}
+
+.v-modal{
+  z-index: 1!important;
+}
+// 弹窗样式表格样式结束
+
+.el-dialog {
+  position: relative;
+  border-radius: 0.625rem;
+  border-top-left-radius: 0.625rem;
+  border-top-right-radius: 0.625rem;
+
+  .el-dialog__header {
+    padding: 0;
+    padding-left: 1.375rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3.75rem;
+    background: linear-gradient(90deg, #2473FF 0%, #56B1FD 100%);
+    border-radius: 0.625rem 0.625rem 0px 0px;
+
+    .el-dialog__title {
+      font-size: 1.625rem;
+      font-family: Source Han Sans CN;
+      font-weight: 500;
+      color: #FFFFFF;
+    }
+
+    .el-dialog__headerbtn {
+      position: static;
+      width: 4.3125rem;
+      height: 3.75rem;
+      border-radius: 0.625rem 0.625rem 0px 0px;
+
+      .el-dialog__close {
+        font-size: 2rem;
+        transition: all 0.3s;
+
+        &:hover {
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+
+  .el-dialog__body {
+    padding: 2.5rem;
+    padding-bottom: 1.375rem;
+    max-height: calc(100% - 14.5rem);
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 0.4375rem;
+      background-color: #fff;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      width: 0.4375rem;
+      height: 0.625rem !important;
+      background: linear-gradient(270deg, #2473FF 0%, #56B1FD 100%);
+      border-radius: 4px;
+    }
+
+    .el-table__header-wrapper {
+      padding: 1px 9px 1px 1px;
+      max-height: 100% !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      @include util-change-scrollbar();
+    }
+  }
+
+  .el-dialog__footer {
+    width: 100%;
+    height: 6.75rem;
+    padding: 0;
+    margin-top: 2rem;
+    .dialog-footer {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        padding: 1.3125rem 2.875rem 1.4375rem 2.9375rem;
+        box-shadow: 0px 0px 1.8125rem 0px rgba(204, 177, 121, 0.3100);
+        border-radius: 2.1875rem;
+        font-size: 1.625rem;
+        font-family: Microsoft YaHei;
+        font-weight: 400;
+      }
+    }
+  }
+
+  //定义可滚动表格class
+  .scroll-dialog_body {
+    padding: 1px 9px 1px 1px;
+    max-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    @include util-change-scrollbar();
+  }
+}
+
+.el-table {
+  .el-table__header-wrapper {
+    .el-table__header {
+      .has-gutter {
+        tr {
+          th {
+            height: 3.125rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* 可拖拽的弹窗样式 */
+.draggable {
+  border-radius: 0.625rem;
+
+  .el-dialog__header {
+    background-color: #C7A970;
+    width: 100%;
+    height: 3.75rem;
+
+    //全屏按钮
+    .el-dialog__fullscreen_btn {
+      position: absolute;
+      right: 5rem;
+      top: 0.875rem;
+      border: none;
+      cursor: pointer;
+      color: #909399;
+      background: 0 0;
+      font-size: 1rem;
+      transition: all 0.3s;
+
+      &:hover {
+        color: #2575c8;
+        transform: scale(1.2);
+      }
+
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
+}
+
+
+
+.importContainer {
+  .el-upload-dragger {
+    height: 200px !important;
+    border: none !important;
+
+    .el-icon-upload {
+      margin-top: 20px !important;
+    }
+  }
+
+  .el-icon-upload:before {
+    content: '';
+  }
+
+  .el-upload-list {
+    // height: 175px;
+    position: absolute !important;
+    top: 270px !important;
+    right: 0px !important;
+    width: 100%;
+    min-height: 30px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .el-upload-list__item-name {
+    float: left !important;
+  }
+
+  .el-upload-list__item {
+    clear: both !important;
+    overflow: hidden !important;
+    height: 30px !important;
+
+    &:hover {
+      background-color: transparent !important;
+    }
+  }
+}
+
+.hide .el-upload--picture-card {
+  display: none;
+}
+
+.upload_img {
+  padding: 20px 15px !important;
+}
+
+.el-step.is-center .el-step__description {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 14px;
+}
+
+::v-deep .el-checkbox__inner:hover {
+  border-color: #fff;
+}
+

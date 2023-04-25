@@ -1,0 +1,244 @@
+/*弹性布局模块*/
+.flex{
+	display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+.flex5{
+    flex: 0.5;
+}
+.flex5{
+    flex:5;
+}
+.flex6{
+    flex:6;
+}
+.flex7{
+    flex:7;
+}
+.flex15{
+    flex: 1.5;
+}
+.flex1{
+    flex: 1;
+}
+.flex2{
+    flex: 2 !important;
+}
+.flex25{
+    flex: 2.5 !important;
+}
+.flex3{
+    flex: 3 !important;
+}
+.flex8{
+    flex: 8 !important;
+}
+.flex9{
+    flex: 9 !important;
+}
+.flexY{
+	display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient:vertical;
+	-webkit-box-direction:normal;
+	-moz-box-orient:vertical;
+	-moz-box-direction:normal;
+	flex-direction:column;
+	-webkit-flex-direction:column;
+}
+.centerX{
+	display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+}
+.centerY{
+	display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+}
+.centerXY{
+	display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+}
+.centerYBetween{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    align-items: center;
+    -webkit-align-items: center;
+}
+.centerBetween{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+}
+.centerYAround{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-around;
+    -webkit-justify-content: space-around;
+    align-items: center;
+    -webkit-align-items: center;
+}
+.xAround{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-around;
+    -webkit-justify-content: space-around;
+}
+.yEnd{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+}
+.yStart{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+}
+.flexYCenterXY{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -moz-box-orient:vertical;
+    -moz-box-direction:normal;
+    flex-direction:column;
+    -webkit-flex-direction:column;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+}
+.felxXEnd{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: flex-end;
+    -webkit-justify-content:  flex-end;
+}
+
+.center{
+	text-align: center !important;
+}
+.linearColor{
+	background: -webkit-linear-gradient(left, red , blue); /* Safari 5.1 - 6.0 */
+	background: -o-linear-gradient(right, red, blue); /* Opera 11.1 - 12.0 */
+	background: -moz-linear-gradient(right, red, blue); /* Firefox 3.6 - 15 */
+	background: linear-gradient(to right, red , blue); /* 标准的语法 */
+}
+.clear{
+    clear: both;
+}
+.none{
+    display: none !important;
+}
+
+tr td, tr th{
+    text-align: center;
+}
+.betweenY{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#wrap{
+    padding: 20px;
+    background: #fff;
+    min-height: 800px;
+}
+table{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+input{
+    outline: none;
+}
+.cursor{
+    cursor: pointer;
+    color: #0b8bdb;
+}
+.opacity{
+    opacity: 0;
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+}
+.desk-hide{
+    display: none;
+}
+
+div,a,img {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select:none;
+}
+input{
+    outline-color: invert ;
+    outline-style: none ;
+    outline-width: 0px ;
+    border: none ;
+    border-style: none ;
+    text-shadow: none ;
+    -webkit-appearance: none ;
+    -webkit-user-select: text ;
+    outline-color: transparent ;
+    box-shadow: none;
+}
+.bold{
+    font-weight: bold;
+}
+

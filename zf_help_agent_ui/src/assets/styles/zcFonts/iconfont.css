@@ -1,0 +1,19 @@
+@font-face {
+  font-family: "zc-iconfont"; /* Project id 2713612 */
+  src: url('iconfont.woff2?t=1627721382495') format('woff2'),
+       url('iconfont.woff?t=1627721382495') format('woff'),
+       url('iconfont.ttf?t=1627721382495') format('truetype');
+}
+
+.zc-iconfont {
+  font-family: "zc-iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-erjicaidan-dian:before {
+  content: "\e620";
+}
+

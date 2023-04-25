@@ -1,0 +1,87 @@
+// 电子表单页面
+$table-border-color: #e0e6f0;
+$table-bg-color: #edf0f5;
+>>> .ele-form {
+    .el-form-item {
+        margin-bottom: unset;
+    }
+    .el-form {
+        .el-row {
+            margin: unset !important;
+        }
+    }
+    .ele-table-editor-btn.table-title {
+        .title-info {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2a344c;
+            position: relative;
+            padding-left: 10px;
+            margin: 20px 0;
+            border-left: unset;
+
+            &::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 3px;
+                height: 16px;
+                background: #2e7dff;
+                border-radius: 2px;
+            }
+        }
+    }
+    // table 布局
+    .table-layout-view {
+        border-top: 1px solid $table-border-color;
+        border-left: 1px solid $table-border-color;
+        tr .table-td {
+            border-bottom: 1px solid $table-border-color;
+            border-right: 1px solid $table-border-color;
+
+            &:nth-of-type(2n + 1) {
+                background: $table-bg-color;
+            }
+
+            .el-form-item {
+                margin: unset !important;
+            }
+        }
+    }
+
+    // 表格校验提示文案
+    .table-layout-view tr .table-td .el-form-item .el-form-item__error {
+        position: absolute;
+    }
+    .table-layout tr .grid-col .el-form-item .el-form-item__error,
+    .table-layout tr .table-td .el-form-item .el-form-item__error {
+        position: absolute;
+    }
+
+    // 必填
+    .elec-form-label--required {
+        span {
+            &::before {
+                content: "*";
+                color: red;
+                margin-right: 4px;
+            }
+        }
+    }
+
+    .elec-form-label {
+        color: #121b2f;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    // el-table
+    .el-table.ele-table-editor {
+        tr {
+            td {
+                padding: 20px 0;
+            }
+        }
+    }
+}

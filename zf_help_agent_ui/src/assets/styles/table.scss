@@ -1,0 +1,147 @@
+//滚动条的宽度
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+//滚动条的滑块
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background-color: rgba(144, 147, 153, 0.3);
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(144, 147, 153, 0.5);
+  }
+}
+
+.zf-zc-table--title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #2a344c;
+  position: relative;
+  padding-left: 10px;
+  margin: 20px 0;
+
+  &:first-child {
+    margin-top: unset;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 16px;
+    background: #2e7dff;
+    border-radius: 2px;
+  }
+}
+
+.zf-zc-table--common {
+  width: 100%;
+  margin-bottom: 30px;
+  border: 1px solid #e0e6f0;
+  border-collapse: collapse;
+
+  th {
+    padding: 12px 0;
+    background-color: #edf0f5 !important;
+    color: #121b2f;
+    font-size: 14px;
+    border: 1px solid #e0e6f0;
+  }
+
+  td {
+    border: 1px solid #e0e6f0;
+    padding: 10px 10px;
+    font-size: 14px;
+    font-weight: 400;
+    background: #fff !important;
+    color: #121b2f;
+
+    .el-form-item {
+      margin-bottom: unset;
+      padding: 10px 0;
+    }
+  }
+}
+
+.zf-zc-table:not(.el-table__header):not(.el-table__body) {
+  width: 100%;
+  margin-bottom: 30px;
+  border: 1px solid #e0e6f0;
+  border-collapse: collapse;
+
+  th {
+    // height: 40px;
+    padding: 12px 0;
+    background: #edf0f5;
+    color: #121b2f;
+    font-size: 14px;
+    border: 1px solid #e0e6f0;
+  }
+
+  td {
+    border: 1px solid #e0e6f0;
+    // padding: unset;
+    // height: 40px;
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 400;
+
+    &:nth-of-type(2n + 1) {
+      background: #edf0f5;
+      text-align: right;
+      color: #121b2f;
+    }
+
+    &:nth-of-type(2n) {
+      background: rgba(237, 240, 245, 0);
+      // width: 67px;
+      color: #2a344c;
+      padding: 10px 10px;
+    }
+
+    .el-form-item {
+      margin-bottom: unset;
+      padding: 10px 0;
+    }
+  }
+}
+
+.zf-zc-table--center {
+  th {
+    text-align: center;
+  }
+}
+
+.zf-zc-table--th-center {
+  th {
+    text-align: center;
+  }
+}
+
+.zf-zc-table--td-center {
+  td {
+    text-align: center;
+  }
+}
+
+// el-table header background color
+.el-table th.el-table__cell {
+  background-color: #e0e6f0 !important;
+  font-weight: bold !important;
+}
+.download-btn {
+  display: inline-block;
+  width: 90px;
+  height: 35px;
+  background-color: rgba(46, 125, 255, 1);
+  color: #fff;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 5px;
+}

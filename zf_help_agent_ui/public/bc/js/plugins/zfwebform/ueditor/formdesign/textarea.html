@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>文本框</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/ie.css">
+    <![endif]-->
+    <link rel="stylesheet" href="leipi.style.css">
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+    <script type="text/javascript" src="../../../../common.js"></script>
+</head>
+<body>
+<div class="content">
+    <table class="table table-bordered table-striped table-hover">
+     <tr>
+        <th><span>字段名称</span><span class="label label-important">*</span></th>
+        <th><span>字段标题</span><span class="label label-important">*</span> </th>
+    </tr>
+    <tr>
+        <td><input type="text" id="fieldname" placeholder="必填项"></td>
+        <td><input type="text" id="orgname" placeholder="必填项"></td>
+    </tr>
+     <tr>
+        <th><span>字体大小</span> </th>
+        <th><span>流程变量</span> </th>
+    </tr>
+    <tr>
+        <td><input id="orgfontsize" type="text"  value="" class="input-small span1" placeholder="auto"/> px</td>
+        <td><label class="checkbox inline"><input id="fieldflow" type="checkbox"/> 流程变量</label></td>
+    </tr>
+    <tr>
+        <th><span>输入框样式</span> </th>
+        <th><span>增强</span> </th>
+    </tr>
+    <tr>
+        <td>
+            宽 <input id="areawidth" type="text" value="300" class="input-small span1" placeholder="auto"/> px
+            &nbsp;&nbsp;
+            高 <input id="areaheight" type="text" value="80" class="input-small span1" placeholder="auto"/> px
+        </td>
+        <td> <label class="checkbox"><input id="orgrich" type="checkbox"  /> 富文本形式 </label> </td>
+    </tr>
+    <tr>
+        <th colspan="2"><span>选项</span> </th>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label class="checkbox inline"><input id="toshare" type="checkbox"/> 共享</label>
+            <label class="checkbox inline"><input id="notnull" type="checkbox"/> 必填 </label>
+            <label class="checkbox inline"><input id="islist" type="checkbox"/> 列表项 </label>
+            <label class="checkbox inline"><input id="isdetail" type="checkbox"/> 内容项 </label>
+            <input id="pluginsid" value="zfsoft" type="hidden" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label for="orgvalue">默认值</label>
+            <textarea class="input-block-level" rows="3" id="orgvalue" placeholder="多行文本框默认值..."></textarea>
+        </td>
+    </tr>
+    </table>
+</div>
+<script type="text/javascript">
+var oNode = null,thePlugins = 'textarea';;
+window.onload = function() {
+    if( UE.plugins[thePlugins].editdom ){
+        oNode = UE.plugins[thePlugins].editdom;
+        var gValue = oNode.getAttribute('value').replace(/&quot;/g,"\""),gName=oNode.getAttribute('fieldname'),gFlow=oNode.getAttribute('fieldflow'),gTitle=oNode.getAttribute('title').replace(/&quot;/g,"\""),gFontSize=oNode.getAttribute('orgfontsize'),gWidth=oNode.getAttribute('areawidth'),gHeight=oNode.getAttribute('areaheight'),gRich=oNode.getAttribute('orgrich');
+        var gToshare=oNode.getAttribute('toshare'),gNotnull=oNode.getAttribute('notnull'),gIslist=oNode.getAttribute('islist'),gIsdetail=oNode.getAttribute('isdetail');
+        var gPluginsid=oNode.getAttribute('pluginsid');
+        gValue = gValue==null ? '' : gValue;
+        gTitle = gTitle==null ? '' : gTitle;
+        gName = gName==null ? '' : gName;
+        $G('orgvalue').value = gValue;
+        $G('orgname').value = gTitle;
+        $G('fieldname').value = gName;
+        if (gFlow == '1')
+        {
+            $G('fieldflow').checked = true;
+        }
+        if (gToshare == '1')
+        {
+            $G('toshare').checked = true;
+        }
+        if (gNotnull == '1')
+        {
+            $G('notnull').checked = true;
+        }
+        if (gIslist == '1')
+        {
+            $G('islist').checked = true;
+        }
+        if (gIsdetail == '1')
+        {
+            $G('isdetail').checked = true;
+        }
+        if ( gRich == '1' ) {
+            $G('orgrich').checked = true ;
+        }
+        $G('orgfontsize').value = gFontSize;
+        $G('areawidth').value = gWidth;
+        $G('areaheight').value = gHeight;
+        $G('pluginsid').value =gPluginsid;//字段编号
+    }
+}
+dialog.oncancel = function () {
+    if( UE.plugins[thePlugins].editdom ) {
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+dialog.onok = function (){
+	var fieldname=$G('fieldname').value,orgname=$G('orgname').value,gWidth=$G('areawidth').value,gHeight=$G('areaheight').value;
+    var errorMessage = common.validValueParam(fieldname, 'em', '字段名称不能为空！',
+    		fieldname, 'sten', '字段名称必须是英文字母开头，英文或数字结合的字符！',
+    		fieldname, 'len:100', '字段名称长度的长度不能超过10！',orgname,'em','字段标题不能为空！',
+    		gWidth,'em','输入框样式的宽不能为空！',gWidth,'int1','输入框样式的宽必须是大于零的正整数！', gWidth, 'len:10', '输入框样式的宽度的长度不能超过10！',
+    		gHeight,'em','输入框样式的高不能为空！',gHeight,'int1','输入框样式的高必须是大于零的正整数！', gHeight, 'len:10', '输入框样式的高的长度不能超过10！');
+	if (errorMessage.length > 0) {
+		alert(errorMessage[0]);
+		return false;
+	}
+    var gValue=$G('orgvalue').value.replace(/\"/g,"&quot;"),gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gName=$G('fieldname').value,gFontSize=$G('orgfontsize').value;
+	var gPluginsid=$G('pluginsid').value;
+    if( !oNode ) {
+        try {
+            var html = '<textarea ';
+            html += ' title = "' + gTitle + '"';
+            html += ' name = "NEWFIELD"';
+            html += ' plugins = "'+thePlugins+'"';
+            html += ' value = "' + gValue + '"';
+            html += ' fieldname = "' + gName + '"';
+            html += ' pluginsid = "' + gPluginsid + '"';
+            if ( $G('fieldflow').checked ) {
+                html += ' fieldflow = "1"';
+            } else {
+                html += ' fieldflow = "0"';
+            }
+          //是否共享
+            if ( $G('toshare').checked ) {
+            	 html += ' toshare = "1"';
+            } else {
+            	 html += ' toshare = "0"';
+            }
+            //是否为空
+            if ( $G('notnull').checked ) {
+            	html += ' notnull = "1"';
+            } else {
+            	html += ' notnull = "0"';
+            }
+            //列表项
+            if ( $G('islist').checked ) {
+            	html += ' islist = "1"';
+            } else {
+            	html += ' islist = "0"';
+            }
+            //内容项
+            if ( $G('isdetail').checked ) {
+            	html += ' isdetail = "1"';
+            } else {
+            	html += ' isdetail = "0"';
+            }
+            if ( $G('orgrich').checked ) {
+                html += ' orgrich = "1"';
+            } else {
+                html += ' orgrich = "0"';
+            }
+            if( gFontSize != '' ) {
+                html += ' orgfontsize = "' + gFontSize + '"';
+            } else {
+                html += ' orgfontsize = ""';
+            }
+            if( gWidth != '' ) {
+                html += ' areawidth = "' + gWidth + '"';
+            } else {
+                html += ' areawidth = ""';
+            }
+            if(gHeight != '') {
+                html += ' areaheight = "' + gHeight + '"';
+            } else {
+                html += ' areaheight = ""';
+            }
+            
+            html += ' style = "';
+            if( gFontSize != '' ) {
+                html += 'font-size:' + gFontSize + 'px;';
+            }
+            if( gWidth != '' ) {
+                html += 'width:' + gWidth + 'px;';
+            }
+            if( gHeight != '' ) {
+                html += 'height:' + gHeight + 'px;';
+            }
+            html += '">';
+            html += gValue + '</textarea>';
+            editor.execCommand('insertHtml',html);
+        } catch (e) {
+            try {
+                editor.execCommand('error');
+            } catch ( e ) {
+                alert('控件异常，请联系技术支持');
+            }
+            return false;
+        }
+    } else {
+        oNode.setAttribute('title', gTitle);
+        oNode.setAttribute('value',gValue);
+        oNode.setAttribute('fieldname',gName);
+        oNode.setAttribute('pluginsid',gPluginsid);
+        oNode.innerHTML = gValue;
+        if( $G('orgrich').checked ) {
+            oNode.setAttribute('orgrich', 1);
+        } else {
+            oNode.setAttribute('orgrich', 0);
+        }
+        if ( $G('fieldflow').checked ) {
+            oNode.setAttribute('fieldflow',1);
+        } else {
+            oNode.setAttribute('fieldflow',0);
+        }
+      //是否共享
+        if ( $G('toshare').checked ) {
+            oNode.setAttribute('toshare',1);
+        } else {
+            oNode.setAttribute('toshare',0);
+        }
+        //是否为空
+        if ( $G('notnull').checked ) {
+            oNode.setAttribute('notnull',1);
+        } else {
+            oNode.setAttribute('notnull',0);
+        }
+        //列表项
+        if ( $G('islist').checked ) {
+            oNode.setAttribute('islist',1);
+        } else {
+            oNode.setAttribute('islist',0);
+        }
+        //内容项
+        if ( $G('isdetail').checked ) {
+            oNode.setAttribute('isdetail',1);
+        } else {
+            oNode.setAttribute('isdetail',0);
+        }
+        if( gFontSize != '' ) {
+            oNode.style.fontSize = gFontSize+ 'px';
+            oNode.setAttribute('orgfontsize',gFontSize );
+        }else{
+            oNode.setAttribute('orgfontsize', '');
+        }
+        if( gWidth != '' ) {
+            oNode.style.width = gWidth+ 'px';
+            oNode.setAttribute('areawidth',gWidth );
+        }else{
+            oNode.setAttribute('areawidth', '');
+        }
+        if( gHeight != '' ) {
+            oNode.style.height = gHeight+ 'px';
+            oNode.setAttribute('areaheight',gHeight );
+        }else{
+            oNode.setAttribute('areaheight', '');
+        }
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.single.dbaccess.dao.DbCaseLicenseDeliverRecordMapper">
+
+    <resultMap type="com.zfsoft.single.dbaccess.data.DbCaseLicenseDeliverRecord" id="BaseResultMap">
+        <result property="oid" column="OID" jdbcType="VARCHAR"/>
+        <result property="caseOid" column="CASE_OID" jdbcType="VARCHAR"/>
+        <result property="receiveName" column="RECEIVE_NAME" jdbcType="VARCHAR"/>
+        <result property="receivePhone" column="RECEIVE_PHONE" jdbcType="VARCHAR"/>
+        <result property="receiveDetailAddress" column="RECEIVE_DETAIL_ADDRESS" jdbcType="VARCHAR"/>
+        <result property="receiveAddress" column="RECEIVE_ADDRESS" jdbcType="VARCHAR"/>
+        <result property="receivePostCode" column="RECEIVE_POST_CODE" jdbcType="VARCHAR"/>
+        <result property="receiveTel" column="RECEIVE_TEL" jdbcType="VARCHAR"/>
+        <result property="sendPerson" column="SENDE_PERSON" jdbcType="VARCHAR"/>
+        <result property="sendMailCode" column="SENDE_MAIL_CODE" jdbcType="VARCHAR"/>
+        <result property="sendCall" column="SENDE_CALL" jdbcType="VARCHAR"/>
+        <result property="sendPhone" column="SENDE_PHONE" jdbcType="VARCHAR"/>
+        <result property="sendAddress" column="SENDE_ADDRESS" jdbcType="VARCHAR"/>
+        <result property="sendDetailAddress" column="SENDE_DETAIL_ADDRESS" jdbcType="VARCHAR"/>
+        <result property="deliverStatus" column="DELIVER_STATUS" jdbcType="VARCHAR"/>
+        <result property="mailNo" column="MAIL_NO" jdbcType="VARCHAR"/>
+        <result property="wayBillNo" column="WAY_BILL_NO" jdbcType="VARCHAR"/>
+        <result property="receiveResult" column="RECEIVE_RESULT" jdbcType="VARCHAR"/>
+        <result property="resultRemark" column="RESULT_REMARK" jdbcType="VARCHAR"/>
+        <result property="isSuccess" column="IS_SUCCESS" jdbcType="VARCHAR"/>
+        <result property="errorMsg" column="ERROR_MSG" jdbcType="VARCHAR"/>
+        <result property="errorCode" column="ERROR_CODE" jdbcType="VARCHAR"/>
+        <result property="createUser" column="CREATE_USER" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="queryByOid" resultMap="BaseResultMap">
+        select * from t_case_license_deliver_record where OID = #{oid}
+    </select>
+
+    <select id="queryByCaseOid" resultMap="BaseResultMap">
+        select * from t_case_license_deliver_record where CASE_OID = #{caseOid}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="OID" useGeneratedKeys="true">
+        insert into t_case_license_deliver_record(OID, CASE_OID, RECEIVE_NAME, RECEIVE_PHONE, RECEIVE_DETAIL_ADDRESS,RECEIVE_ADDRESS,
+                                                  RECEIVE_POST_CODE, RECEIVE_TEL, SENDE_PERSON, SENDE_MAIL_CODE, SENDE_CALL,
+                                                  SENDE_PHONE, SENDE_ADDRESS, SENDE_DETAIL_ADDRESS, DELIVER_STATUS, MAIL_NO,
+                                                  WAY_BILL_NO, RECEIVE_RESULT, RESULT_REMARK, IS_SUCCESS, ERROR_MSG, ERROR_CODE, CREATE_USER)
+        values (#{oid},#{caseOid}, #{receiveName}, #{receivePhone}, #{receiveDetailAddress}, #{receiveAddress}, #{receivePostCode}, #{receiveTel}, #{sendPerson}, #{sendMailCode},
+                #{sendCall}, #{sendPhone}, #{sendAddress}, #{sendDetailAddress}, #{deliverStatus}, #{mailNo}, #{wayBillNo}, #{receiveResult}, #{resultRemark},
+                #{isSuccess}, #{errorMsg}, #{errorCode}, #{createUser})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_case_license_deliver_record
+        <set>
+            <if test="caseOid != null and caseOid != ''">
+                CASE_OID = #{caseOid},
+            </if>
+
+            <if test="receiveName != null and receiveName != ''">
+                RECEIVE_NAME = #{receiveName},
+            </if>
+
+            <if test="receivePhone != null and receivePhone != ''">
+                RECEIVE_PHONE = #{receivePhone},
+            </if>
+
+            <if test="receiveDetailAddress != null and receiveDetailAddress != ''">
+                RECEIVE_DETAIL_ADDRESS = #{receiveDetailAddress},
+            </if>
+
+            <if test="receiveAddress != null and receiveAddress != ''">
+                RECEIVE_ADDRESS = #{receiveAddress},
+            </if>
+
+            <if test="receivePostCode != null and receivePostCode != ''">
+                RECEIVE_POST_CODE = #{receivePostCode},
+            </if>
+
+            <if test="receiveTel != null and receiveTel != ''">
+                RECEIVE_TEL = #{receiveTel},
+            </if>
+
+            <if test="sendPerson != null and sendPerson != ''">
+                SENDE_PERSON = #{sendPerson},
+            </if>
+
+            <if test="sendMailCode != null and sendMailCode != ''">
+                SENDE_MAIL_CODE = #{sendMailCode},
+            </if>
+
+            <if test="sendCall != null and sendCall != ''">
+                SENDE_CALL = #{sendCall},
+            </if>
+
+            <if test="sendPhone != null and sendPhone != ''">
+                SENDE_PHONE = #{sendPhone},
+            </if>
+
+            <if test="sendAddress != null and sendAddress != ''">
+                SENDE_ADDRESS = #{sendAddress},
+            </if>
+
+            <if test="sendDetailAddress != null and sendDetailAddress != ''">
+                SENDE_DETAIL_ADDRESS = #{sendDetailAddress},
+            </if>
+
+            <if test="deliverStatus != null and deliverStatus != ''">
+                DELIVER_STATUS = #{deliverStatus},
+            </if>
+
+            <if test="mailNo != null and mailNo != ''">
+                MAIL_NO = #{mailNo},
+            </if>
+
+            <if test="wayBillNo != null and wayBillNo != ''">
+                WAY_BILL_NO = #{wayBillNo},
+            </if>
+
+            <if test="receiveResult != null and receiveResult != ''">
+                RECEIVE_RESULT = #{receiveResult},
+            </if>
+
+            <if test="resultRemark != null and resultRemark != ''">
+                RESULT_REMARK = #{resultRemark},
+            </if>
+
+            <if test="isSuccess != null and isSuccess != ''">
+                IS_SUCCESS = #{isSuccess},
+            </if>
+
+            <if test="errorMsg != null and errorMsg != ''">
+                ERROR_MSG = #{errorMsg},
+            </if>
+
+            <if test="errorCode != null and errorCode != ''">
+                ERROR_CODE = #{errorCode},
+            </if>
+
+            <if test="createUser != null and createUser != ''">
+                CREATE_USER = #{createUser},
+            </if>
+        </set>
+        where OID = #{oid}
+    </update>
+
+</mapper>
+
